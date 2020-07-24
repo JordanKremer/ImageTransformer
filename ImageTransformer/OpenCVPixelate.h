@@ -5,6 +5,6 @@ class OpenCVPixelate :
 {
 public:
 	OpenCVPixelate();
-	Data transform(Data imageData)
+	Data transform(Data imageData);
 };
 

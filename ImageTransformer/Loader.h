@@ -3,6 +3,6 @@
 #include <string>
 class Loader
 {
-	virtual Data Load(std::string FILENAME) = 0;
+	virtual Data Load() = 0;
 };
 

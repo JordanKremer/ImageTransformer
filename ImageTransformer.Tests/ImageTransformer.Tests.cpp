@@ -2,6 +2,8 @@
 #include "CppUnitTest.h"
 #include <string>
 
+#include "../ImageTransformer/BmpLoader.cpp"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace ImageTransformerTests

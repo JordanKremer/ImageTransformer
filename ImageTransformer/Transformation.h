@@ -4,7 +4,6 @@
 class Transformation
 {
 public:
-	Transformation();
 	virtual Data transform(Data imageData) = 0;
 };
 

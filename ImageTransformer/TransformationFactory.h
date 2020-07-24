@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 #include "Data.h"
-
+#include "Transformation.h"
 class TransformationFactory
 {
 	TransformationFactory();
