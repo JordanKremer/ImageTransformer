@@ -9,6 +9,7 @@ public:
 	BmpLoader(std::string FILENAME);
 	Data Load();
 
+
 private:
 	std::string _FILENAME;
 };

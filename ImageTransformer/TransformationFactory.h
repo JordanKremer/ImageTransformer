@@ -7,5 +7,6 @@ class TransformationFactory
 {
 	TransformationFactory();
 	std::shared_ptr<Transformation> getTransformation(std::string transformationType, bool openCV);
+
 };
 

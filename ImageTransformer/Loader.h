@@ -4,5 +4,6 @@
 class Loader
 {
 	virtual Data Load() = 0;
+	virtual std::string getFileName() const = 0;
 };
 
