@@ -14,11 +14,10 @@ namespace ImageTransformerTests
 		
 		TEST_METHOD(BmpLoader1)
 		{
-			std::string FILENAME = "../someFile";
+			const std::string FILENAME = "../someFile";
 			BmpLoader Bmp(FILENAME);
-			Bmp.getFileName();
 
-			Assert::AreEqual("../someFile", Bmp.getFileName());
+			Assert::AreEqual(FILENAME, Bmp.getFileName());
 		}
 	};
 }

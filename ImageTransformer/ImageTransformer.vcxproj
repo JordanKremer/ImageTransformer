@@ -135,7 +135,6 @@
     <ClCompile Include="OpenCVData.cpp" />
     <ClCompile Include="OpenCVGaussian.cpp" />
     <ClCompile Include="OpenCVLoader.cpp" />
-    <ClCompile Include="OpenCVPixelate.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
@@ -148,7 +147,6 @@
     <ClInclude Include="OpenCVData.h" />
     <ClInclude Include="OpenCVGaussian.h" />
     <ClInclude Include="OpenCVLoader.h" />
-    <ClInclude Include="OpenCVPixelate.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationFactory.h" />
   </ItemGroup>

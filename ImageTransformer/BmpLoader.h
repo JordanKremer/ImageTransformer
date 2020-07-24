@@ -6,8 +6,9 @@ class BmpLoader :
 	public Loader
 {
 public:
-	BmpLoader(std::string FILENAME);
-	Data Load();
+
+	BmpLoader(const std::string FILENAME);
+	std::string getFileName()const;
 
 
 private:
