@@ -3,5 +3,10 @@
 class BmpData :
 	public Data
 {
+public:
+	BmpData();
+
+private:
+
 };
 
