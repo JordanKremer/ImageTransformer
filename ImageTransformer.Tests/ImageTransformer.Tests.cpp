@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <string>
-
+#include <iostream>
 #include "../ImageTransformer/BmpLoader.cpp"
 #include "..//ImageTransformer/BmpData.cpp"
 
@@ -36,27 +36,57 @@ namespace ImageTransformerTests
 			Assert::AreEqual(FILENAME, Bmp.getFileName());
 		}
 
-		TEST_METHOD(Data_Instantiate)
-		{
-			Data* Data = new BmpData();
-
-		}
-
-		TEST_METHOD(BmpLoader_Load)
+		//Attempts to load a file that doesn't exist
+		TEST_METHOD(BmpLoader_Load_Nonexistant_File)
 		{
 			const std::string FILENAME = "../someFile";
 			BmpLoader Bmp(FILENAME);
 
-			/*
-			load simple image say 4x4 black dots, then when looking at the image object
-			data in the test, it should reflext 255, 255, 255  etc. That will be used to validate it.
-
-
-			*/
+			try {
+				std::cout << "test";
+				auto myData = Bmp.Load();
+			}
+			catch (const char* msg)
+			{	
+				std::cout << msg;
+				Assert::AreEqual("Failure to open file / File doesn't exist", msg);
+			}
+			
 		}
 
+		TEST_METHOD(BmpLoader_Load_Existant_File)
+		{
+			const std::string FILENAME = "../someFile";
+			BmpLoader Bmp(FILENAME);
+
+			try {
+				std::cout << "test";
+				auto myData = Bmp.Load();
+			}
+			catch (const char* msg)
+			{
+				std::cout << msg;
+				Assert::AreEqual("Failure to open file / File doesn't exist", msg);
+			}
+		}
+
+//Cannot change return types for each test
+
+/*
+given: I try to load a bitmap
+when: the filename is wrong
+then: what kind of indicator do i want
+*/
+/*
+load simple image say 4x4 black dots, then when looking at the image object
+data in the test, it should reflect 255, 255, 255  etc. That will be used to validate it.
+
+
+*/
+
 		/*
-		Test every line of code --> including in the loader --> write a test for each line of code you are going
+		Test every line (behavior, typically a line or a few lines)
+			of code --> including in the loader --> write a test for each line of code you are going
 		to write
 
 		for instance, when looking at a file, write a test to find it

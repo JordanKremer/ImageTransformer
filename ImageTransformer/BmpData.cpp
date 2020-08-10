@@ -3,5 +3,6 @@
 
 BmpData::BmpData()
 {
-
+	
 }
+
