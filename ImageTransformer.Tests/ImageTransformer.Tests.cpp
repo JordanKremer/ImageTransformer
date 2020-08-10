@@ -29,6 +29,9 @@ namespace ImageTransformerTests
 	public:
 		
 		//TEST_CLASS_INITIALIZE  --> initialize objects so the methods don't have to each time?
+		//https://stackoverflow.com/questions/26903602/an-enclosing-function-local-variable-cannot-be-referenced-in-a-lambda-body-unles
+
+		//https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019#:~:text=A%20lambda%20begins%20with%20the,it%20are%20accessed%20by%20value.
 		TEST_METHOD(BmpLoader_Filename)
 		{
 			const std::string FILENAME = "../someFile";
@@ -42,12 +45,10 @@ namespace ImageTransformerTests
 		{
 			const std::string FILENAME = "../someFile";
 			BmpLoader Bmp(FILENAME);
-		//https://stackoverflow.com/questions/26903602/an-enclosing-function-local-variable-cannot-be-referenced-in-a-lambda-body-unles
-			
-		//https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019#:~:text=A%20lambda%20begins%20with%20the,it%20are%20accessed%20by%20value.
+		
 			auto func = [&] { Bmp.Load(); };
 			
-			Assert::ExpectException<std::invalid_argument>(func);
+			Assert::ExpectException<std::ios_base::failure>(func);
 		}
 
 		
