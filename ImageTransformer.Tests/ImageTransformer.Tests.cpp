@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include "../ImageTransformer/BmpLoader.cpp"
-#include "..//ImageTransformer/BmpData.cpp"
+#include "../ImageTransformer/BmpData.cpp"
 
 /*
 * Test cases:
@@ -28,7 +28,8 @@ namespace ImageTransformerTests
 	{
 	public:
 		
-		TEST_METHOD(BmpLoader_instantiate)
+		//TEST_CLASS_INITIALIZE  --> initialize objects so the methods don't have to each time?
+		TEST_METHOD(BmpLoader_Filename)
 		{
 			const std::string FILENAME = "../someFile";
 			BmpLoader Bmp(FILENAME);
@@ -37,38 +38,30 @@ namespace ImageTransformerTests
 		}
 
 		//Attempts to load a file that doesn't exist
-		TEST_METHOD(BmpLoader_Load_Nonexistant_File)
+		TEST_METHOD(BmpLoader_Load_NonexistantFile)
 		{
 			const std::string FILENAME = "../someFile";
 			BmpLoader Bmp(FILENAME);
-
-			try {
-				std::cout << "test";
-				auto myData = Bmp.Load();
-			}
-			catch (const char* msg)
-			{	
-				std::cout << msg;
-				Assert::AreEqual("Failure to open file / File doesn't exist", msg);
-			}
+		//https://stackoverflow.com/questions/26903602/an-enclosing-function-local-variable-cannot-be-referenced-in-a-lambda-body-unles
 			
+		//https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019#:~:text=A%20lambda%20begins%20with%20the,it%20are%20accessed%20by%20value.
+			auto func = [&] { Bmp.Load(); };
+			
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
-		TEST_METHOD(BmpLoader_Load_Existant_File)
+		
+		TEST_METHOD(BmpLoader_Load_ExistantFile_NotValidBMP)
 		{
-			const std::string FILENAME = "../someFile";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\test.txt";
 			BmpLoader Bmp(FILENAME);
 
-			try {
-				std::cout << "test";
-				auto myData = Bmp.Load();
-			}
-			catch (const char* msg)
-			{
-				std::cout << msg;
-				Assert::AreEqual("Failure to open file / File doesn't exist", msg);
-			}
+			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
+
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
+
+
 
 //Cannot change return types for each test
 
