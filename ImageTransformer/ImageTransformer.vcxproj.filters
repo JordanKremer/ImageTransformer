@@ -48,6 +48,9 @@
     <ClCompile Include="OpenCVGaussian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BmpHeaderInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenCVGaussian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpHeaderInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -48,22 +48,32 @@ namespace ImageTransformerTests
 		
 			auto func = [&] { Bmp.Load(); };
 			
-			Assert::ExpectException<std::ios_base::failure>(func);
+			Assert::ExpectException<std::ios_base::failure>(func); 
+			//Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		
-		TEST_METHOD(BmpLoader_Load_ExistantFile_NotValidBMP)
+		TEST_METHOD(BmpLoader_Load_ExistantFile_NotValidBMP_1)
 		{
 			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\test.txt";
 			BmpLoader Bmp(FILENAME);
 
 			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
 
-			Assert::ExpectException<std::invalid_argument>(func);
+			Assert::ExpectException<std::runtime_error>(func);
 		}
 
 
+		TEST_METHOD(BmpLoader_Load_)
+		{
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\BLK.BMP";
+			BmpLoader Bmp(FILENAME);
+			
+			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
 
+			Assert::ExpectException<std::runtime_error>(func);
+
+		}
 //Cannot change return types for each test
 
 /*
