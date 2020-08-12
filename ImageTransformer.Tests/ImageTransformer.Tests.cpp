@@ -2,8 +2,11 @@
 #include "CppUnitTest.h"
 #include <string>
 #include <iostream>
+
+//make sure to include each of these when testing other wise a linker error will be thrown
 #include "../ImageTransformer/BmpLoader.cpp"
 #include "../ImageTransformer/BmpData.cpp"
+#include "..//ImageTransformer/BmpHeaderInfo.cpp"
 
 /*
 * Test cases:
@@ -49,11 +52,10 @@ namespace ImageTransformerTests
 			auto func = [&] { Bmp.Load(); };
 			
 			Assert::ExpectException<std::ios_base::failure>(func); 
-			//Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		
-		TEST_METHOD(BmpLoader_Load_ExistantFile_NotValidBMP_1)
+		TEST_METHOD(BmpLoader_Load_ExistantFile_InvalidBMP_ID)
 		{
 			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\test.txt";
 			BmpLoader Bmp(FILENAME);
@@ -63,17 +65,24 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
-
-		TEST_METHOD(BmpLoader_Load_)
+		//http://entropymine.com/jason/bmpsuite/bmpsuite/html/bmpsuite.html  -->contains bump images of different types
+		//only allow for compression of 0 and 3
+		TEST_METHOD(BmpLoader_Compression_Check)
 		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\BLK.BMP";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\"; //find one with 2 compression flag, or 1
 			BmpLoader Bmp(FILENAME);
-			
+
 			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
 
 			Assert::ExpectException<std::runtime_error>(func);
-
 		}
+
+
+
+
+		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
+		//can use link for making new tests to check header
+
 //Cannot change return types for each test
 
 /*
