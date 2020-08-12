@@ -24,16 +24,10 @@
     <ClCompile Include="BmpLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OpenCVLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BmpData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenCVData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transformation.cpp">
@@ -42,13 +36,10 @@
     <ClCompile Include="TransformationFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gaussian.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenCVGaussian.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BmpHeaderInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpHeaderFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,16 +50,10 @@
     <ClInclude Include="BmpLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenCVLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BmpData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenCVData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transformation.h">
@@ -77,14 +62,19 @@
     <ClInclude Include="TransformationFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gaussian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenCVGaussian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BmpHeaderInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpHeaderFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ImageTransformer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

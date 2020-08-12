@@ -127,30 +127,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BmpData.cpp" />
+    <ClCompile Include="BmpHeaderFactory.cpp" />
     <ClCompile Include="BmpHeaderInfo.cpp" />
     <ClCompile Include="BmpLoader.cpp" />
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="Gaussian.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OpenCVData.cpp" />
-    <ClCompile Include="OpenCVGaussian.cpp" />
-    <ClCompile Include="OpenCVLoader.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BmpData.h" />
+    <ClInclude Include="BmpHeaderFactory.h" />
     <ClInclude Include="BmpHeaderInfo.h" />
     <ClInclude Include="BmpLoader.h" />
     <ClInclude Include="Data.h" />
-    <ClInclude Include="Gaussian.h" />
     <ClInclude Include="Loader.h" />
-    <ClInclude Include="OpenCVData.h" />
-    <ClInclude Include="OpenCVGaussian.h" />
-    <ClInclude Include="OpenCVLoader.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ImageTransformer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

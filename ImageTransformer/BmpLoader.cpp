@@ -24,7 +24,7 @@ std::shared_ptr<Data> BmpLoader::Load() {
 	//open a file,  rather than manually throwing an exception
 	//this throws the exception
 	//there are other bits that can be set as well to specify other exceptions
-	in.exceptions(in.failbit); 
+	in.exceptions(in.failbit);
 
 	char ID[2];
 	in >> ID[0] >> ID[1];
@@ -53,7 +53,7 @@ std::shared_ptr<Data> BmpLoader::Load() {
 
 	//This correctly reads 3 for the 32 bit bear images because we start our read at byte 30, then the next 4 bytes contain the compression
 	int compression;
-	in.read((char*)&compression, 4);
+	in.read((char*)& compression, 4);
 
 
 	//consider a different structure
@@ -66,26 +66,31 @@ std::shared_ptr<Data> BmpLoader::Load() {
 
 
 
-
-
-	/*
 	in.seekg(10);
 	int imageDataOffset;
 	in.read((char*)& imageDataOffset, 4);
-	if(imageDataOffset < )
-	 
-	in.seekg(); //
-	//get the rest of header data
+	if (imageDataOffset < 54)
+	{
+		throw std::runtime_error("ERROR: IMAGE DATA OFFSET TOO LOW");
+	}
+
+		in.seekg(bitCount); //back to start of compression
+		//get the rest of header data
 	while (bitCount < imageDataOffset && in) {
 		in.read((char*)& tmp, 1);
 		headerData.push_back(tmp);
 		++bitCount;
 	}
-	
-	
+
+
+	if (headerData.size() != imageDataOffset)
+	{
+		std::string msg = "ERROR: INCORRECT HEADER SIZE : " + headerData.size();
+		throw std::runtime_error(msg);
+	}
 	//make_shared
-	std::shared_ptr<BmpHeaderInfo> _bmpHeader = getBmpHeader(compression);
-	*/
+	//std::shared_ptr<BmpHeaderInfo> _bmpHeader = getBmpHeader(compression);
+	
 
 	in.close();
 	
@@ -95,7 +100,17 @@ std::shared_ptr<Data> BmpLoader::Load() {
 }
 
 
-std::shared_ptr<BmpHeaderInfo> BmpLoader::getBmpHeader(int compression) {
 
+//create a compression factory that handles this instead
+
+
+/*
+std::shared_ptr<BmpHeaderInfo> BmpLoader::getBmpHeader(int compression, std::vector<char>& headerData) {
+
+	if (compression == 0)
+		return std::make_shared<BmpHeaderInfo>(headerData);
+	else if(compression == 3)
+		return std::make_shared<BmpHeaderInfo_32bit>(headerData);
 	return std::make_shared<BmpHeaderInfo>();
 }
+*/

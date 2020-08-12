@@ -7,6 +7,7 @@
 #include "../ImageTransformer/BmpLoader.cpp"
 #include "../ImageTransformer/BmpData.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo.cpp"
+#include "..//ImageTransformer/BmpHeaderFactory.cpp"
 
 /*
 * Test cases:
@@ -65,6 +66,7 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
+		/*
 		//http://entropymine.com/jason/bmpsuite/bmpsuite/html/bmpsuite.html  -->contains bump images of different types
 		//only allow for compression of 0 and 3
 		TEST_METHOD(BmpLoader_Compression_Check)
@@ -76,34 +78,34 @@ namespace ImageTransformerTests
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
+		*/
 
-		TEST_METHOD(BmpLoader_HeaderTooShort)
+
+		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsLower)
 		{
-			/*
-			try{
-				
-				bmploader.load
 
-			}catch(some exception)
-				//if we catch it then fail the test somehow
+			
+			BmpHeaderFactory fac;
+			
+			auto func = [&fac] {fac.getBmpHeader(-1); };
+			
 
-			*/
+			Assert::ExpectException<std::runtime_error>(func);
+			
 		}
 
-		TEST_METHOD(BmpLoader_HeaderTooLong)
+		
+		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsUpper)
 		{
-			/*
-			try{
 
-				bmploader.load
+			BmpHeaderFactory fac;
 
-			}catch(some exception)
-				//if we catch it then fail the test somehow
+			auto func = [&fac] {fac.getBmpHeader(5); };
 
-			*/
+
+			Assert::ExpectException<std::runtime_error>(func);
 		}
-
-
+		
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
 		//can use link for making new tests to check header
 
