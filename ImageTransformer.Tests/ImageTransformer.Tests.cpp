@@ -105,6 +105,11 @@ namespace ImageTransformerTests
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
+
+
+
+
+
 		
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
 		//can use link for making new tests to check header

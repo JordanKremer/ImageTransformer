@@ -129,6 +129,8 @@
     <ClCompile Include="BmpData.cpp" />
     <ClCompile Include="BmpHeaderFactory.cpp" />
     <ClCompile Include="BmpHeaderInfo.cpp" />
+    <ClCompile Include="BmpHeaderInfo_24Bit.cpp" />
+    <ClCompile Include="BmpHeaderInfo_32Bit.cpp" />
     <ClCompile Include="BmpLoader.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="Loader.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="BmpData.h" />
     <ClInclude Include="BmpHeaderFactory.h" />
     <ClInclude Include="BmpHeaderInfo.h" />
+    <ClInclude Include="BmpHeaderInfo_24Bit.h" />
+    <ClInclude Include="BmpHeaderInfo_32Bit.h" />
     <ClInclude Include="BmpLoader.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Loader.h" />

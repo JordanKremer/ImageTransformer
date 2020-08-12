@@ -1,6 +1,7 @@
 #pragma once
 #include "BmpLoader.h"
 #include "BmpHeaderInfo.h"
+#include "BmpHeaderFactory.h"
 #include <fstream>
 
 using namespace std;
@@ -88,8 +89,10 @@ std::shared_ptr<Data> BmpLoader::Load() {
 		std::string msg = "ERROR: INCORRECT HEADER SIZE : " + headerData.size();
 		throw std::runtime_error(msg);
 	}
-	//make_shared
-	//std::shared_ptr<BmpHeaderInfo> _bmpHeader = getBmpHeader(compression);
+
+	//TEST THIS
+	std::shared_ptr<BmpHeaderFactory> bmpFactory = std::make_shared<BmpHeaderFactory> ();
+	std::shared_ptr<BmpHeaderInfo> _bmpHeader = bmpFactory->getBmpHeader(compression);
 	
 
 	in.close();
@@ -100,17 +103,3 @@ std::shared_ptr<Data> BmpLoader::Load() {
 }
 
 
-
-//create a compression factory that handles this instead
-
-
-/*
-std::shared_ptr<BmpHeaderInfo> BmpLoader::getBmpHeader(int compression, std::vector<char>& headerData) {
-
-	if (compression == 0)
-		return std::make_shared<BmpHeaderInfo>(headerData);
-	else if(compression == 3)
-		return std::make_shared<BmpHeaderInfo_32bit>(headerData);
-	return std::make_shared<BmpHeaderInfo>();
-}
-*/

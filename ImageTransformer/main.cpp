@@ -23,4 +23,7 @@ int main(int argc, char* argv[])
 	BmpLoader BMP(FILENAME);
 
 	std::shared_ptr<Data> _data = BMP.Load();
+
+
+	//MAKE TRANSFORMATION FUNCTIONS AS TEMPLATES
 }
