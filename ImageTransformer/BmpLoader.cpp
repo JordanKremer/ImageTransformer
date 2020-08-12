@@ -50,7 +50,8 @@ std::shared_ptr<Data> BmpLoader::Load() {
 		++bitCount;
 	}
 
-	//may need to use UINT32
+
+	//This correctly reads 3 for the 32 bit bear images because we start our read at byte 30, then the next 4 bytes contain the compression
 	int compression;
 	in.read((char*)&compression, 4);
 

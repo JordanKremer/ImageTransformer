@@ -77,7 +77,31 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
+		TEST_METHOD(BmpLoader_HeaderTooShort)
+		{
+			/*
+			try{
+				
+				bmploader.load
 
+			}catch(some exception)
+				//if we catch it then fail the test somehow
+
+			*/
+		}
+
+		TEST_METHOD(BmpLoader_HeaderTooLong)
+		{
+			/*
+			try{
+
+				bmploader.load
+
+			}catch(some exception)
+				//if we catch it then fail the test somehow
+
+			*/
+		}
 
 
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
