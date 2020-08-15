@@ -12,7 +12,7 @@ public:
 
 private:
 
-	std::vector<const std::shared_ptr<const char>> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
+	std::vector<const unsigned char> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
 	std::map<std::string, int> _headerIndexMap;
 
 	const int _compression;
