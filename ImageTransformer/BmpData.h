@@ -8,6 +8,6 @@ public:
 	BmpData();
 
 private:
-	BmpHeaderInfo _headerInfo;
+	std::shared_ptr<BmpHeaderInfo> _headerInfo;
 };
 

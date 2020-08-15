@@ -7,9 +7,11 @@
 class BmpHeaderInfo
 {
 public:
-	//= operatorb = 0
+
+	virtual const int getCompression() = 0;
+	//= operator = 0
 	//>> operator (ifstream& in) = 0
-	const int getWidth() = 0;
+	//const int getWidth() = 0;
 
 };
 

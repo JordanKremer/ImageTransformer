@@ -92,8 +92,15 @@ std::shared_ptr<Data> BmpLoader::Load() {
 
 	//TEST THIS
 	std::shared_ptr<BmpHeaderFactory> bmpFactory = std::make_shared<BmpHeaderFactory> ();
-	std::shared_ptr<BmpHeaderInfo> _bmpHeader = bmpFactory->getBmpHeader(compression);
-	
+
+	/*
+	try {
+		std::shared_ptr<BmpHeaderInfo> _bmpHeader = bmpFactory->getBmpHeader( &headerData, compression);
+	}
+	catch (std::runtime_error e) {
+		throw e;
+	}
+	*/
 
 	in.close();
 	

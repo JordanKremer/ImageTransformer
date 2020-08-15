@@ -3,10 +3,11 @@
 #include <string>
 #include <iostream>
 
-//make sure to include each of these when testing other wise a linker error will be thrown
+
 #include "../ImageTransformer/BmpLoader.cpp"
 #include "../ImageTransformer/BmpData.cpp"
-#include "..//ImageTransformer/BmpHeaderInfo.cpp"
+#include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
+#include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderFactory.cpp"
 
 /*
@@ -34,8 +35,9 @@ namespace ImageTransformerTests
 		
 		//TEST_CLASS_INITIALIZE  --> initialize objects so the methods don't have to each time?
 		//https://stackoverflow.com/questions/26903602/an-enclosing-function-local-variable-cannot-be-referenced-in-a-lambda-body-unles
-
 		//https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019#:~:text=A%20lambda%20begins%20with%20the,it%20are%20accessed%20by%20value.
+
+
 		TEST_METHOD(BmpLoader_Filename)
 		{
 			const std::string FILENAME = "../someFile";
@@ -43,6 +45,7 @@ namespace ImageTransformerTests
 
 			Assert::AreEqual(FILENAME, Bmp.getFileName());
 		}
+
 
 		//Attempts to load a file that doesn't exist
 		TEST_METHOD(BmpLoader_Load_NonexistantFile)
@@ -55,7 +58,8 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::ios_base::failure>(func); 
 		}
 
-		
+		//The BMP ID is the first two bytes in a bmp file
+		//"BM" is tested for
 		TEST_METHOD(BmpLoader_Load_ExistantFile_InvalidBMP_ID)
 		{
 			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\test.txt";
@@ -66,76 +70,99 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
-		/*
-		//http://entropymine.com/jason/bmpsuite/bmpsuite/html/bmpsuite.html  -->contains bump images of different types
-		//only allow for compression of 0 and 3
-		TEST_METHOD(BmpLoader_Compression_Check)
-		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\"; //find one with 2 compression flag, or 1
-			BmpLoader Bmp(FILENAME);
 
-			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
-
-			Assert::ExpectException<std::runtime_error>(func);
-		}
-		*/
-
-
+		//Test exception in getBmpHeader() that enforces lower boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsLower)
 		{
 
 			
 			BmpHeaderFactory fac;
+			std::vector<char*> tmp;
 			
-			auto func = [&fac] {fac.getBmpHeader(-1); };
+			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp, -1); };
 			
 
 			Assert::ExpectException<std::runtime_error>(func);
 			
 		}
 
-		
+
+		//Test exception in getBmpHeader() that enforces upper boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsUpper)
 		{
 
 			BmpHeaderFactory fac;
+			std::vector<char*> tmp;
 
-			auto func = [&fac] {fac.getBmpHeader(5); };
+			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp, 5); };
 
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
 
+		//Make sure getCompression is returning the correct number
+		TEST_METHOD(BmpHeaderInfo_24Bit_getCompressionZeroCheck)
+		{
+			std::vector<char*> testData;
+			int compression = 0;
+
+			BmpHeaderInfo_24Bit testHeader(testData, compression);
+
+			Assert::AreEqual(0, testHeader.getCompression());
+		}
 
 
+		//Test if testHeader constructor throws exception if invalid compression value is used as arg
+		TEST_METHOD(BmpHeaderInfo_24Bit_ConstructorDoesNonZeroThrowException)
+		{
+
+			auto func = [] {
+			
+				std::vector<char*> testData; //No need to load vector
+				int compression = -1;
+
+				BmpHeaderInfo_24Bit testHeader(testData, compression); 
+			
+			};
+			Assert::ExpectException<std::runtime_error>(func);
+		}
 
 		
+		//Test if header vector data is properly copied to the constructor in a BmpHeaderInfo_24Bit object
+		TEST_METHOD(BmpHeaderInfo_24Bit_isHeaderDataCopiedCorrectly)
+		{
+			
+			std::vector<char*> testData;
+			int compression = 0;
+
+			testData.push_back((char*)0);
+			testData.push_back((char*)5);
+			testData.push_back((char*)10);
+			
+			BmpHeaderInfo_24Bit testHeader(testData, compression);
+
+			const char* tmp = testHeader.getByte(1);
+
+			Assert::AreEqual(testData[0], testHeader.getByte());
+
+		}
+
+
+
+
+
+
+		//
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
 		//can use link for making new tests to check header
 
-//Cannot change return types for each test
-
-/*
-given: I try to load a bitmap
-when: the filename is wrong
-then: what kind of indicator do i want
-*/
-/*
-load simple image say 4x4 black dots, then when looking at the image object
-data in the test, it should reflect 255, 255, 255  etc. That will be used to validate it.
-
-
-*/
-
 		/*
-		Test every line (behavior, typically a line or a few lines)
-			of code --> including in the loader --> write a test for each line of code you are going
-		to write
-
-		for instance, when looking at a file, write a test to find it
-		write a test if it has a single pixel
-		what questions can you ask about the data structure that was built from the loaded file, 
+		
+		Loader:
+			*check single black pixekl
+			*check multiple black pixels
+			*check other colors
 		
 		*/
 
