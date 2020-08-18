@@ -77,7 +77,7 @@ namespace ImageTransformerTests
 
 			
 			BmpHeaderFactory fac;
-			std::vector<char*> tmp;
+			std::vector<unsigned char> tmp;
 			
 			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp, -1); };
 			
@@ -92,7 +92,7 @@ namespace ImageTransformerTests
 		{
 
 			BmpHeaderFactory fac;
-			std::vector<char*> tmp;
+			std::vector<unsigned char> tmp;
 
 			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp, 5); };
 
@@ -104,47 +104,26 @@ namespace ImageTransformerTests
 		//Make sure getCompression is returning the correct number
 		TEST_METHOD(BmpHeaderInfo_24Bit_getCompressionZeroCheck)
 		{
-			std::vector<char*> testData;
-			int compression = 0;
+			std::vector<unsigned char> testData;
 
-			BmpHeaderInfo_24Bit testHeader(testData, compression);
+			BmpHeaderInfo_24Bit testHeader(testData);
 
 			Assert::AreEqual(0, testHeader.getCompression());
 		}
 
-
-		//Test if testHeader constructor throws exception if invalid compression value is used as arg
-		TEST_METHOD(BmpHeaderInfo_24Bit_ConstructorDoesNonZeroThrowException)
-		{
-
-			auto func = [] {
-			
-				std::vector<char*> testData; //No need to load vector
-				int compression = -1;
-
-				BmpHeaderInfo_24Bit testHeader(testData, compression); 
-			
-			};
-			Assert::ExpectException<std::runtime_error>(func);
-		}
 
 		
 		//Test if header vector data is properly copied to the constructor in a BmpHeaderInfo_24Bit object
 		TEST_METHOD(BmpHeaderInfo_24Bit_isHeaderDataCopiedCorrectly)
 		{
 			
-			std::vector<char*> testData;
-			int compression = 0;
+			std::vector<unsigned char> testData;
 
-			testData.push_back((char*)0);
-			testData.push_back((char*)5);
-			testData.push_back((char*)10);
-			
-			BmpHeaderInfo_24Bit testHeader(testData, compression);
+			testData.push_back(0);
+			BmpHeaderInfo_24Bit testHeader(testData);
 
-			const char* tmp = testHeader.getByte(1);
+			auto iter = testHeader.getHeaderBegin();
 
-			Assert::AreEqual(testData[0], testHeader.getByte());
 
 		}
 

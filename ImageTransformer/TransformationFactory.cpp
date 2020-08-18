@@ -5,7 +5,7 @@
 #include "Pixelate.h"
 #include "OpenCVPixelate.h"
 std::shared_ptr<Transformation> TransformationFactory::getTransformation(std::string transformationType, bool openCV) {
-	return NULL;
+	return nullptr;
 }
 
 

@@ -10,3 +10,6 @@ class TransformationFactory
 
 };
 
+/*
+MAKE SINGLETON
+*/

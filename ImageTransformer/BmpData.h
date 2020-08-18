@@ -1,6 +1,8 @@
 #pragma once
 #include "Data.h"
 #include "BmpHeaderInfo.h"
+
+
 class BmpData :
 	public Data
 {

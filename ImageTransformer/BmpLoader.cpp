@@ -37,7 +37,7 @@ std::shared_ptr<Data> BmpLoader::Load() {
 	if (!(ID[0] == 'B' && ID[1] == 'M'))
 		throw std::runtime_error("ERROR: NOT A BMP"); //include ID in error?
 
-	std::vector<char> headerData;
+	std::vector<unsigned char> headerData;
 	unsigned char tmp;
 	int bitCount = 0;
 
