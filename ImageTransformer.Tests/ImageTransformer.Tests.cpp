@@ -100,8 +100,28 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
+		
+		//Test if header vector data is properly copied to the constructor in a BmpHeaderInfo_24Bit object
+		TEST_METHOD(BmpHeaderInfo_24Bit_isHeaderDataCopiedCorrectly)
+		{
+			
+			std::vector<unsigned char> testData{0, 5, 10, 20, 30};
 
-		//Make sure getCompression is returning the correct number
+			BmpHeaderInfo_24Bit testHeader(testData);
+
+			auto iterStart = testHeader.getHeaderBegin();
+			auto iterEnd = testHeader.getHeaderEnd();
+
+			int count = 0;
+			for (iterStart; iterStart != iterEnd; ++iterStart) {
+				Assert::AreEqual(testData[count], *iterStart);
+				++count;
+			}
+
+		}
+
+
+
 		TEST_METHOD(BmpHeaderInfo_24Bit_getCompressionZeroCheck)
 		{
 			std::vector<unsigned char> testData;
@@ -110,26 +130,6 @@ namespace ImageTransformerTests
 
 			Assert::AreEqual(0, testHeader.getCompression());
 		}
-
-
-		
-		//Test if header vector data is properly copied to the constructor in a BmpHeaderInfo_24Bit object
-		TEST_METHOD(BmpHeaderInfo_24Bit_isHeaderDataCopiedCorrectly)
-		{
-			
-			std::vector<unsigned char> testData;
-
-			testData.push_back(0);
-			BmpHeaderInfo_24Bit testHeader(testData);
-
-			auto iter = testHeader.getHeaderBegin();
-
-
-		}
-
-
-
-
 
 
 		//
