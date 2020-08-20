@@ -117,14 +117,13 @@ namespace ImageTransformerTests
 				Assert::AreEqual(testData[count], *iterStart);
 				++count;
 			}
-
 		}
 
 
 
 		TEST_METHOD(BmpHeaderInfo_24Bit_getCompressionZeroCheck)
 		{
-			std::vector<unsigned char> testData;
+			std::vector<unsigned char> testData{0};
 
 			BmpHeaderInfo_24Bit testHeader(testData);
 

@@ -20,9 +20,6 @@ BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(std::vector<unsigned char> hData) {
 		_headerData.push_back(tmp);
 	}
 
-	_headerIndexMap.insert(std::pair<const std::string, int>(Constants::COMPRESSION, 0));
-
-	
 }
 
 

@@ -1,6 +1,12 @@
 #pragma once
 #include "BmpHeaderInfo.h"
 
+/*
+struct BmpHeader_32BitConstants{
+
+}
+*/
+
 class BmpHeaderInfo_32Bit :
 	public BmpHeaderInfo
 {
@@ -19,6 +25,6 @@ public:
 private:
 
 	std::vector<unsigned char> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
-	std::map<std::string, int> _headerIndexMap;
+
 };
 

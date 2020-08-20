@@ -4,10 +4,28 @@
 #include <map>
 #include <string>
 
-struct Constants {
-	inline static const std::string COMPRESSION = "compression";
-	inline static const std::string WIDTH = "width";
-	inline static const std::string HEIGHT = "height";
+
+//Holds location in the raw data vector of where data points are located
+
+//BITMAPHEADERINFO 
+//https://en.wikipedia.org/wiki/BMP_file_format#:~:text=and%20resource%20functions.-,Bitmap%20file%20header,used%20to%20identify%20the%20file.&text=The%20first%202%20bytes%20of,least%2Dsignificant%20byte%20first).
+//OS/2 no longer supported, so Windows BITMAPHEADERINFO table used
+struct BmpConstants {
+	inline static const int ID = 0;
+	inline static const int FILESIZE = 2;
+	inline static const int RESERVED1 = 6;
+	inline static const int IMAGESTARTOFFSET = 10;
+	inline static const int HEADERSIZE = 14;
+	inline static const int WIDTH = 18;
+	inline static const int HEIGHT = 22;
+	inline static const int COLORPANES = 26;
+	inline static const int BITSPERPIXEL = 28;
+	inline static const int COMPRESSION = 30; //values 0 - 13
+	inline static const int IMAGESIZE = 34;
+	inline static const int HORIZONTALRESOLUTION = 38;
+	inline static const int VERTICALRESOLUTION = 42;
+	inline static const int NUMCOLORSINPALETTE = 46;
+	inline static const int NUMIMPORTANTCOLORSUSED = 50;
 };
 
 
