@@ -34,11 +34,11 @@ class BmpHeaderInfo
 {
 public:
 
-	virtual int getCompression() = 0; //do we want the return type to be const?
-	virtual std::vector<unsigned char>::const_iterator getHeaderBegin() = 0;
-	virtual std::vector<unsigned char>::const_iterator getHeaderEnd() = 0;
+	_NODISCARD virtual  int getCompression() const = 0; //do we want the return type to be const?
+	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderBegin() = 0;
+	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderEnd() = 0;
 
-	virtual int getWidth() = 0;
+	virtual int getWidth() const = 0;
 	//virtual unsigned char getHeaderByte(int headerIndex) = 0;
 	//= operator = 0
 	//>> operator (ifstream& in) = 0
@@ -52,3 +52,6 @@ public:
 
 };
 
+
+//https://dzone.com/articles/the-pimpl-pattern-what-you-should-know
+//https://www.fluentcpp.com/2017/09/22/make-pimpl-using-unique_ptr/

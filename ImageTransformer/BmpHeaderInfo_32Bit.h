@@ -15,14 +15,15 @@ public:
 	BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy);
 	BmpHeaderInfo_32Bit(std::vector<unsigned char> hData);
 
-	std::vector<unsigned char>::const_iterator getHeaderBegin();
-	std::vector<unsigned char>::const_iterator getHeaderEnd();
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 
-	int getWidth();
-	int getCompression(); //
+	int getWidth() const;
+	int getCompression() const; //
 	//unsigned char getHeaderByte(int headerIndex);
 
 private:
+
 
 	std::vector<unsigned char> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
 

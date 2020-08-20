@@ -38,7 +38,7 @@ std::vector<unsigned char>::const_iterator BmpHeaderInfo_24Bit::getHeaderEnd()
 	return _headerData.end();
 }
 
-int BmpHeaderInfo_24Bit::getWidth()
+int BmpHeaderInfo_24Bit::getWidth() const
 {
 	return 0;
 }
@@ -46,7 +46,7 @@ int BmpHeaderInfo_24Bit::getWidth()
 
 
 
-int BmpHeaderInfo_24Bit::getCompression() {
-	return _headerData[_headerIndexMap[Constants::COMPRESSION]];
+int BmpHeaderInfo_24Bit::getCompression() const {
+	return _compression;
 }
 

@@ -10,14 +10,18 @@ public:
 	//BmpHeaderInfo_24Bit(const BmpHeaderInfo_24Bit& to_copy);
 	BmpHeaderInfo_24Bit(std::vector<unsigned char> hdata);
 
-	std::vector<unsigned char>::const_iterator getHeaderBegin();
-	std::vector<unsigned char>::const_iterator getHeaderEnd();
-	int getWidth();
-	int getCompression();
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
+	_NODISCARD int getWidth() const;
+	_NODISCARD int getCompression() const;
 
 	
 
 private:
+
+
+
+	int _compression;
 	int _translateDecimaltoRGBA(uint32_t mask);
 
 
