@@ -4,11 +4,7 @@
 #include <map>
 #include <string>
 
-
-//Holds location in the raw data vector of where data points are located
-
 //BITMAPHEADERINFO 
-//https://en.wikipedia.org/wiki/BMP_file_format#:~:text=and%20resource%20functions.-,Bitmap%20file%20header,used%20to%20identify%20the%20file.&text=The%20first%202%20bytes%20of,least%2Dsignificant%20byte%20first).
 //OS/2 no longer supported, so Windows BITMAPHEADERINFO table used
 struct BmpConstants {
 	inline static const int ID = 0;
@@ -26,6 +22,18 @@ struct BmpConstants {
 	inline static const int VERTICALRESOLUTION = 42;
 	inline static const int NUMCOLORSINPALETTE = 46;
 	inline static const int NUMIMPORTANTCOLORSUSED = 50;
+};
+
+
+
+struct BasicBmpHeaderComponents{
+	std::string _ID;
+	int _filesize;
+	int _width;
+	int _height;
+	int _compression;
+	int _horizontalResolution;
+	int _verticalResolution;
 };
 
 

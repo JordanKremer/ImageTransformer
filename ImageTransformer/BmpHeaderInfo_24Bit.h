@@ -15,13 +15,12 @@ public:
 	_NODISCARD int getWidth() const;
 	_NODISCARD int getCompression() const;
 
-	
+	~BmpHeaderInfo_24Bit();  //may need it for the unique ptr
 
 private:
 
+	std::unique_ptr<BasicBmpHeaderComponents> _headerComponents;
 
-
-	int _compression;
 	int _translateDecimaltoRGBA(uint32_t mask);
 
 

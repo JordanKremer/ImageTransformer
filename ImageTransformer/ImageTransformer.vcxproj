@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Adapter.cpp" />
     <ClCompile Include="BmpData.cpp" />
     <ClCompile Include="BmpHeaderFactory.cpp" />
     <ClCompile Include="BmpHeaderInfo.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Adapter.h" />
     <ClInclude Include="BmpData.h" />
     <ClInclude Include="BmpHeaderFactory.h" />
     <ClInclude Include="BmpHeaderInfo.h" />
