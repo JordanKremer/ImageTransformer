@@ -9,6 +9,8 @@
 #include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderFactory.cpp"
+#include "../ImageTransformer/Pixel.cpp"
+#include "../ImageTransformer/PixelAlpha.cpp"
 
 /*
 * Test cases:
@@ -130,6 +132,15 @@ namespace ImageTransformerTests
 			Assert::AreEqual(0, testHeader.getCompression());
 		}
 
+
+		TEST_METHOD(Pixel_Constructor)
+		{
+			Pixel pixel(1, 2, 3);
+
+			Assert::AreEqual(1, pixel.getRed());
+			Assert::AreEqual(2, pixel.getGreen());
+			Assert::AreEqual(3, pixel.getBlue());
+		}
 
 		//
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader

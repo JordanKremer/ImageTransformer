@@ -45,8 +45,12 @@ int BmpHeaderInfo_24Bit::getWidth() const
 
 
 
-
+//TODO update this
 int BmpHeaderInfo_24Bit::getCompression() const {
-	return _compression;
+	return 0;
+}
+
+BmpHeaderInfo_24Bit::~BmpHeaderInfo_24Bit()
+{
 }
 

@@ -8,4 +8,6 @@ std::string Loader::getFileName() const
 std::vector<unsigned char>& Loader::load()
 {
 	// TODO: insert return statement here
+	std::vector<unsigned char> loadData;
+	return loadData;
 }

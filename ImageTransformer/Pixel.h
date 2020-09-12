@@ -1,6 +1,7 @@
 #pragma once
 class Pixel
 {
+public:
 
 	Pixel(int red, int green, int blue);
 
