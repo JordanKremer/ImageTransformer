@@ -4,11 +4,13 @@
 #include <vector>
 class Loader
 {
-	std::string getFileName() const;
-	std::vector<unsigned char>& load();
+//	std::string getFileName() const;
+public:
+	Loader();
+	std::vector<unsigned char>& Load(std::string filename);
 
 private:
-	std::vector<unsigned char> _rawData;
-	std::string _fileName;
+	//std::vector<unsigned char> _rawData;
+	//std::string _fileName;
 };
 

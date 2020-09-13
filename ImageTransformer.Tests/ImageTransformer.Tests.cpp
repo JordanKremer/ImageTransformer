@@ -4,7 +4,8 @@
 #include <iostream>
 
 
-#include "../ImageTransformer/BmpLoader.cpp"
+//#include "../ImageTransformer/BmpLoader.cpp"
+#include "..//ImageTransformer/Loader.cpp"
 #include "../ImageTransformer/BmpData.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
@@ -40,26 +41,20 @@ namespace ImageTransformerTests
 		//https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019#:~:text=A%20lambda%20begins%20with%20the,it%20are%20accessed%20by%20value.
 
 
-		TEST_METHOD(BmpLoader_Filename)
-		{
-			const std::string FILENAME = "../someFile";
-			BmpLoader Bmp(FILENAME);
-
-			Assert::AreEqual(FILENAME, Bmp.getFileName());
-		}
-
 
 		//Attempts to load a file that doesn't exist
-		TEST_METHOD(BmpLoader_Load_NonexistantFile)
+		TEST_METHOD(Loader_Load_NonexistantFile)
 		{
 			const std::string FILENAME = "../someFile";
-			BmpLoader Bmp(FILENAME);
-		
-			auto func = [&] { Bmp.Load(); };
-			
-			Assert::ExpectException<std::ios_base::failure>(func); 
-		}
+			Loader _loader;
 
+			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
+
+			Assert::ExpectException<std::ios_base::failure>(func);
+		}
+		
+		//USE BELOW FOR THE BMP ADAPTER
+		/*
 		//The BMP ID is the first two bytes in a bmp file
 		//"BM" is tested for
 		TEST_METHOD(BmpLoader_Load_ExistantFile_InvalidBMP_ID)
@@ -71,7 +66,7 @@ namespace ImageTransformerTests
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
-
+		*/
 
 		//Test exception in getBmpHeader() that enforces lower boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsLower)
@@ -141,6 +136,19 @@ namespace ImageTransformerTests
 			Assert::AreEqual(2, pixel.getGreen());
 			Assert::AreEqual(3, pixel.getBlue());
 		}
+
+		TEST_METHOD(PixelAlpha_Constructor)
+		{
+			PixelAlpha pixel(1, 2, 3, 4);
+
+			Assert::AreEqual(1, pixel.getRed());
+			Assert::AreEqual(2, pixel.getGreen());
+			Assert::AreEqual(3, pixel.getBlue());
+			Assert::AreEqual(4, pixel.getAlpha());
+		}
+
+		//TODO: Change all of these bmploader tests to loader tests, will need to change asserts to 
+//reflect the design changes
 
 		//
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader

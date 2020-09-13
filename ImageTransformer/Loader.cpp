@@ -1,13 +1,30 @@
 #include "Loader.h"
+#include <fstream>
 
-std::string Loader::getFileName() const
-{
-	return _fileName;
-}
 
-std::vector<unsigned char>& Loader::load()
+Loader::Loader() {}
+
+
+std::vector<unsigned char>& Loader::Load(std::string filename)
 {
-	// TODO: insert return statement here
+	std::ifstream in;
+
+	in.open(filename, std::ios::binary);
+
+	//Specifies that an excecption will be thrown if the failbit is set when trying to
+	//open a file,  rather than manually throwing an exception
+	//this throws the exception
+	//there are other bits that can be set as well to specify other exceptions
+	in.exceptions(in.failbit);
+	unsigned char tmp;
 	std::vector<unsigned char> loadData;
+	while (!in.eof()) {
+		in.read((char*)& tmp, 1);
+		loadData.push_back(tmp);
+	}
+	in.close();
+
 	return loadData;
 }
+
+
