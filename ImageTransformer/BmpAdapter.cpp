@@ -1,7 +1,20 @@
 #include "BmpAdapter.h"
+#include "BmpHeaderFactory.h"
+#include <memory>
 
 std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 {
-	return std::shared_ptr<Data>();
+	//Build new data object with a header and the raw data
+
+	//first send a cut of the vector to the bmpheader contructor
+	//but find out which bmpheader we need first, somehow 
+
+	std::vector<unsigned char> _rawData;
+
+	BmpHeaderFactory fac;
+
+	std::unique_ptr<BmpHeaderInfo> bmpHeader = fac.getBmpHeader(data);
+
+	return std::make_shared<Data>(_rawData, bmpHeader);
 }
 

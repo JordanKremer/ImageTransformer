@@ -16,11 +16,11 @@ std::vector<unsigned char>& Loader::Load(std::string filename)
 	//this throws the exception
 	//there are other bits that can be set as well to specify other exceptions
 	in.exceptions(in.failbit);
-	unsigned char tmp;
+	unsigned char dataByte;
 	std::vector<unsigned char> loadData;
 	while (!in.eof()) {
-		in.read((char*)& tmp, 1);
-		loadData.push_back(tmp);
+		in.read((char*)& dataByte, 1);
+		loadData.push_back(dataByte);
 	}
 	in.close();
 

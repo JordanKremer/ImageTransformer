@@ -53,6 +53,23 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::ios_base::failure>(func);
 		}
 		
+
+		TEST_METHOD(Loader_DoesItLoadBytes)
+		{
+			const std::string FILENAME = "../bear1_32.bmp";
+			Loader _loader;
+			
+			auto data = _loader.Load(FILENAME);
+
+			bool hasBytes = false;
+			
+			if (data.size() > 0) {
+				hasBytes = true;
+			}
+
+			Assert::AreEqual(true, hasBytes);
+		}
+
 		//USE BELOW FOR THE BMP ADAPTER
 		/*
 		//The BMP ID is the first two bytes in a bmp file

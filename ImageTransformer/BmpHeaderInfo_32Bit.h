@@ -1,6 +1,7 @@
 #pragma once
 #include "BmpHeaderInfo.h"
 
+
 /*
 struct BmpHeader_32BitConstants{
 
