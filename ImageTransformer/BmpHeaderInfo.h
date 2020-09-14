@@ -3,7 +3,7 @@
 #include <memory>
 #include <map>
 #include <string>
-
+#include "HeaderInfo.h"
 //BITMAPHEADERINFO 
 //OS/2 no longer supported, so Windows BITMAPHEADERINFO table used
 struct BmpConstants {
@@ -38,7 +38,7 @@ struct BasicBmpHeaderComponents{
 
 
 
-class BmpHeaderInfo
+class BmpHeaderInfo : public HeaderInfo
 {
 public:
 

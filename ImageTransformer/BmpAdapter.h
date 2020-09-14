@@ -1,7 +1,6 @@
 #pragma once
 #include "Adapter.h"
-#include "BmpHeaderInfo_24Bit.h"
-#include "BmpHeaderInfo_32Bit.h"
+
 
 class BmpAdapter :
 	public Adapter

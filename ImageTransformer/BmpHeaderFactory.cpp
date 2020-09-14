@@ -6,7 +6,7 @@
 
 BmpHeaderFactory::BmpHeaderFactory() {}
 
-std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsigned char>& hData) {
+std::shared_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsigned char>& hData) {
 
 	int compressionFlag = GetCompression(hData);
 
@@ -17,9 +17,9 @@ std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsign
 
 	if (compressionFlag == 0)
 		
-		return std::make_unique<BmpHeaderInfo_24Bit>(hData);
+		return std::make_shared<BmpHeaderInfo_24Bit>(hData);
 	if (compressionFlag == 3)
-		return std::make_unique<BmpHeaderInfo_32Bit>(hData);
+		return std::make_shared<BmpHeaderInfo_32Bit>(hData);
 	
 	throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER");
 }
@@ -38,7 +38,13 @@ int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)
 
 
 	//This correctly reads 3 for the 32 bit bear images because we start our read at byte 30, then the next 4 bytes contain the compression
-	int compressionFlag = hData[30];
+
+
+	//how to convert 4 bytes to an int...
+	int compressionFlag = int((unsigned char)(hData[30]) << 24 |
+		(unsigned char)(hData[31]) << 16 |
+		(unsigned char)(hData[32]) << 8 |
+		(unsigned char)(hData[33]));
 
 	//consider a different structure
 	if (!(compressionFlag == 0 || compressionFlag == 3))

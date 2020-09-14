@@ -1,5 +1,7 @@
 #include "BmpAdapter.h"
 #include "BmpHeaderFactory.h"
+#include "BmpHeaderInfo_24Bit.h"
+#include "BmpHeaderInfo_32Bit.h"
 #include <memory>
 
 std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
@@ -13,7 +15,7 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 
 	BmpHeaderFactory fac;
 
-	std::unique_ptr<BmpHeaderInfo> bmpHeader = fac.getBmpHeader(data);
+	auto bmpHeader = fac.getBmpHeader(data);	
 
 	return std::make_shared<Data>(_rawData, bmpHeader);
 }
