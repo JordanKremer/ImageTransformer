@@ -3,6 +3,11 @@
 
 BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(){}
 
+BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(const BmpHeaderInfo_24Bit& toCopy)
+{
+
+}
+
 
 
 BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(std::vector<unsigned char> hData) {

@@ -42,11 +42,16 @@ class BmpHeaderInfo : public HeaderInfo
 {
 public:
 
+	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
 	_NODISCARD virtual  int getCompression() const = 0; //do we want the return type to be const?
 	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderBegin() = 0;
 	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderEnd() = 0;
 
-	virtual int getWidth() const = 0;
+	int getWidth();
+
+	
+
+
 	//virtual unsigned char getHeaderByte(int headerIndex) = 0;
 	//= operator = 0
 	//>> operator (ifstream& in) = 0
@@ -57,6 +62,8 @@ public:
 	//USE DELETE after the function declaration if don't want an implicit function to made for, say, the
 	//= operator, etc
 	//operator&=(BmpHeaderInfo&) = delete;
+private:
+	std::shared_ptr<BmpHeaderInfo> bmpHeaderInfo;
 
 };
 
