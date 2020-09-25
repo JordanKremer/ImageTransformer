@@ -4,6 +4,25 @@ BmpHeaderInfo::BmpHeaderInfo()
 {
 }
 
+BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
+{
+	//bmpHeaderComponents->_ID = 
+	BmpConstants bmpConstants;
+	int loadIdx = 0;
+	uint32_t tmpCharToIntConversion;
+
+	for (int dataIdx = bmpConstants.FILESIZE; dataIdx < bmpConstants.RESERVED1; ++dataIdx) 
+	{
+		((unsigned char*)& tmpCharToIntConversion)[loadIdx] = data[dataIdx];
+	}
+	bmpHeaderComponents->_filesize = tmpCharToIntConversion;
+
+
+
+}
+
+
+
 BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 {
 	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
