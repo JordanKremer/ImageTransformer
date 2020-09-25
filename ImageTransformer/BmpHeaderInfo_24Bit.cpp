@@ -5,12 +5,17 @@ BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(){}
 
 BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(const BmpHeaderInfo_24Bit& toCopy)
 {
+	
+}
 
+void BmpHeaderInfo_24Bit::operator=(const HeaderInfo& toCopy)
+{
 }
 
 
 
-BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(std::vector<unsigned char> hData) {
+BmpHeaderInfo_24Bit::BmpHeaderInfo_24Bit(std::vector<unsigned char> hData) 
+{
 	
 	//	if (compression != 0)
 		//	throw std::runtime_error("ERROR : BmpHeaderInfo_24Bit(std::vector<char*> hData, int compression) : INVALID COMPRESSION");

@@ -8,6 +8,7 @@ public:
 
 	BmpHeaderInfo_24Bit();
 	BmpHeaderInfo_24Bit(const BmpHeaderInfo_24Bit& toCopy);
+	void operator=(const HeaderInfo& toCopy);
 	//BmpHeaderInfo_24Bit(const BmpHeaderInfo_24Bit& to_copy);
 	BmpHeaderInfo_24Bit(std::vector<unsigned char> hdata);
 

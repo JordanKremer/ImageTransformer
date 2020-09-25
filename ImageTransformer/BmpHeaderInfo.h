@@ -42,7 +42,11 @@ class BmpHeaderInfo : public HeaderInfo
 {
 public:
 
+	BmpHeaderInfo();
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
+	
+	void operator=(const HeaderInfo& toCopy);
+
 	_NODISCARD virtual  int getCompression() const = 0; //do we want the return type to be const?
 	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderBegin() = 0;
 	_NODISCARD virtual std::vector<unsigned char>::const_iterator getHeaderEnd() = 0;
@@ -63,7 +67,7 @@ public:
 	//= operator, etc
 	//operator&=(BmpHeaderInfo&) = delete;
 private:
-	std::shared_ptr<BmpHeaderInfo> bmpHeaderInfo;
+	std::shared_ptr<BasicBmpHeaderComponents> bmpHeaderComponents;
 
 };
 

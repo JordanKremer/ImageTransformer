@@ -10,7 +10,7 @@ public:
 
 
 private:
-	std::shared_ptr<HeaderInfo> header;
+	std::shared_ptr<HeaderInfo> _header;
 	std::vector<unsigned char> _rawData;
 
 };

@@ -2,11 +2,12 @@
 #include "CppUnitTest.h"
 #include <string>
 #include <iostream>
+#include <fstream>
 
 
 //#include "../ImageTransformer/BmpLoader.cpp"
 #include "..//ImageTransformer/Loader.cpp"
-//#include "../ImageTransformer/BmpData.cpp"
+#include "..//ImageTransformer/BmpHeaderInfo.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderFactory.cpp"
@@ -46,6 +47,16 @@ namespace ImageTransformerTests
 		TEST_METHOD(Loader_Load_NonexistantFile)
 		{
 			const std::string FILENAME = "../someFile";
+			Loader _loader;
+
+			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
+
+			Assert::ExpectException<std::ios_base::failure>(func);
+		}
+
+		TEST_METHOD(Loader_Load_existantFile)
+		{
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
 			Loader _loader;
 
 			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
@@ -170,6 +181,69 @@ namespace ImageTransformerTests
 			Assert::AreEqual(2, pixel.getGreen());
 			Assert::AreEqual(3, pixel.getBlue());
 			Assert::AreEqual(4, pixel.getAlpha());
+		}
+
+
+		TEST_METHOD(GetCompression)
+		{
+			//load picture
+
+			std::ifstream in;
+		
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			while (!in.eof()) {
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+
+			in.close();
+
+			//then get compression from the data
+
+			BmpHeaderFactory fac;
+			
+
+			Assert::AreEqual(3, fac.GetCompression(loadData));
+			
+		}
+
+
+		TEST_METHOD(test_convertBytesToInt)
+		{
+			//load small amount of data, just a few bytes into a vector
+
+			std::ifstream in;
+
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			for(int i = 0; i < 34; ++i)
+			{
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+			uint32_t compressionFlag;
+			((unsigned char*)& compressionFlag)[0] = loadData[30];
+			((unsigned char*)& compressionFlag)[1] = loadData[31];
+			((unsigned char*)& compressionFlag)[2] = loadData[32];
+			((unsigned char*)& compressionFlag)[3] = loadData[33];
+
+
+			//int compressionFlag = int(loadData[30]);// |
+				//(unsigned char)(loadData[31]) << 16 |
+				//(unsigned char)(loadData[32]) << 8 |
+				//(unsigned char)(loadData[33]));
+
+
+			in.close();
 		}
 
 		//TODO: Change all of these bmploader tests to loader tests, will need to change asserts to 

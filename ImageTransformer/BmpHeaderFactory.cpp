@@ -10,6 +10,8 @@ std::shared_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsign
 
 	int compressionFlag = GetCompression(hData);
 
+
+
 	if (compressionFlag < 0 || compressionFlag > 4) {
 		std::string msg = "ERROR: COMPRESSION OUT OF BOUNDS : " + compressionFlag;
 		throw std::runtime_error(msg);

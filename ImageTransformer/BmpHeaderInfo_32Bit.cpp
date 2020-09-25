@@ -12,6 +12,11 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char> hData)
 {
 }
 
+void BmpHeaderInfo_32Bit::operator=(const HeaderInfo& toCopy)
+{
+}
+
+
 std::vector<unsigned char>::const_iterator BmpHeaderInfo_32Bit::getHeaderBegin()
 {
 	std::vector<unsigned char>::const_iterator iter = _headerData.begin();
