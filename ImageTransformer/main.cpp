@@ -18,11 +18,11 @@ int main(int argc, char* argv[])
 
 	*/
 
-	std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
+	std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear2_32.bmp";
 
-	BmpLoader BMP(FILENAME);
+	Loader _loader;
 
-	std::shared_ptr<Data> _data = BMP.Load();
+	std::vector<unsigned char>& _data = _loader.Load(FILENAME);
 
 
 	//MAKE TRANSFORMATION FUNCTIONS AS TEMPLATES

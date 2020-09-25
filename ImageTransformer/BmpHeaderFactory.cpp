@@ -43,10 +43,18 @@ int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)
 
 
 	//how to convert 4 bytes to an int...
+	/*
 	int compressionFlag = int((unsigned char)(hData[30]) << 24 |
 		(unsigned char)(hData[31]) << 16 |
 		(unsigned char)(hData[32]) << 8 |
 		(unsigned char)(hData[33]));
+		*/
+
+	uint32_t compressionFlag;
+	((unsigned char*)& compressionFlag)[0] = hData[30];
+	((unsigned char*)& compressionFlag)[1] = hData[31];
+	((unsigned char*)& compressionFlag)[2] = hData[32];
+	((unsigned char*)& compressionFlag)[3] = hData[33];
 
 	//consider a different structure
 	if (!(compressionFlag == 0 || compressionFlag == 3))

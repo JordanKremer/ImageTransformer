@@ -184,6 +184,9 @@ namespace ImageTransformerTests
 		}
 
 
+
+
+		//TODO, crashes after finishing loading data
 		TEST_METHOD(GetCompression)
 		{
 			//load picture
