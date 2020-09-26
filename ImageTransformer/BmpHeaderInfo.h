@@ -28,12 +28,12 @@ struct BmpConstants {
 
 struct BasicBmpHeaderComponents{
 	std::string _ID;
-	int _filesize;
-	int _width;
-	int _height;
-	int _compression;
-	int _horizontalResolution;
-	int _verticalResolution;
+	uint32_t _filesize;
+	uint32_t _width;
+	uint32_t _height;
+	uint32_t _compression;
+	uint32_t _horizontalResolution;
+	uint32_t _verticalResolution;
 };
 
 
@@ -43,6 +43,8 @@ class BmpHeaderInfo : public HeaderInfo
 public:
 
 	BmpHeaderInfo();
+	BmpHeaderInfo(const std::vector<unsigned char>& data);
+	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
 	
 	void operator=(const HeaderInfo& toCopy);
