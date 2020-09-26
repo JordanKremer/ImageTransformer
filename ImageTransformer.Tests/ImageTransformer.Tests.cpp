@@ -198,7 +198,8 @@ namespace ImageTransformerTests
 			in.exceptions(in.failbit);
 			unsigned char dataByte;
 			std::vector<unsigned char> loadData;
-			while (!in.eof()) {
+			for(int i = 0; i < 54; ++i)
+			{
 				in.read((char*)& dataByte, 1);
 				loadData.push_back(dataByte);
 			}
@@ -239,15 +240,78 @@ namespace ImageTransformerTests
 			((unsigned char*)& compressionFlag)[2] = loadData[32];
 			((unsigned char*)& compressionFlag)[3] = loadData[33];
 
-
-			//int compressionFlag = int(loadData[30]);// |
-				//(unsigned char)(loadData[31]) << 16 |
-				//(unsigned char)(loadData[32]) << 8 |
-				//(unsigned char)(loadData[33]));
-
+			int a = compressionFlag;
+			Assert::AreEqual(3, a);
 
 			in.close();
 		}
+
+		TEST_METHOD(BmpHeaderInfo_ThrowExceptionWhenLoadDataVectorIsTooSmall)
+		{
+			std::ifstream in;
+
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.seekg(0, in.end);
+			int end = in.tellg();
+			in.seekg(0, in.beg);
+
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			for (int i = 0; i < 30; ++i)
+			{
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+			bool throwException = false;
+
+			try {
+				BmpHeaderInfo bmpHeader(loadData);
+			}
+			catch(std::length_error){
+				throwException = true;
+			}
+
+			Assert::IsTrue(throwException);
+
+			//auto func = [&loadData] {BmpHeaderInfo bmpHeader(loadData);};
+
+
+			//Assert::ExpectException<std::runtime_error>(func);
+		}
+
+
+		TEST_METHOD(BmpHeaderInfo_GetCompression)
+		{
+			std::ifstream in;
+
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.seekg(0, in.end);
+			int end = in.tellg();
+			in.seekg(0, in.beg);
+
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			for (int i = 0; i < end; ++i)
+			{
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+			BmpHeaderInfo bmpHeader(loadData);
+
+			const uint32_t compression = bmpHeader.GetCompression();
+			uint32_t expected = 3;
+			Assert::AreEqual(expected, bmpHeader.GetCompression());
+			
+		}
+
 
 		//TODO: Change all of these bmploader tests to loader tests, will need to change asserts to 
 //reflect the design changes
