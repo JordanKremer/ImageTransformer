@@ -49,13 +49,10 @@ public:
 	
 	void operator=(const HeaderInfo& toCopy);
 
-	const uint32_t GetWidth();
-
-	_NODISCARD int getCompression() const = 0; //do we want the return type to be const?
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin() = 0;
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd() = 0;
-
-	int getWidth();
+	_NODISCARD const uint32_t GetWidth(); //const getwidth() const?
+	_NODISCARD const uint32_t GetCompression();//const?  //do we want the return type to be const?
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
+	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 
 	
 

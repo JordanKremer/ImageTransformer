@@ -1,4 +1,6 @@
 #include "BmpHeaderInfo.h"
+#include <stdexcept>
+//#include <string>
 
 BmpHeaderInfo::BmpHeaderInfo()
 {
@@ -6,7 +8,14 @@ BmpHeaderInfo::BmpHeaderInfo()
 
 BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 {
-	//bmpHeaderComponents->_ID = 
+	
+	if (data.size() < 54) {
+		std::string msg = "ERROR: HEADER DATA IS TOO SMALL:: SIZE: " + data.size();
+		throw std::length_error(msg);
+	}
+
+
+	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
 	BmpConstants bmpConstants;
 
 	bmpHeaderComponents->_filesize = headerComponentsConstructorHelper(bmpConstants.FILESIZE, bmpConstants.RESERVED1, data);
@@ -20,7 +29,7 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 
 uint32_t BmpHeaderInfo::headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data)
 {
-	uint32_t tmpCharToIntConversion;
+	uint32_t tmpCharToIntConversion = 0;
 	int loadIdx = 0;
 	for (int dataIdx = bmpConstantStart; dataIdx < bmpConstantEnd; ++dataIdx)
 	{
@@ -52,3 +61,13 @@ void BmpHeaderInfo::operator=(const HeaderInfo& toCopy)
 	
 }
 
+
+const uint32_t BmpHeaderInfo::GetWidth()
+{
+	return bmpHeaderComponents->_width;
+}
+
+const uint32_t BmpHeaderInfo::GetCompression()
+{
+	return bmpHeaderComponents->_compression;
+}
