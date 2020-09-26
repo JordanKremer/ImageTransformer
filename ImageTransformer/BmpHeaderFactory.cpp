@@ -18,7 +18,6 @@ std::shared_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsign
 	}
 
 	if (compressionFlag == 0)
-		
 		return std::make_shared<BmpHeaderInfo_24Bit>(hData);
 	if (compressionFlag == 3)
 		return std::make_shared<BmpHeaderInfo_32Bit>(hData);

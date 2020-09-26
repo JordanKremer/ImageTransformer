@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
 	*/
 
-	std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear2_32.bmp";
+	std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
 
 	Loader _loader;
 

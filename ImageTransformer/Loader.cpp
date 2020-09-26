@@ -12,14 +12,7 @@ std::vector<unsigned char>& Loader::Load(std::string filename)
 
 	in.open(filename, std::ios::binary);
 
-	//Specifies that an excecption will be thrown if the failbit is set when trying to
-	//open a file,  rather than manually throwing an exception
-	//this throws the exception
-	//there are other bits that can be set as well to specify other exceptions
-
-
-
-	//THIS IS CAUSING AN EXCEPTION TO BE THROWN AT THE END OF THE FILE READ?
+	//exception is throw when using a loop with while(!in.eof), so using a range based for loop instead
 	in.exceptions(in.failbit);
 
 
@@ -29,19 +22,11 @@ std::vector<unsigned char>& Loader::Load(std::string filename)
 
 	unsigned char dataByte;
 	std::vector<unsigned char> loadData;
-
-	/*
-	while (!in.eof()) {
-		in.read((char*)& dataByte, 1);
-		loadData.push_back(dataByte);
-	}*/
 	
 	for (int i = 0; i < fileLength; ++i)
 	{
-		if (in.eof) { break; }
 		in.read((char*)& dataByte, 1);
 		loadData.push_back(dataByte);
-
 	}
 	in.close();
 
