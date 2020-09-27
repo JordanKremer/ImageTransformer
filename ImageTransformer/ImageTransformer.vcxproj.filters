@@ -13,6 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\HeaderInfo">
+      <UniqueIdentifier>{3b8c2c48-758e-4cca-8f47-c7623cc67311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pixel">
+      <UniqueIdentifier>{c154fcbd-c928-4bef-ad81-554c88ba6d8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Adapter">
+      <UniqueIdentifier>{cbf9c1e1-92bf-4519-9cb9-7b8e3fac2e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Factories">
+      <UniqueIdentifier>{4e57a389-f27d-453d-92b1-eef7bd9155f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other">
+      <UniqueIdentifier>{fc0d1daa-4947-4b11-b558-f0b48508d117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Transformation">
+      <UniqueIdentifier>{b4f4f871-1d3c-4600-adb6-c8914b07fd56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HeaderInfo">
+      <UniqueIdentifier>{64a20c96-b8d4-44da-844a-143730605748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Adapter">
+      <UniqueIdentifier>{530b8809-12c7-4118-85ec-df5d691bbe03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Factories">
+      <UniqueIdentifier>{7b3f1c25-edb5-4c8f-8e73-79ca91cd2554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Transformation">
+      <UniqueIdentifier>{e6b19380-f431-466f-a6c3-c91fa01cb89e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other">
+      <UniqueIdentifier>{e133d179-1d97-476e-90b1-6451bdae66a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pixel">
+      <UniqueIdentifier>{8278d747-4b3c-41b8-9902-04b7a5733655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,91 +57,85 @@
     <ClCompile Include="Loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BmpLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transformation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformationFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BmpHeaderInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BmpHeaderFactory.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="HeaderInfo.cpp">
+      <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
     <ClCompile Include="BmpHeaderInfo_32Bit.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
     <ClCompile Include="BmpHeaderInfo_24Bit.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\HeaderInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpHeaderInfo.cpp">
+      <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
     <ClCompile Include="Adapter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Adapter</Filter>
     </ClCompile>
     <ClCompile Include="BmpAdapter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Pixel.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BmpHeaderFactory.cpp">
+      <Filter>Source Files\Factories</Filter>
     </ClCompile>
     <ClCompile Include="PixelAlpha.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Pixel</Filter>
     </ClCompile>
-    <ClCompile Include="HeaderInfo.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Pixel.cpp">
+      <Filter>Source Files\Pixel</Filter>
+    </ClCompile>
+    <ClCompile Include="Transformation.cpp">
+      <Filter>Source Files\Transformation</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformationFactory.cpp">
+      <Filter>Source Files\Factories</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BmpLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transformation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformationFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BmpHeaderInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BmpHeaderFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BmpHeaderInfo_32Bit.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderInfo</Filter>
     </ClInclude>
     <ClInclude Include="BmpHeaderInfo_24Bit.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderInfo</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Adapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BmpAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pixel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelAlpha.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BmpHeaderInfo_32Bit.h">
+      <Filter>Header Files\HeaderInfo</Filter>
     </ClInclude>
     <ClInclude Include="HeaderInfo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Pixel.h">
+      <Filter>Header Files\Pixel</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelAlpha.h">
+      <Filter>Header Files\Pixel</Filter>
+    </ClInclude>
+    <ClInclude Include="Adapter.h">
+      <Filter>Header Files\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpAdapter.h">
+      <Filter>Header Files\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationFactory.h">
+      <Filter>Header Files\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpHeaderFactory.h">
+      <Filter>Header Files\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformation.h">
+      <Filter>Header Files\Transformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
