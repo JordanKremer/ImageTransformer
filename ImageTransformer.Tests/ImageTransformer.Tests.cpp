@@ -277,12 +277,40 @@ namespace ImageTransformerTests
 
 			Assert::IsTrue(throwException);
 
-			//auto func = [&loadData] {BmpHeaderInfo bmpHeader(loadData);};
-
-
-			//Assert::ExpectException<std::runtime_error>(func);
 		}
 
+
+		TEST_METHOD(BmpHeaderInfo_OperatorEqual)
+		{
+			std::ifstream in;
+
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.seekg(0, in.end);
+			int end = in.tellg();
+			in.seekg(0, in.beg);
+
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			for (int i = 0; i < end; ++i)
+			{
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+			BmpHeaderInfo bmpHeader1(loadData);
+			BmpHeaderInfo bmpHeader2;
+			
+
+			//if we use BmpheaderInfo bmpheader2 = bmpHeader1
+			//then it will use the copy constructor instead
+			bmpHeader2 = bmpHeader1;
+
+			Assert::AreEqual(bmpHeader1.GetCompression(), bmpHeader2.GetCompression());
+			Assert::AreEqual(bmpHeader1.GetWidth(), bmpHeader2.GetWidth());
+		}
 
 		TEST_METHOD(BmpHeaderInfo_GetCompression)
 		{

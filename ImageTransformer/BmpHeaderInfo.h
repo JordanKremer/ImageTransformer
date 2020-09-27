@@ -47,7 +47,8 @@ public:
 	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
 	
-	void operator=(const HeaderInfo& toCopy);
+	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
+	bool isEqual(const BmpHeaderInfo& toCompare);
 
 	_NODISCARD const uint32_t GetWidth(); //const getwidth() const?
 	_NODISCARD const uint32_t GetCompression();//const?  //do we want the return type to be const?

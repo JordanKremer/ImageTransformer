@@ -1,6 +1,7 @@
 #pragma once
 class HeaderInfo
 {
-	virtual void operator=(const HeaderInfo& toCopy) = 0;
+	
+	//virtual void operator=(const HeaderInfo& toCopy) = 0;
 };
 
