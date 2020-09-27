@@ -4,6 +4,15 @@
 
 BmpHeaderInfo::BmpHeaderInfo()
 {
+	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
+
+	bmpHeaderComponents->_filesize = 0;
+	bmpHeaderComponents->_width = 0;
+	bmpHeaderComponents->_height = 0;
+	bmpHeaderComponents->_compression = 0;
+	bmpHeaderComponents->_horizontalResolution = 0;
+	bmpHeaderComponents->_verticalResolution = 0;
+
 }
 
 BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
@@ -59,6 +68,11 @@ BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 void BmpHeaderInfo::operator=(const HeaderInfo& toCopy)
 {
 	
+}
+
+bool BmpHeaderInfo::isEqual(const HeaderInfo& toCompare)
+{
+	return false;
 }
 
 
