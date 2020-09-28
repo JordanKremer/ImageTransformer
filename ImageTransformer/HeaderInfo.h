@@ -4,6 +4,8 @@
 class HeaderInfo
 {
 public:
-	_NODISCARD virtual  const uint32_t GetCompression()=0;
+	_NODISCARD virtual const uint32_t GetCompression() = 0;
+	_NODISCARD virtual const uint32_t GetBitsPerPixel() = 0;
+	_NODISCARD virtual const uint32_t GetImageOffset() = 0;
 };
 
