@@ -8,7 +8,7 @@ class Data
 public:
 	Data();
 	Data(std::vector<unsigned char> &data, std::unique_ptr<HeaderInfo> header);
-
+	const int GetCompression();
 
 private:
 	std::unique_ptr<HeaderInfo> _header;

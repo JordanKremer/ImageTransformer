@@ -2,9 +2,7 @@
 
 class HeaderInfo
 {
-	
-	//virtual void operator=(const HeaderInfo& toCopy) = 0;
-
-	//virtual std::shared_ptr<HeaderInfo> Clone() = 0;
+public:
+	virtual const uint32_t GetCompression() = 0;
 };
 

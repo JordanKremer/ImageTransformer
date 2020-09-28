@@ -17,11 +17,6 @@ public:
 	BmpHeaderInfo_32Bit(std::vector<unsigned char> hData);
 	void operator=(const HeaderInfo& toCopy);
 
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
-
-	_NODISCARD int getWidth() const;
-	_NODISCARD int getCompression() const; //
 	//unsigned char getHeaderByte(int headerIndex);
 
 private:

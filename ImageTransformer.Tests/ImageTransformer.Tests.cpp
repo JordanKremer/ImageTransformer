@@ -364,11 +364,11 @@ namespace ImageTransformerTests
 
 			BmpHeaderFactory fac;
 
-			//std::unique_ptr<HeaderInfo> tmp = std::move(fac.getBmpHeader(loadData));
 
-			Data(loadData, fac.getBmpHeader(loadData));
+			//using a 32bit header with this image
+			Data testData(loadData, fac.getBmpHeader(loadData));
 
-
+			Assert::AreEqual(3, testData.getCompression());
 		}
 
 

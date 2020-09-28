@@ -24,6 +24,7 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	//cannot do this as it is trying to assign a unique ptr to something else
 	//auto bmpHeader = fac.getBmpHeader(data);	
 
+
 	return std::make_shared<Data>(_rawData, fac.getBmpHeader(data));
 }
 

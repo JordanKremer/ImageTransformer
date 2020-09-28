@@ -15,7 +15,7 @@ public:
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 	_NODISCARD int getWidth() const;
-	_NODISCARD int getCompression() const;
+	_NODISCARD int GetCompression() const;
 
 	~BmpHeaderInfo_24Bit();  //may need it for the unique ptr
 
