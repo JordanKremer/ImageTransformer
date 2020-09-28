@@ -29,6 +29,7 @@ struct BmpConstants {
 struct BasicBmpHeaderComponents{
 	std::string _ID;
 	uint32_t _filesize;
+	uint32_t _imageStartOffset;
 	uint32_t _width;
 	uint32_t _height;
 	uint32_t _bitsPerPixel;
@@ -55,6 +56,9 @@ public:
 
 	_NODISCARD const uint32_t GetWidth(); //const getwidth() const?
 	_NODISCARD const uint32_t GetCompression();//const?  //do we want the return type to be const?
+	_NODISCARD const uint32_t GetBitsPerPixel();
+	_NODISCARD const uint32_t GetImageOffset();
+
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 

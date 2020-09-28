@@ -7,6 +7,7 @@ BmpHeaderInfo::BmpHeaderInfo()
 	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
 
 	bmpHeaderComponents->_filesize = 0;
+	bmpHeaderComponents->_imageStartOffset = 0;
 	bmpHeaderComponents->_width = 0;
 	bmpHeaderComponents->_height = 0;
 	bmpHeaderComponents->_bitsPerPixel = 0;
@@ -29,6 +30,7 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 	BmpConstants bmpConstants;
 
 	bmpHeaderComponents->_filesize = headerComponentsConstructorHelper(bmpConstants.FILESIZE, bmpConstants.RESERVED1, data);
+	bmpHeaderComponents->_imageStartOffset = headerComponentsConstructorHelper(bmpConstants.IMAGESTARTOFFSET, bmpConstants.HEADERSIZE, data);
 	bmpHeaderComponents->_width = headerComponentsConstructorHelper(bmpConstants.WIDTH, bmpConstants.HEIGHT, data);
 	bmpHeaderComponents->_height = headerComponentsConstructorHelper(bmpConstants.HEIGHT, bmpConstants.COLORPANES, data);
 	bmpHeaderComponents->_bitsPerPixel = headerComponentsConstructorHelper(bmpConstants.BITSPERPIXEL, bmpConstants.COMPRESSION, data);
@@ -59,6 +61,7 @@ BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 	//bmpHeaderComponents = toCopy.bmpHeaderComponents; //not sure if each of these are being copied
 	bmpHeaderComponents->_ID = toCopy.bmpHeaderComponents->_ID;
 	bmpHeaderComponents->_filesize = toCopy.bmpHeaderComponents->_filesize;
+	bmpHeaderComponents->_imageStartOffset = toCopy.bmpHeaderComponents->_imageStartOffset;
 	bmpHeaderComponents->_width = toCopy.bmpHeaderComponents->_width;
 	bmpHeaderComponents->_height = toCopy.bmpHeaderComponents->_height;
 	bmpHeaderComponents->_bitsPerPixel = toCopy.bmpHeaderComponents->_bitsPerPixel;
@@ -77,6 +80,7 @@ BmpHeaderInfo& BmpHeaderInfo::operator=(const BmpHeaderInfo& toCopy)
 	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
 	bmpHeaderComponents->_ID = toCopy.bmpHeaderComponents->_ID;
 	bmpHeaderComponents->_filesize = toCopy.bmpHeaderComponents->_filesize;
+	bmpHeaderComponents->_imageStartOffset = toCopy.bmpHeaderComponents->_imageStartOffset;
 	bmpHeaderComponents->_width = toCopy.bmpHeaderComponents->_width;
 	bmpHeaderComponents->_height = toCopy.bmpHeaderComponents->_height;
 	bmpHeaderComponents->_bitsPerPixel = toCopy.bmpHeaderComponents->_bitsPerPixel;
@@ -102,3 +106,12 @@ const uint32_t BmpHeaderInfo::GetCompression()
 {
 	return bmpHeaderComponents->_compression;
 }
+
+const uint32_t BmpHeaderInfo::GetBitsPerPixel()
+{
+	return bmpHeaderComponents->_bitsPerPixel;
+}
+
+const uint32_t BmpHeaderInfo::GetImageStartOffset()
+{
+	return bmpHeaderComponents->_imageStartOffset;
