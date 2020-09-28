@@ -21,8 +21,8 @@ public:
 
 private:
 
-	std::unique_ptr<BasicBmpHeaderComponents> _headerComponents;
-	std::vector<unsigned char> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
+	//std::unique_ptr<BasicBmpHeaderComponents> _headerComponents;
+	//std::vector<unsigned char> _headerData; //If we don't make them shared_ptrs we risk memory leaks when the vector destructor is called
 
 };
 
