@@ -13,6 +13,7 @@
 #include "..//ImageTransformer/BmpHeaderFactory.cpp"
 #include "../ImageTransformer/Pixel.cpp"
 #include "../ImageTransformer/PixelAlpha.cpp"
+#include "..//ImageTransformer/Data.cpp"
 
 /*
 * Test cases:
@@ -361,7 +362,11 @@ namespace ImageTransformerTests
 				loadData.push_back(dataByte);
 			}
 
-			BmpHeaderInfo bmpHeader(loadData);
+			BmpHeaderFactory fac;
+
+			//std::unique_ptr<HeaderInfo> tmp = std::move(fac.getBmpHeader(loadData));
+
+			Data(loadData, fac.getBmpHeader(loadData));
 
 
 		}
