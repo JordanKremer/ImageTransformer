@@ -31,9 +31,11 @@ struct BasicBmpHeaderComponents{
 	uint32_t _filesize;
 	uint32_t _width;
 	uint32_t _height;
+	uint32_t _bitsPerPixel;
 	uint32_t _compression;
 	uint32_t _horizontalResolution;
 	uint32_t _verticalResolution;
+	
 };
 
 
