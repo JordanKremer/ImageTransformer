@@ -6,7 +6,7 @@
 
 BmpHeaderFactory::BmpHeaderFactory() {}
 
-std::shared_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsigned char>& hData) {
+std::unique_ptr<HeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsigned char>& hData) {
 
 	int compressionFlag = GetCompression(hData);
 
@@ -17,12 +17,12 @@ std::shared_ptr<BmpHeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsign
 		throw std::runtime_error(msg);
 	}
 
-	if (compressionFlag == 0)
-		return std::make_shared<BmpHeaderInfo_24Bit>(hData);
-	if (compressionFlag == 3)
-		return std::make_shared<BmpHeaderInfo_32Bit>(hData);
-	
-	throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER");
+	if (compressionFlag <3 && compressionFlag >=0)
+		return std::make_unique<BmpHeaderInfo>(hData);
+	else if (compressionFlag == 3)
+		return std::make_unique<BmpHeaderInfo_32Bit>(hData);
+	else
+		throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER");
 }
 
 int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)

@@ -341,8 +341,31 @@ namespace ImageTransformerTests
 		}
 
 
-		//TODO: Change all of these bmploader tests to loader tests, will need to change asserts to 
-//reflect the design changes
+		TEST_METHOD(Data_ConstructorFromHeader_BmpHeaderInfo)
+		{
+			std::ifstream in;
+
+			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+
+			in.seekg(0, in.end);
+			int end = in.tellg();
+			in.seekg(0, in.beg);
+
+
+			in.exceptions(in.failbit);
+			unsigned char dataByte;
+			std::vector<unsigned char> loadData;
+			for (int i = 0; i < end; ++i)
+			{
+				in.read((char*)& dataByte, 1);
+				loadData.push_back(dataByte);
+			}
+
+			BmpHeaderInfo bmpHeader(loadData);
+
+
+		}
+
 
 		//
 		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader

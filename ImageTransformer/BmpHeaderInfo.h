@@ -46,6 +46,7 @@ public:
 	BmpHeaderInfo(const std::vector<unsigned char>& data);
 	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
+	//BmpHeaderInfo(std::shared_ptr<BmpHeaderInfo> toCopy);
 	
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
