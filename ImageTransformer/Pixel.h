@@ -1,17 +1,24 @@
 #pragma once
+#include <vector>
+
+struct Channels {
+	static inline const int BLACK = 0;
+	static inline const int RED = 0;
+	static inline const int GREEN = 1;
+	static inline const int BLUE = 2;
+	static inline const int ALPHA = 3;
+};
+
 class Pixel
 {
 public:
 
-	Pixel(int red, int green, int blue);
+	Pixel(std::vector<int>& channelData);
+	const int GetChannel(int channel);
 
-	//add const correctness
-	int getRed();
-	int getGreen();
-	int getBlue();
 private:
-	int _red;
-	int _green;
-	int _blue;
+
+	std::vector<int> _channels;
+
 };
 
