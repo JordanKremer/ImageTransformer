@@ -1,23 +1,18 @@
 #include "Pixel.h"
 
-Pixel::Pixel(int red, int green, int blue) {
-	_red = red;
-	_green = green;
-	_blue = blue;
-
+Pixel::Pixel(std::vector<unsigned char>& channelData)
+{
+	_channels = channelData;
 }
 
-int Pixel::getRed()
+const unsigned char& Pixel::GetChannel(const int channel)
 {
-	return _red;
-}
-
-int Pixel::getGreen()
-{
-	return _green;
-}
-
-int Pixel::getBlue()
-{
-	return _blue;
+	if (channel >= _channels.size())
+	{
+		std::string msg = "ERROR: GETCHANNEL(): CHANNEL SELECTION OUT OF RANGE";
+		throw std::out_of_range(msg);
+	}
+	else {
+		return _channels[channel];
+	}
 }

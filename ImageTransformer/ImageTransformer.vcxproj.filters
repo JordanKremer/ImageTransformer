@@ -81,9 +81,6 @@
     <ClCompile Include="BmpHeaderFactory.cpp">
       <Filter>Source Files\Factories</Filter>
     </ClCompile>
-    <ClCompile Include="PixelAlpha.cpp">
-      <Filter>Source Files\Pixel</Filter>
-    </ClCompile>
     <ClCompile Include="Pixel.cpp">
       <Filter>Source Files\Pixel</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="TransformationFactory.cpp">
       <Filter>Source Files\Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelFactory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +116,6 @@
     <ClInclude Include="Pixel.h">
       <Filter>Header Files\Pixel</Filter>
     </ClInclude>
-    <ClInclude Include="PixelAlpha.h">
-      <Filter>Header Files\Pixel</Filter>
-    </ClInclude>
     <ClInclude Include="Adapter.h">
       <Filter>Header Files\Adapter</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Transformation.h">
       <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelFactory.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

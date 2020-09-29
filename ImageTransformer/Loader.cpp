@@ -22,6 +22,9 @@ std::vector<unsigned char>& Loader::Load(std::string filename)
 
 	unsigned char dataByte;
 	std::vector<unsigned char> loadData;
+
+	int reserveAmount = 2 * fileLength;
+	loadData.reserve(reserveAmount);
 	
 	for (int i = 0; i < fileLength; ++i)
 	{

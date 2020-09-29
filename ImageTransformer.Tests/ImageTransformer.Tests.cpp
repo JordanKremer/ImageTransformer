@@ -12,9 +12,8 @@
 #include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderFactory.cpp"
 #include "../ImageTransformer/Pixel.cpp"
-#include "../ImageTransformer/PixelAlpha.cpp"
 #include "..//ImageTransformer/Data.cpp"
-
+#include "..//ImageTransformer/PixelFactory.cpp"
 /*
 * Test cases:
 Load file: File doesn't exist (what if you don't have permission or some other file error?)
@@ -164,7 +163,7 @@ namespace ImageTransformerTests
 			//Assert::AreEqual(0, testHeader.GetCompression());
 		}
 
-		*/
+		*//*
 		TEST_METHOD(Pixel_Constructor)
 		{
 			Pixel pixel(1, 2, 3);
@@ -184,7 +183,7 @@ namespace ImageTransformerTests
 			Assert::AreEqual(4, pixel.getAlpha());
 		}
 
-
+		*/
 
 
 		//TODO, crashes after finishing loading data
@@ -342,7 +341,7 @@ namespace ImageTransformerTests
 		}
 
 
-		TEST_METHOD(Data_ConstructorFromHeader_BmpHeaderInfo_GetCompression)
+		TEST_METHOD(Data_ConstructorFromHeader_BmpHeaderInfo_32Bit_GetCompression)
 		{
 			std::ifstream in;
 
@@ -373,14 +372,40 @@ namespace ImageTransformerTests
 
 
 
-		/*
-		TEST_METHOD()
+		//TEST FOR ALL PIXEL TYPES (1 - 4 channels, depending on bit count)
+		TEST_METHOD(PixelFactory_GetPixel)
 		{
+			PixelFactory fac;
+
+			int bitsPerPixel = 1; //24 bit image
+			int dataIdx = 0;
+			std::vector<unsigned char> data;
+
+			//basic rgb data for a 24 bit pixel
+			data.push_back(100);
+			Pixel pixelChannel = fac.GetPixel(bitsPerPixel, data, dataIdx);
 
 
+			data.push_back(100);
+			bitsPerPixel = 4;
+			Pixel pixel2channel_1 = fac.GetPixel(bitsPerPixel, data, dataIdx);
+
+			bitsPerPixel = 8;
+			Pixel pixel2channel_2 = fac.GetPixel(bitsPerPixel, data, dataIdx);
+
+			data.push_back(100);
+			bitsPerPixel = 16;
+			Pixel pixel3channel_1 = fac.GetPixel(bitsPerPixel, data, dataIdx);
+
+			bitsPerPixel = 24;
+			Pixel pixel3channel_2 = fac.GetPixel(bitsPerPixel, data, dataIdx);
+
+			data.push_back(100);
+			bitsPerPixel = 32;
+			Pixel pixel4channel = fac.GetPixel(bitsPerPixel, data, dataIdx);
 		}
 		
-		*/
+		
 
 
 

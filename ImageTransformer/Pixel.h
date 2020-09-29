@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
+#include <stdexcept>
 
 struct Channels {
-	static inline const int BLACK = 0;
+	static inline const int ONE_BIT_COLOR = 0;
+	static inline const int FOUR_BIT_COLORS = 0;
+	static inline const int EIGHT_BIT_COLORS = 0;
 	static inline const int RED = 0;
 	static inline const int GREEN = 1;
 	static inline const int BLUE = 2;
@@ -13,12 +16,12 @@ class Pixel
 {
 public:
 
-	Pixel(std::vector<int>& channelData);
-	const int GetChannel(int channel);
+	Pixel(std::vector<unsigned char>& channelData);
+	const unsigned char& GetChannel(const int channel);
 
 private:
 
-	std::vector<int> _channels;
+	std::vector<unsigned char> _channels;
 
 };
 

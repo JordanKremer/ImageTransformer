@@ -112,6 +112,8 @@ const uint32_t BmpHeaderInfo::GetBitsPerPixel()
 	return bmpHeaderComponents->_bitsPerPixel;
 }
 
+
 const uint32_t BmpHeaderInfo::GetImageStartOffset()
 {
 	return bmpHeaderComponents->_imageStartOffset;
+}

@@ -138,7 +138,7 @@
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pixel.cpp" />
-    <ClCompile Include="PixelAlpha.cpp" />
+    <ClCompile Include="PixelFactory.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
@@ -153,7 +153,7 @@
     <ClInclude Include="HeaderInfo.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Pixel.h" />
-    <ClInclude Include="PixelAlpha.h" />
+    <ClInclude Include="PixelFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationFactory.h" />
