@@ -102,6 +102,12 @@ const uint32_t BmpHeaderInfo::GetWidth()
 	return bmpHeaderComponents->_width;
 }
 
+
+const uint32_t BmpHeaderInfo::GetHeight()
+{
+	return bmpHeaderComponents->_height;
+}
+
 const uint32_t BmpHeaderInfo::GetCompression()
 {
 	return bmpHeaderComponents->_compression;

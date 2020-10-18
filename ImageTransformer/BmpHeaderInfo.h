@@ -55,6 +55,7 @@ public:
 	bool isEqual(const BmpHeaderInfo& toCompare);
 
 	_NODISCARD const uint32_t GetWidth(); //const getwidth() const?
+	_NODISCARD const uint32_t GetHeight();
 	_NODISCARD const uint32_t GetCompression();//const?  //do we want the return type to be const?
 	_NODISCARD const uint32_t GetBitsPerPixel();
 	_NODISCARD const uint32_t GetImageStartOffset();
