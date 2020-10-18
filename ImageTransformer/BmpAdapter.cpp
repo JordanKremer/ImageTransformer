@@ -5,6 +5,8 @@
 #include <memory>
 #include <stdexcept>
 
+
+
 std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 {
 	//Build new data object with a header and the raw data
@@ -32,53 +34,75 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	return std::make_shared<Data>(_rawData, bmpHeader);
 }
 
+
+
 std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header)
 {
 	std::vector<Pixel> pixelData;
+	pixelData.reserve(header->GetWidth() * header->GetHeight());
 
-	int padding = ((header->GetWidth() * header->GetBitsPerPixel()) % 32) / 8;
-	int startOfImage = header->GetImageStartOffset();
+	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
+	const int startOfImage = header->GetImageStartOffset();
+	const int pixelLength = GetPixelLength(header->GetBitsPerPixel());
+	const int bitsPerLine = header->GetBitsPerPixel() * header->GetWidth();
+	int bitCount = 0;
 
-	uint32_t widthIndexCount = 0;
-
-	int byteCount = header->GetBitsPerPixel() % 8;
-	int leftOverBits = byteCount % 8;
-
-
-	/*
-		*In a while loop:
-			create pixels from the data
-			load a vector with the pixels
-			SKIP PADDING, SO DO THE CALCULATION FOR PADDING FIRST
-				the padding is saved in the data vector, so skip over
-				those vector indices
-
-				When writing the vector back to file, add the padding per line.
-			
-	
-		return the vector
-	
-	
-	*/
-
-
-
-
-	if (leftOverBits == 4) {
-		//4 bit image
-
-	}
-	else if (leftOverBits == 1)
+	for(int idx = startOfImage; idx < rawdata.size(); idx += pixelLength)
 	{
-		//1 bit image
+		//if we are at the end of the line, ignore the padding
+		if (bitCount == bitsPerLine)
+		{
+			idx += padding;
+			if (idx >= rawdata.size()-1) //maybe minus 1
+				break;
+			bitCount = 0;
+		}
+
+		pixelData.push_back(BuildBmpPixel(rawdata, pixelLength, idx));
+		bitCount += pixelLength;
 	}
 
-	for (int idx = startOfImage; idx < rawdata.size(); ++idx)
-	{
-
-		//pixelData.push_back();
-	}
-
-	
+	return pixelData;
 }
+
+
+
+
+Pixel& BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx)
+{
+	std::vector<unsigned char> pixelChannelData;
+	for (int x = 0; x < pixelLength; ++x)
+	{
+		//build our pixel
+		pixelChannelData.push_back(rawdata[idx + x]);
+	}
+	Pixel pixel(pixelChannelData);
+	return pixel;
+}
+
+
+
+const int BmpAdapter::GetPadding(uint32_t bitsPerPixel, uint32_t width)
+{
+	((width * bitsPerPixel) % 32) / 8;
+}
+
+
+
+const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
+{
+	if (bitsPerPixel == 1 || bitsPerPixel == 4)
+		return 1;
+	else if (bitsPerPixel == 8)
+		return 2;
+	else if (bitsPerPixel == 16 || bitsPerPixel == 24)
+		return 3;
+	else if (bitsPerPixel == 32)
+		return 4;
+	else
+		throw std::runtime_error("ERROR: bitsPerPixel OUT OF BOUNDS in GetPixelLength()");
+}
+
+
+
 
