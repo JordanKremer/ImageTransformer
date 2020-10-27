@@ -26,17 +26,20 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	//cannot do this as it is trying to assign a unique ptr to something else
 	//auto bmpHeader = fac.getBmpHeader(data);	
 
-	auto bmpHeader = std::move(fac.getBmpHeader(data));
+	//move it instead
+	auto bmpHeader = std::move(fac.GetBmpHeader(data));
 	uint32_t compression = bmpHeader->GetCompression();
 	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
 
+	auto pixelData = LoadPixels(_rawData, bmpHeader);
 
-	return std::make_shared<Data>(_rawData, bmpHeader);
+	return std::make_shared<Data>(_rawData, pixelData, bmpHeader);
 }
 
 
-
-std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header)
+//Load pixels from raw data vector into a vector of pixels, taking head of the line padding
+//unique ptrs must be passed by ref or by func(move(ptr))
+std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo>& header)
 {
 	std::vector<Pixel> pixelData;
 	pixelData.reserve(header->GetWidth() * header->GetHeight());
