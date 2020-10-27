@@ -6,7 +6,7 @@
 
 BmpHeaderFactory::BmpHeaderFactory() {}
 
-std::unique_ptr<HeaderInfo> BmpHeaderFactory::getBmpHeader(std::vector<unsigned char>& hData) {
+std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& hData) {
 
 	int compressionFlag = GetCompression(hData);
 
