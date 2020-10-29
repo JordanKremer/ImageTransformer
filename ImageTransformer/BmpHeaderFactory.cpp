@@ -6,7 +6,7 @@
 
 BmpHeaderFactory::BmpHeaderFactory() {}
 
-std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& hData) {
+const BmpHeaderInfo& BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& hData) {
 
 	int compressionFlag = GetCompression(hData);
 
@@ -17,10 +17,16 @@ std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsign
 		throw std::runtime_error(msg);
 	}
 
-	if (compressionFlag <3 && compressionFlag >=0)
-		return std::make_unique<BmpHeaderInfo>(hData);
-	else if (compressionFlag == 3)
-		return std::make_unique<BmpHeaderInfo_32Bit>(hData);
+	if (compressionFlag < 3 && compressionFlag >= 0) {
+		//return std::make_unique<BmpHeaderInfo>(hData);
+		BmpHeaderInfo header(hData);
+		return header;
+	}
+	else if (compressionFlag == 3) {
+		//return std::make_unique<BmpHeaderInfo_32Bit>(hData);
+		BmpHeaderInfo_32Bit header(hData);
+		return header;
+	}
 	else
 		throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER");
 }
