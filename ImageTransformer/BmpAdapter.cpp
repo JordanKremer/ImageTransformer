@@ -27,9 +27,9 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	//auto bmpHeader = fac.getBmpHeader(data);	
 
 	//move it instead
-	auto bmpHeader = std::move(fac.GetBmpHeader(data));
-	uint32_t compression = bmpHeader.GetCompression();
-	uint32_t bitsPerPixel = bmpHeader.GetBitsPerPixel();
+	auto bmpHeader = fac.GetBmpHeader(data);
+	uint32_t compression = bmpHeader->GetCompression();
+	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
 
 	auto pixelData = LoadPixels(_rawData, bmpHeader);
 
@@ -39,7 +39,7 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 
 //Load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
-std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, BmpHeaderInfo& header)
+std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
 {
 	std::vector<Pixel> pixelData;
 	pixelData.reserve(header->GetWidth() * header->GetHeight());
@@ -87,7 +87,7 @@ Pixel& BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int 
 
 const int BmpAdapter::GetPadding(uint32_t bitsPerPixel, uint32_t width)
 {
-	((width * bitsPerPixel) % 32) / 8;
+	return ((width * bitsPerPixel) % 32) / 8;
 }
 
 
