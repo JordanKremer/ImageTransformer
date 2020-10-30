@@ -13,6 +13,11 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char> hData):BmpHe
 
 }
 
+HeaderInfo* BmpHeaderInfo_32Bit::Clone() const
+{
+	return nullptr;
+}
+
 void BmpHeaderInfo_32Bit::operator=(const HeaderInfo& toCopy)
 {
 }
