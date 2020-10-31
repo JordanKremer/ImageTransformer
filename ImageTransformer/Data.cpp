@@ -14,7 +14,15 @@ Data::Data(std::vector<unsigned char>& data, std::vector<Pixel>& pixels, const H
 	_header = header->Clone();
 }
 
+Data::~Data()
+{
+	delete _header;
+}
+
 const int Data::GetCompression()
 {
 	return _header->GetCompression();
 }
+
+
+

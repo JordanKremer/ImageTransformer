@@ -10,7 +10,8 @@ class Data
 public:
 	Data();
 	Data(std::vector<unsigned char> &data, std::vector<Pixel>& pixels, const HeaderInfo* header);
-	
+	~Data(); //if change _header to unique, no need for destructor
+
 	_NODISCARD const int GetCompression();
 
 
