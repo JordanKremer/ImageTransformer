@@ -7,7 +7,7 @@
 
 
 
-std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
+std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 {
 	//Build new data object with a header and the raw data
 
@@ -33,7 +33,7 @@ std::shared_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 
 	auto pixelData = LoadPixels(_rawData, bmpHeader);
 
-	return std::make_shared<Data>(_rawData, pixelData, bmpHeader);
+	return std::make_unique<Data>(_rawData, pixelData, bmpHeader);
 }
 
 

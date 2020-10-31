@@ -5,6 +5,6 @@
 class Adapter
 {
 public:
-	virtual std::shared_ptr<Data> Adapt(std::vector<unsigned char>& data) = 0;
+	virtual std::unique_ptr<Data> Adapt(std::vector<unsigned char>& data) = 0;
 };
 

@@ -8,7 +8,7 @@ class BmpAdapter :
 	public Adapter
 {
 public:
-	std::shared_ptr<Data> Adapt(std::vector<unsigned char>& data);
+	std::unique_ptr<Data> Adapt(std::vector<unsigned char>& data);
 
 private:
 	std::vector<Pixel>& LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header); //can only pass unique by ref or by func(move(ptr))
