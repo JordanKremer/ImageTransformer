@@ -42,7 +42,8 @@ std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
 {
 	std::vector<Pixel> pixelData;
-	pixelData.reserve(header->GetWidth() * header->GetHeight());
+	//cast to 8 byte to avoid overflow
+	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
 
 	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
 	const int startOfImage = header->GetImageStartOffset();
