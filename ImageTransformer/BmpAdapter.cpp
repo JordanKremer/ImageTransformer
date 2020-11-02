@@ -19,7 +19,7 @@ std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 		throw std::runtime_error("ERROR: NOT A BMP");
 	}
 
-	std::vector<unsigned char> _rawData;
+	//std::vector<unsigned char> _rawData;
 
 	BmpHeaderFactory fac;
 
@@ -31,19 +31,26 @@ std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	uint32_t compression = bmpHeader->GetCompression();
 	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
 
-	auto pixelData = LoadPixels(_rawData, bmpHeader);
+	//std::vector<Pixel> pixelData = LoadPixels(data, bmpHeader);
+	//std::vector<Pixel> pixelData;
+	//std::vector<unsigned char> test_Channel;
+	//test_Channel.push_back(1);
+	//test_Channel.push_back(2);
+	//Pixel test(test_Channel);
+	//pixelData.push_back(test);
 
-	return std::make_unique<Data>(_rawData, pixelData, bmpHeader);
+
+	return LoadPixels(data, bmpHeader);
 }
 
 
 //Load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
-std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
+std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
 {
 	std::vector<Pixel> pixelData;
 	//cast to 8 byte to avoid overflow
-	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
+	//pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
 
 	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
 	const int startOfImage = header->GetImageStartOffset();
@@ -66,7 +73,7 @@ std::vector<Pixel>& BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, 
 		bitCount += pixelLength;
 	}
 
-	return pixelData;
+	return std::make_unique<Data>(rawdata, pixelData, header);
 }
 
 
