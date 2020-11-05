@@ -31,14 +31,9 @@ std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
 	uint32_t compression = bmpHeader->GetCompression();
 	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
 
+	//causes symbol load error, workaround by returning unique_ptr in loadpixel
+	//instead of a vector<pixel>&
 	//std::vector<Pixel> pixelData = LoadPixels(data, bmpHeader);
-	//std::vector<Pixel> pixelData;
-	//std::vector<unsigned char> test_Channel;
-	//test_Channel.push_back(1);
-	//test_Channel.push_back(2);
-	//Pixel test(test_Channel);
-	//pixelData.push_back(test);
-
 
 	return LoadPixels(data, bmpHeader);
 }
@@ -50,7 +45,7 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 {
 	std::vector<Pixel> pixelData;
 	//cast to 8 byte to avoid overflow
-	//pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
+	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
 
 	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
 	const int startOfImage = header->GetImageStartOffset();
@@ -79,7 +74,7 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 
 
 
-Pixel& BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx)
+Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx)
 {
 	std::vector<unsigned char> pixelChannelData;
 	for (int x = 0; x < pixelLength; ++x)
