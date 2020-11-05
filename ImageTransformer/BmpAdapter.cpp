@@ -7,7 +7,7 @@
 
 
 
-std::unique_ptr<Data> BmpAdapter::Adapt(std::vector<unsigned char>& data)
+std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 {
 	//Build new data object with a header and the raw data
 
