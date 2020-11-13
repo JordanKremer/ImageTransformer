@@ -38,6 +38,7 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 	bmpHeaderComponents->_horizontalResolution = headerComponentsConstructorHelper(bmpConstants.HORIZONTALRESOLUTION, bmpConstants.VERTICALRESOLUTION, data);
 	bmpHeaderComponents->_verticalResolution = headerComponentsConstructorHelper(bmpConstants.VERTICALRESOLUTION, bmpConstants.NUMCOLORSINPALETTE, data);
 
+	rawData = data;
 }
 
 uint32_t BmpHeaderInfo::headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data)
@@ -69,6 +70,7 @@ BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 	bmpHeaderComponents->_verticalResolution = toCopy.bmpHeaderComponents->_verticalResolution;
 	bmpHeaderComponents->_horizontalResolution = toCopy.bmpHeaderComponents->_horizontalResolution;
 
+	rawData = toCopy.rawData;
 }
 
 HeaderInfo* BmpHeaderInfo::Clone() const
@@ -127,4 +129,9 @@ const uint32_t BmpHeaderInfo::GetBitsPerPixel() const
 const uint32_t BmpHeaderInfo::GetImageStartOffset() const
 {
 	return bmpHeaderComponents->_imageStartOffset;
+}
+
+const std::vector<unsigned char>& BmpHeaderInfo::GetRawHeader() const
+{
+	return rawData;
 }

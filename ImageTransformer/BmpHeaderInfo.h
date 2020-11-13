@@ -59,6 +59,7 @@ public:
 	_NODISCARD const uint32_t GetCompression() const; //const?  //do we want the return type to be const?
 	_NODISCARD const uint32_t GetBitsPerPixel() const;
 	_NODISCARD const uint32_t GetImageStartOffset() const;
+	_NODISCARD virtual const std::vector<unsigned char>& GetRawHeader() const;
 
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
@@ -78,7 +79,7 @@ public:
 	//operator&=(BmpHeaderInfo&) = delete;
 private:
 	std::shared_ptr<BasicBmpHeaderComponents> bmpHeaderComponents;
-
+	std::vector<unsigned char> rawData;
 };
 
 

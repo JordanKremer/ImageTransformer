@@ -10,4 +10,5 @@ public:
 	_NODISCARD virtual const uint32_t GetBitsPerPixel() const = 0;
 	_NODISCARD virtual const uint32_t GetImageStartOffset() const = 0;
 	_NODISCARD virtual const uint32_t GetWidth() const = 0;
+	_NODISCARD virtual const std::vector<unsigned char>& GetRawHeader() const = 0;
 };
