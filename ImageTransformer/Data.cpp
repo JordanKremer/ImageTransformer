@@ -21,9 +21,9 @@ const int Data::GetCompression()
 	return _header->GetCompression();
 }
 
-const HeaderInfo* Data::GetHeader() const
+const std::vector<unsigned char>& Data::GetHeader() const
 {
-	return _header;
+	return _header->GetRawHeader();
 }
 
 const std::vector<Pixel>& Data::GetPixels() const

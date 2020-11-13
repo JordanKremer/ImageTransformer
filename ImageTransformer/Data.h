@@ -14,7 +14,7 @@ public:
 
 	_NODISCARD const int GetCompression();
 	//https://stackoverflow.com/questions/3888470/c-const-member-function-that-returns-a-const-pointer-but-what-type-of-const
-	const HeaderInfo* GetHeader() const;
+	const std::vector<unsigned char>& GetHeader() const;
 	const std::vector<Pixel>& GetPixels() const;
 
 private:
