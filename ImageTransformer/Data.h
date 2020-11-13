@@ -13,8 +13,9 @@ public:
 	~Data(); //if change _header to unique, no need for destructor
 
 	_NODISCARD const int GetCompression();
-	//const std::vector<unsigned char>& GetHeader()
-	//const std::vector<unsigned char>& GetPixels()
+	//https://stackoverflow.com/questions/3888470/c-const-member-function-that-returns-a-const-pointer-but-what-type-of-const
+	const HeaderInfo* GetHeader() const;
+	const std::vector<Pixel>& GetPixels() const;
 
 private:
 	HeaderInfo* _header; //may change to unique ptr
