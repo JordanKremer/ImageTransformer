@@ -39,6 +39,26 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 }
 
 
+
+//either pass by ref or use move to pass the unique ptr in
+std::vector<unsigned char> BmpAdapter::AdapterToRaw(std::unique_ptr<Data> data)
+{
+	std::vector<unsigned char> rawData;
+
+	BmpHeaderInfo* header = data->GetHeader();
+	std::vector<Pixel> pixels = data->GetPixels();
+
+	std::vector<unsigned char> rawHeader = ConvertHeaderToRaw();
+	std::vector<unsigned char> rawPixels = ConvertPixelsToRaw();
+
+	
+	return std::make_pair<std::vector<unsigned char>&, std::vector<unsigned char>&>(rawHeader, rawPixels);
+
+	//the the writer will accept a pair of references and then write to file with it
+}
+
+
+
 //Load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
 std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
@@ -107,6 +127,16 @@ const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
 		return 4;
 	else
 		throw std::runtime_error("ERROR: bitsPerPixel OUT OF BOUNDS in GetPixelLength()");
+}
+
+const std::vector<unsigned char>& BmpAdapter::ConvertHeaderToRaw(HeaderInfo* header)
+{
+	// TODO: insert return statement here
+}
+
+const std::vector<unsigned char>& BmpAdapter::ConvertPixelsToRaw(std::vector<Pixel> pixels)
+{
+	// TODO: insert return statement here
 }
 
 
