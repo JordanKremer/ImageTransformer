@@ -16,3 +16,13 @@ const unsigned char& Pixel::GetChannel(const int channel)
 		return _channels[channel];
 	}
 }
+
+const std::vector<unsigned char>& Pixel::GetAllChannelData()
+{
+	return _channels;
+}
+
+const int Pixel::GetChannelCount()
+{
+	return channelCount;
+}
