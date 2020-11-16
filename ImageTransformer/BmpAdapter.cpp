@@ -41,19 +41,25 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 
 
 //either pass by ref or use move to pass the unique ptr in
-std::vector<unsigned char> BmpAdapter::AdapterToRaw(std::unique_ptr<Data> data)
+const std::vector<unsigned char>& BmpAdapter::AdapterToRaw(std::unique_ptr<Data> data) const
 {
-	std::vector<unsigned char> rawData;
 
-	BmpHeaderInfo* header = data->GetHeader();
-	std::vector<Pixel> pixels = data->GetPixels();
+	auto header = data->GetHeader();
+	auto pixels = data->GetPixels();
 
-	std::vector<unsigned char> rawHeader = ConvertHeaderToRaw();
-	std::vector<unsigned char> rawPixels = ConvertPixelsToRaw();
+	auto rawHeader = data->GetHeader(); //already raw format
+	try {
+		auto rawPixels = ConvertPixelsToRaw(data->GetPixels());
+	}
+	catch (std::runtime_error) {
 
+	}
+
+	for (auto x : rawHeader)
+	{
+		rawPixels.
+	}
 	
-	return std::make_pair<std::vector<unsigned char>&, std::vector<unsigned char>&>(rawHeader, rawPixels);
-
 	//the the writer will accept a pair of references and then write to file with it
 }
 
@@ -129,14 +135,31 @@ const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
 		throw std::runtime_error("ERROR: bitsPerPixel OUT OF BOUNDS in GetPixelLength()");
 }
 
-const std::vector<unsigned char>& BmpAdapter::ConvertHeaderToRaw(HeaderInfo* header)
-{
-	// TODO: insert return statement here
-}
 
-const std::vector<unsigned char>& BmpAdapter::ConvertPixelsToRaw(std::vector<Pixel> pixels)
+
+std::vector<unsigned char>& BmpAdapter::ConvertPixelsToRaw(std::vector<Pixel>& pixels, int headerSize)
 {
-	// TODO: insert return statement here
+	if (pixels.size() == 0)
+	{
+		throw std::runtime_error("ERROR: Pixel vector has no data");
+	}
+
+
+	std::vector<unsigned char> expandedPixelData;
+	const int pixelChannelCount = pixels[0].GetChannelCount();
+	int reserveSize = headerSize + (pixelChannelCount * pixels.size());
+	expandedPixelData.reserve(reserveSize);
+	
+	int curIdx = headerSize;
+	//there may be a faster method, possibly by parallelizing
+	for (auto pixel : pixels) {
+		for (auto channel : pixel.GetAllChannelData()) {
+			expandedPixelData[curIdx];
+			++curIdx;
+		}
+	}
+
+	return expandedPixelData;
 }
 
 
