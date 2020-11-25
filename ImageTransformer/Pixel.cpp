@@ -5,7 +5,7 @@ Pixel::Pixel(std::vector<unsigned char>& channelData)
 	_channels = channelData;
 }
 
-const unsigned char& Pixel::GetChannel(const int channel)
+const unsigned char& Pixel::GetChannel(const int channel) const
 {
 	if (channel >= _channels.size())
 	{
@@ -17,12 +17,12 @@ const unsigned char& Pixel::GetChannel(const int channel)
 	}
 }
 
-const std::vector<unsigned char>& Pixel::GetAllChannelData()
+const std::vector<unsigned char>& Pixel::GetAllChannelData()const
 {
 	return _channels;
 }
 
-const int Pixel::GetChannelCount()
+const int Pixel::GetChannelCount()const
 {
 	return channelCount;
 }

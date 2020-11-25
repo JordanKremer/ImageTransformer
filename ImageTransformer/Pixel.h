@@ -17,9 +17,9 @@ class Pixel
 public:
 	Pixel(std::vector<unsigned char>& channelData);
 	Pixel(std::vector<int>::iterator, const int pixelLength);
-	const unsigned char& GetChannel(const int channel);
-	const std::vector<unsigned char>& GetAllChannelData();
-	const int GetChannelCount();
+	const unsigned char& GetChannel(const int channel) const;
+	const std::vector<unsigned char>& GetAllChannelData() const;
+	const int GetChannelCount()const;
 
 private:
 
