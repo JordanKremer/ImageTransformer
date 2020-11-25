@@ -6,27 +6,20 @@
 
 BmpHeaderFactory::BmpHeaderFactory() {}
 
+
+//Creates a BmpHeaderInfo ptr from the rawData, which is then used
+//in the caller function to create a Data object.
 const BmpHeaderInfo* BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& hData) {
 
 	int compressionFlag = GetCompression(hData);
-
-
-
-	if (compressionFlag < 0 || compressionFlag > 4) {
-		std::string msg = "ERROR: COMPRESSION OUT OF BOUNDS : " + compressionFlag;
-		throw std::runtime_error(msg);
+	switch(compressionFlag)
+	{
+		case 0: return new const BmpHeaderInfo(hData);
+		case 1: return new const BmpHeaderInfo(hData);
+		case 2: return new const BmpHeaderInfo(hData);
+		case 3: return new const BmpHeaderInfo_32Bit(hData);
+		default: throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER, COMPRESSION OUT OF BOUNDS");
 	}
-
-	if (compressionFlag < 3 && compressionFlag >= 0) {
-		//return std::make_unique<BmpHeaderInfo>(hData);
-		return new const BmpHeaderInfo(hData);
-	}
-	else if (compressionFlag == 3) {
-		//return std::make_unique<BmpHeaderInfo_32Bit>(hData);
-		return new const BmpHeaderInfo_32Bit(hData);
-	}
-	else
-		throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER");
 }
 
 int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)
@@ -41,25 +34,12 @@ int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)
 	if (!(ID[0] == 'B' && ID[1] == 'M'))
 		throw std::runtime_error("ERROR: NOT A BMP"); //include ID in error?
 
-
-	//This correctly reads 3 for the 32 bit bear images because we start our read at byte 30, then the next 4 bytes contain the compression
-
-
-	//how to convert 4 bytes to an int...
-	/*
-	int compressionFlag = int((unsigned char)(hData[30]) << 24 |
-		(unsigned char)(hData[31]) << 16 |
-		(unsigned char)(hData[32]) << 8 |
-		(unsigned char)(hData[33]));
-		*/
-
 	uint32_t compressionFlag;
 	((unsigned char*)& compressionFlag)[0] = hData[30];
 	((unsigned char*)& compressionFlag)[1] = hData[31];
 	((unsigned char*)& compressionFlag)[2] = hData[32];
 	((unsigned char*)& compressionFlag)[3] = hData[33];
 
-	//consider a different structure
 	if (!(compressionFlag == 0 || compressionFlag == 3))
 	{
 		//if possible, find a better formatting method
