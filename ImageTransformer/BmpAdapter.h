@@ -20,6 +20,5 @@ private:
 	const int GetPadding(uint32_t bitsPerPixel, uint32_t width);
 	const int GetPixelLength(const int bitsPerPixel);
 	//const std::vector<unsigned char>& ConvertHeaderToRaw(HeaderInfo* header);
-	std::vector<unsigned char>& ConvertPixelsToRaw(std::vector<Pixel>& pixels, int headerSize);
-};
+	std::vector<unsigned char>& BuildRawDataVector(std::vector<int>& header, std::vector<Pixel>& pixels);
 

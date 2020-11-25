@@ -47,19 +47,14 @@ const std::vector<unsigned char>& BmpAdapter::AdapterToRaw(std::unique_ptr<Data>
 	auto header = data->GetHeader();
 	auto pixels = data->GetPixels();
 
-	auto rawHeader = data->GetHeader(); //already raw format
 	try {
-		auto rawPixels = ConvertPixelsToRaw(data->GetPixels());
+		auto rawData = ConvertPixelsToRaw(data->GetPixels());
 	}
 	catch (std::runtime_error) {
 
 	}
-
-	for (auto x : rawHeader)
-	{
-		rawPixels.
-	}
 	
+	return rawHeader;
 	//the the writer will accept a pair of references and then write to file with it
 }
 
@@ -137,29 +132,34 @@ const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
 
 
 
-std::vector<unsigned char>& BmpAdapter::ConvertPixelsToRaw(std::vector<Pixel>& pixels, int headerSize)
+std::vector<unsigned char>& BmpAdapter::BuildRawDataVector(std::vector<int>& header, std::vector<Pixel>& pixels)
 {
+
 	if (pixels.size() == 0)
 	{
 		throw std::runtime_error("ERROR: Pixel vector has no data");
 	}
 
 
-	std::vector<unsigned char> expandedPixelData;
+	std::vector<unsigned char> rawData;
 	const int pixelChannelCount = pixels[0].GetChannelCount();
-	int reserveSize = headerSize + (pixelChannelCount * pixels.size());
-	expandedPixelData.reserve(reserveSize);
+	int reserveSize = header.size() + (pixelChannelCount * pixels.size());
+	rawData.reserve(reserveSize);
 	
-	int curIdx = headerSize;
+	for (auto& x : header)
+	{
+		rawData.push_back(x);
+	}
+
+	int curIdx = header.size();
 	//there may be a faster method, possibly by parallelizing
-	for (auto pixel : pixels) {
-		for (auto channel : pixel.GetAllChannelData()) {
-			expandedPixelData[curIdx];
-			++curIdx;
+	for (auto& pixel : pixels) {
+		for (auto& channel : pixel.GetAllChannelData()) {
+			rawData.push_back(channel);
 		}
 	}
 
-	return expandedPixelData;
+	return rawData;
 }
 
 
