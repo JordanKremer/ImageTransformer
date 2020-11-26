@@ -1,11 +1,23 @@
+/*
+Author : Jordan Kremer
+11/20/2020
+BmpHeaderInfo.cpp
+
+Includes functionality for BmpHeaderInfo class, including getters for BmpHeader constants
+such as width and height of the image. Includes clone().
+
+*/
+
 #pragma once
 #include <vector>
 #include <memory>
 #include <map>
 #include <string>
 #include "HeaderInfo.h"
+
+
 //BITMAPHEADERINFO 
-//OS/2 no longer supported, so Windows BITMAPHEADERINFO table used
+//OS/2 no longer supported, so Windows BITMAPHEADERINFO table used as reference
 struct BmpConstants {
 	inline static const int ID = 0;
 	inline static const int FILESIZE = 2;
@@ -25,7 +37,7 @@ struct BmpConstants {
 };
 
 
-
+//Container for easier access
 struct BasicBmpHeaderComponents{
 	std::string _ID;
 	uint32_t _filesize;
@@ -49,7 +61,6 @@ public:
 	BmpHeaderInfo(const std::vector<unsigned char>& data);
 	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
-	//BmpHeaderInfo(std::shared_ptr<BmpHeaderInfo> toCopy);
 	HeaderInfo* Clone() const;
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
@@ -65,23 +76,7 @@ public:
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 
 	
-
-
-	//virtual unsigned char getHeaderByte(int headerIndex) = 0;
-	//= operator = 0
-	//>> operator (ifstream& in) = 0
-	//const int getWidth() = 0;
-
-
-	//page 75 modern effective c++
-	//USE DELETE after the function declaration if don't want an implicit function to made for, say, the
-	//= operator, etc
-	//operator&=(BmpHeaderInfo&) = delete;
 private:
 	std::shared_ptr<BasicBmpHeaderComponents> bmpHeaderComponents;
 	std::vector<unsigned char> rawData;
 };
-
-
-//https://dzone.com/articles/the-pimpl-pattern-what-you-should-know
-//https://www.fluentcpp.com/2017/09/22/make-pimpl-using-unique_ptr/
