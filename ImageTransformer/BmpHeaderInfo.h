@@ -1,7 +1,7 @@
 /*
 Author : Jordan Kremer
 11/20/2020
-BmpHeaderInfo.cpp
+BmpHeaderInfo.h
 
 Includes functionality for BmpHeaderInfo class, including getters for BmpHeader constants
 such as width and height of the image. Includes clone().
