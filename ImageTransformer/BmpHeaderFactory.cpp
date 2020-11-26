@@ -1,5 +1,16 @@
+/*
+Author : Jordan Kremer
+11/20/2020
+BmpHeaderFactory.cpp
+
+Using the factory design pattern, this class allows for the correct BmpHeader to be 
+generated given our raw image data.
+
+*/
+
+
+
 #include "BmpHeaderFactory.h"
-#include "BmpHeaderInfo_24Bit.h"
 #include "BmpHeaderInfo_32Bit.h"
 #include <stdexcept>
 
@@ -7,44 +18,40 @@
 BmpHeaderFactory::BmpHeaderFactory() {}
 
 
+
 //Creates a BmpHeaderInfo ptr from the rawData, which is then used
 //in the caller function to create a Data object.
-const BmpHeaderInfo* BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& hData) {
+const BmpHeaderInfo* BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& rawData) {
 
-	int compressionFlag = GetCompression(hData);
+	int compressionFlag = GetCompression(rawData);
 	switch(compressionFlag)
 	{
-		case 0: return new const BmpHeaderInfo(hData);
-		case 1: return new const BmpHeaderInfo(hData);
-		case 2: return new const BmpHeaderInfo(hData);
-		case 3: return new const BmpHeaderInfo_32Bit(hData);
+		case 0: return new const BmpHeaderInfo(rawData);
+		case 1: return new const BmpHeaderInfo(rawData);
+		case 2: return new const BmpHeaderInfo(rawData);
+		case 3: return new const BmpHeaderInfo_32Bit(rawData);
 		default: throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER, COMPRESSION OUT OF BOUNDS");
 	}
 }
 
-int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& hData)
+
+
+//Takes the compression bytes from the header, bytes 30-33, and compresses them into
+//a single integer. GetBmpHeader is the caller.
+int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& rawData)
 {
 	char ID[2];
-	ID[0] = hData[0];
-	ID[1] = hData[1];
+	ID[0] = rawData[0];
+	ID[1] = rawData[1];
 
-	//simple header check, not great validation
-	//inherit from an exception class and use that inherited class here to throw exception
-	//the caller can catch the exception using the base class 
+	//Need to expand this validation
 	if (!(ID[0] == 'B' && ID[1] == 'M'))
-		throw std::runtime_error("ERROR: NOT A BMP"); //include ID in error?
+		throw std::runtime_error("ERROR: NOT A BMP");
 
+	//Load compression bytes from the rawData into the integer
 	uint32_t compressionFlag;
-	((unsigned char*)& compressionFlag)[0] = hData[30];
-	((unsigned char*)& compressionFlag)[1] = hData[31];
-	((unsigned char*)& compressionFlag)[2] = hData[32];
-	((unsigned char*)& compressionFlag)[3] = hData[33];
-
-	if (!(compressionFlag == 0 || compressionFlag == 3))
-	{
-		//if possible, find a better formatting method
-		std::string msg = "ERROR: INVALID COMPRESSION: " + compressionFlag;
-		throw std::runtime_error(msg);
+	for (int idx = 0; idx < 4; ++idx) {
+		((unsigned char*)& compressionFlag)[idx] = rawData[idx + 30];
 	}
 
 	return compressionFlag;
