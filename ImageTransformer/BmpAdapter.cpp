@@ -1,3 +1,13 @@
+/*
+Author : Jordan Kremer
+11/20/20
+BmpAdapter.cpp
+
+Adapts rawData to a Data object with a BmpHeader and Pixel vector. Adapts from a Data
+object to rawData, so that the rawData may be written to file.
+*/
+
+
 #include "BmpAdapter.h"
 #include "BmpHeaderFactory.h"
 #include "BmpHeaderInfo_24Bit.h"
@@ -6,56 +16,54 @@
 #include <stdexcept>
 
 
-
+//Takes a byte vector and builds a Data object with a BmpHeader and Pixel vector
 std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 {
-	//Build new data object with a header and the raw data
-
-	//first send a cut of the vector to the bmpheader contructor
-	//but find out which bmpheader we need first, somehow 
-
 	if (!(data[0] == 'B' && data[1] == 'M'))
 	{
 		throw std::runtime_error("ERROR: NOT A BMP");
 	}
 
-	//std::vector<unsigned char> _rawData;
-
 	BmpHeaderFactory fac;
-
-	//cannot do this as it is trying to assign a unique ptr to something else
-	//auto bmpHeader = fac.getBmpHeader(data);	
-
-	//move it instead
 	auto bmpHeader = fac.GetBmpHeader(data);
 	uint32_t compression = bmpHeader->GetCompression();
 	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
-
-	//causes symbol load error, workaround by returning unique_ptr in loadpixel
-	//instead of a vector<pixel>&
-	//std::vector<Pixel> pixelData = LoadPixels(data, bmpHeader);
 
 	return LoadPixels(data, bmpHeader);
 }
 
 
-
+//Adapts image data to raw format, by calling BuildRawDataVector
+//to concat and return the header and pixels
 //either pass by ref or use move to pass the unique ptr in
-const std::vector<unsigned char>& BmpAdapter::AdapterToRaw(std::unique_ptr<Data> data) const
+const std::vector<unsigned char> BmpAdapter::AdapterToRaw(std::unique_ptr<Data> data) const
 {
-
 	auto header = data->GetHeader();
 	auto pixels = data->GetPixels();
-
-	try {
-		auto rawData = ConvertPixelsToRaw(data->GetPixels());
+	if (pixels.size() == 0)
+	{
+		throw std::runtime_error("ERROR: Pixel vector has no data");
 	}
-	catch (std::runtime_error) {
 
+
+	std::vector<unsigned char> rawData;
+	const int pixelChannelCount = pixels[0].GetChannelCount();
+	int reserveSize = header.size() + (pixelChannelCount * pixels.size());
+	rawData.reserve(reserveSize);
+
+	for (auto& x : header)
+	{
+		rawData.push_back(x);
 	}
-	
-	return rawHeader;
-	//the the writer will accept a pair of references and then write to file with it
+
+	//there may be a faster method, possibly by parallelizing
+	for (auto& pixel : pixels) {
+		for (auto& channel : pixel.GetAllChannelData()) {
+			rawData.push_back(channel);
+		}
+	}
+
+	return rawData;
 }
 
 
@@ -65,8 +73,7 @@ const std::vector<unsigned char>& BmpAdapter::AdapterToRaw(std::unique_ptr<Data>
 std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
 {
 	std::vector<Pixel> pixelData;
-	//cast to 8 byte to avoid overflow
-	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight());
+	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight()); 	//cast to 8 byte to avoid overflow
 
 	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
 	const int startOfImage = header->GetImageStartOffset();
@@ -94,7 +101,9 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 
 
 
-
+//Bmp pixels are just byte vectors, so creating a bmp pixel is simply reading
+//how many channels the bmp image has in the given format by reading the header
+//and building a pixel container from the rawdata
 Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx)
 {
 	std::vector<unsigned char> pixelChannelData;
@@ -108,14 +117,16 @@ Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int p
 }
 
 
-
+//Padding is the left over bits required at the end of each line in a bmp image,
+//when reading and writing they must be taken into account
 const int BmpAdapter::GetPadding(uint32_t bitsPerPixel, uint32_t width)
 {
 	return ((width * bitsPerPixel) % 32) / 8;
 }
 
 
-
+//Each Bmp format will have a different number of pixels, refer to
+//the wiki for more information
 const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
 {
 	if (bitsPerPixel == 1 || bitsPerPixel == 4)
@@ -129,39 +140,5 @@ const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
 	else
 		throw std::runtime_error("ERROR: bitsPerPixel OUT OF BOUNDS in GetPixelLength()");
 }
-
-
-
-std::vector<unsigned char>& BmpAdapter::BuildRawDataVector(std::vector<int>& header, std::vector<Pixel>& pixels)
-{
-
-	if (pixels.size() == 0)
-	{
-		throw std::runtime_error("ERROR: Pixel vector has no data");
-	}
-
-
-	std::vector<unsigned char> rawData;
-	const int pixelChannelCount = pixels[0].GetChannelCount();
-	int reserveSize = header.size() + (pixelChannelCount * pixels.size());
-	rawData.reserve(reserveSize);
-	
-	for (auto& x : header)
-	{
-		rawData.push_back(x);
-	}
-
-	int curIdx = header.size();
-	//there may be a faster method, possibly by parallelizing
-	for (auto& pixel : pixels) {
-		for (auto& channel : pixel.GetAllChannelData()) {
-			rawData.push_back(channel);
-		}
-	}
-
-	return rawData;
-}
-
-
 
 
