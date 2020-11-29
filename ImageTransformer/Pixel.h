@@ -1,3 +1,15 @@
+/*
+Author : Jordan Kremer
+11/20/20
+Pixel.h
+
+This class acts as a container for the pixels values. Pixels are variable length vectors
+with a defined number of channels, holding unsigned char byte values. This makes for a convenient
+way to manage Pixel values.
+
+*/
+
+
 #pragma once
 #include <vector>
 #include <stdexcept>
@@ -16,7 +28,11 @@ class Pixel
 {
 public:
 	Pixel(std::vector<unsigned char>& channelData);
-	Pixel(std::vector<int>::iterator, const int pixelLength);
+
+	//Iterator can be used more generically, that even though
+	//it may be less efficient than pass the vector, it means that
+	//it doesn't care what the data structure is 
+	Pixel(std::vector<int>::iterator, const int numChannels);
 	const unsigned char& GetChannel(const int channel) const;
 	const std::vector<unsigned char>& GetAllChannelData() const;
 	const int GetChannelCount()const;

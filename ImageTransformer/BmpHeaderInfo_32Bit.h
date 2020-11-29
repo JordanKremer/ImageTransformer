@@ -1,3 +1,14 @@
+/*
+Author : Jordan Kremer
+11/20/20
+BmpHeaderInfo_32Bit.h
+
+This class is an extension of BmpHeaderInfo. It includes extra data points 
+only found in the header of the 32bit bmp images.
+
+*/
+
+
 #pragma once
 #include "BmpHeaderInfo.h"
 

@@ -45,7 +45,6 @@ const std::vector<unsigned char> BmpAdapter::AdapterToRaw(std::unique_ptr<Data> 
 		throw std::runtime_error("ERROR: Pixel vector has no data");
 	}
 
-
 	std::vector<unsigned char> rawData;
 	const int pixelChannelCount = pixels[0].GetChannelCount();
 	int reserveSize = header.size() + (pixelChannelCount * pixels.size());
@@ -117,12 +116,14 @@ Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int p
 }
 
 
+
 //Padding is the left over bits required at the end of each line in a bmp image,
 //when reading and writing they must be taken into account
 const int BmpAdapter::GetPadding(uint32_t bitsPerPixel, uint32_t width)
 {
 	return ((width * bitsPerPixel) % 32) / 8;
 }
+
 
 
 //Each Bmp format will have a different number of pixels, refer to

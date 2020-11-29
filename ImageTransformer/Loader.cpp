@@ -1,3 +1,13 @@
+/*
+Author : Jordan Kremer
+11/20/20
+Loader.cpp
+
+The only functionality of this class is to load byte values from a selected
+file and return that data to the class it interacts with.
+
+*/
+
 #include "Loader.h"
 #include <fstream>
 
