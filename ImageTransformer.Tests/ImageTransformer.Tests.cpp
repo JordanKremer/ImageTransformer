@@ -64,10 +64,10 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::ios_base::failure>(func);
 		}
 		
-		/*
+		
 		TEST_METHOD(Loader_DoesItLoadBytes)
 		{
-			const std::string FILENAME = "../bear1_32.bmp";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
 			Loader _loader;
 			
 			auto data = _loader.Load(FILENAME);
@@ -79,7 +79,7 @@ namespace ImageTransformerTests
 			}
 
 			Assert::AreEqual(true, hasBytes);
-		}*/
+		}
 
 		//USE BELOW FOR THE BMP ADAPTER
 		/*
@@ -163,27 +163,6 @@ namespace ImageTransformerTests
 			//Assert::AreEqual(0, testHeader.GetCompression());
 		}
 
-		*//*
-		TEST_METHOD(Pixel_Constructor)
-		{
-			Pixel pixel(1, 2, 3);
-
-			Assert::AreEqual(1, pixel.getRed());
-			Assert::AreEqual(2, pixel.getGreen());
-			Assert::AreEqual(3, pixel.getBlue());
-		}
-
-		TEST_METHOD(PixelAlpha_Constructor)
-		{
-			PixelAlpha pixel(1, 2, 3, 4);
-
-			Assert::AreEqual(1, pixel.getRed());
-			Assert::AreEqual(2, pixel.getGreen());
-			Assert::AreEqual(3, pixel.getBlue());
-			Assert::AreEqual(4, pixel.getAlpha());
-		}
-
-		*/
 
 
 		//TODO, crashes after finishing loading data

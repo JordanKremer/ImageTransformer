@@ -25,7 +25,7 @@ std::vector<unsigned char>& Loader::Load(std::string filename)
 	//exception is throw when using a loop with while(!in.eof), so using a range based for loop instead
 	in.exceptions(in.failbit);
 
-
+	//Go to end of file, get byte number, go back to beginning of file
 	in.seekg(0, in.end);
 	int fileLength = in.tellg();
 	in.seekg(0, in.beg);
