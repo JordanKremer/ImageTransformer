@@ -18,7 +18,7 @@ class BmpAdapter :
 {
 public:
 	std::unique_ptr<Data> AdaptFromRaw(std::vector<unsigned char>& data);
-	const std::vector<unsigned char> AdaptToRaw(std::unique_ptr<Data> data) const;
+	const std::vector<unsigned char> AdaptToRaw(std::unique_ptr<Data> data);
 
 
 private:

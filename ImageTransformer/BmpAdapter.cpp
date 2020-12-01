@@ -36,7 +36,7 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 //Adapts image data to raw format, by calling BuildRawDataVector
 //to concat and return the header and pixels
 //either pass by ref or use move to pass the unique ptr in
-const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> data) const
+const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> data)
 {
 	auto header = data->GetHeader();
 	auto pixels = data->GetPixels();
