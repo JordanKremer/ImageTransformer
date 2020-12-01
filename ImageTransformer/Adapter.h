@@ -15,6 +15,6 @@ class Adapter
 {
 public:
 	virtual std::unique_ptr<Data> AdaptFromRaw(std::vector<unsigned char>& rawData) = 0;
-	virtual std::vector<unsigned char> AdapterToRaw(std::unique_ptr<Data> data) = 0;
+	virtual std::vector<unsigned char> AdaptToRaw(std::unique_ptr<Data> data) = 0;
 };
 
