@@ -7,6 +7,7 @@
 
 //#include "../ImageTransformer/BmpLoader.cpp"
 #include "..//ImageTransformer/Loader.cpp"
+#include "..//ImageTransformer/BmpAdapter.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
 #include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
@@ -56,7 +57,7 @@ namespace ImageTransformerTests
 
 		TEST_METHOD(Loader_Load_existantFile)
 		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Imags\\bear1_32.bmp";
 			Loader _loader;
 
 			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
@@ -67,7 +68,7 @@ namespace ImageTransformerTests
 		
 		TEST_METHOD(Loader_DoesItLoadBytes)
 		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
 			Loader _loader;
 			
 			auto data = _loader.Load(FILENAME);
@@ -81,20 +82,44 @@ namespace ImageTransformerTests
 			Assert::AreEqual(true, hasBytes);
 		}
 
+
+
+		TEST_METHOD(Loader_DoesLoaderLoadAllBytes) 
+		{
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+			
+			std::ifstream in;
+
+			in.open(FILENAME, std::ios::binary);
+			in.seekg(0, in.end);
+			int fileLength = in.tellg();
+
+			Loader loader;
+			auto data = loader.Load(FILENAME);
+			int size = data.size();
+			Assert::AreEqual(size, fileLength);
+		}
+
+
+
 		//USE BELOW FOR THE BMP ADAPTER
-		/*
+		
 		//The BMP ID is the first two bytes in a bmp file
 		//"BM" is tested for
-		TEST_METHOD(BmpLoader_Load_ExistantFile_InvalidBMP_ID)
+		TEST_METHOD(BmpLoader_InvalidBMP_ID)
 		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\test.txt";
-			BmpLoader Bmp(FILENAME);
+			BmpAdapter adapter;
+			std::vector<unsigned char> testVec;
+			testVec.push_back('a');
+			testVec.push_back('b');
 
-			auto func = [&] { Bmp.Load(); }; //&Bmp also works, but & catches everything in scope
+			auto func = [&] { adapter.AdaptFromRaw(testVec); }; //&Bmp also works, but & catches everything in scope
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
-		*/
+		
+
+
 
 		//Test exception in getBmpHeader() that enforces lower boundary for compression args
 		/*
