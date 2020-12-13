@@ -16,6 +16,8 @@ class Loader
 {
 public:
 	Loader();
-	std::vector<unsigned char>& Load(std::string filename);
+	//vector just moves the data, it won't copy it
+	//no need to pass by ref or return by ref
+	std::vector<unsigned char> Load(std::string filename);
 };
 

@@ -14,8 +14,9 @@ file and return that data to the class it interacts with.
 
 Loader::Loader() {}
 
-
-std::vector<unsigned char>& Loader::Load(std::string filename)
+//C++ doesn't create a second copy for vector when returning it
+//it just moves the data
+std::vector<unsigned char> Loader::Load(std::string filename)
 {
 
 	std::ifstream in;
