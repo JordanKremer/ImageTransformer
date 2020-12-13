@@ -55,17 +55,27 @@ namespace ImageTransformerTests
 			Assert::ExpectException<std::ios_base::failure>(func);
 		}
 
+
 		TEST_METHOD(Loader_Load_existantFile)
 		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Imags\\bear1_32.bmp";
+			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
 			Loader _loader;
 
-			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
+			//Get file size
+			std::ifstream in;
+			in.open(FILENAME, std::ios::binary);
+			in.seekg(0, in.end);
+			int fileLength = in.tellg();
+			in.seekg(0, in.beg);
 
-			Assert::ExpectException<std::ios_base::failure>(func);
+			//Load file
+			std::vector<unsigned char> data = _loader.Load(FILENAME);
+
+			//check if they are the same size
+			Assert::IsTrue(data.size() == fileLength);
 		}
 		
-		
+
 		TEST_METHOD(Loader_DoesItLoadBytes)
 		{
 			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
@@ -81,7 +91,6 @@ namespace ImageTransformerTests
 
 			Assert::AreEqual(true, hasBytes);
 		}
-
 
 
 		TEST_METHOD(Loader_DoesLoaderLoadAllBytes) 
@@ -119,10 +128,26 @@ namespace ImageTransformerTests
 		}
 		
 
+		//The bmpheaders have a minimum size of 54 bytes
+		TEST_METHOD(BmpLoader_ValidID_HeaderTooSmall)
+		{
+			BmpAdapter adapter;
+			std::vector<unsigned char> testVec;
+			testVec.push_back('B');
+			testVec.push_back('M');
+			for (int count = 0; count < 60; ++count)
+			{
+				testVec.push_back(0);
+			}
+
+			auto func = [&] { adapter.AdaptFromRaw(testVec); }; //&Bmp also works, but & catches everything in scope
+
+			Assert::ExpectException<std::runtime_error>(func);
+		}
+		
 
 
-		//Test exception in getBmpHeader() that enforces lower boundary for compression args
-		/*
+		//Test exception in GetBmpHeader() that enforces lower boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsLower)
 		{
 
@@ -130,7 +155,7 @@ namespace ImageTransformerTests
 			BmpHeaderFactory fac;
 			std::vector<unsigned char> tmp(34, -1);
 			
-			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp); };
+			auto func = [&fac, &tmp] {fac.GetBmpHeader(tmp); };
 			
 
 			Assert::ExpectException<std::runtime_error>(func);
@@ -138,6 +163,7 @@ namespace ImageTransformerTests
 		}
 
 
+		/*
 		//Test exception in getBmpHeader() that enforces upper boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsUpper)
 		{
