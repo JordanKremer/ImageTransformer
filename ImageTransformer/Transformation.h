@@ -13,6 +13,6 @@ as Gaussian blur and Pixelate will derive from.
 class Transformation
 {
 public:
-	virtual Data transform(Data imageData) = 0;
+	virtual Data Transform(Data imageData) = 0;
 };
 
