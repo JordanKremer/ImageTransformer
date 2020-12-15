@@ -24,6 +24,11 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 		throw std::runtime_error("ERROR: NOT A BMP");
 	}
 
+	if (data.size() < 54)
+	{
+		throw std::runtime_error("ERROR: HEADER TOO SMALL");
+	}
+
 	BmpHeaderFactory fac;
 	auto bmpHeader = fac.GetBmpHeader(data);
 	uint32_t compression = bmpHeader->GetCompression();
@@ -76,11 +81,11 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 
 	const int padding = GetPadding(header->GetBitsPerPixel(), header->GetWidth());
 	const int startOfImage = header->GetImageStartOffset();
-	const int pixelLength = GetPixelLength(header->GetBitsPerPixel());
+	const int channelCount = GetChannelCount(header->GetBitsPerPixel());
 	const int bitsPerLine = header->GetBitsPerPixel() * header->GetWidth();
 	int bitCount = 0;
 
-	for(int idx = startOfImage; idx < rawdata.size(); idx += pixelLength)
+	for(int idx = startOfImage; idx < rawdata.size(); idx += channelCount)
 	{
 		//if we are at the end of the line, ignore the padding
 		if (bitCount == bitsPerLine)
@@ -91,11 +96,11 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 			bitCount = 0;
 		}
 
-		pixelData.push_back(BuildBmpPixel(rawdata, pixelLength, idx));
-		bitCount += pixelLength;
+		pixelData.push_back(BuildBmpPixel(rawdata, channelCount, idx));
+		bitCount += channelCount;
 	}
 
-	return std::make_unique<Data>(rawdata, pixelData, header);
+	return std::move(std::make_unique<Data>(rawdata, pixelData, header));
 }
 
 
@@ -103,15 +108,15 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 //Bmp pixels are just byte vectors, so creating a bmp pixel is simply reading
 //how many channels the bmp image has in the given format by reading the header
 //and building a pixel container from the rawdata
-Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx)
+Pixel BmpAdapter::BuildBmpPixel(std::vector<unsigned char>& rawdata, const int channelCount, int idx)
 {
 	std::vector<unsigned char> pixelChannelData;
-	for (int x = 0; x < pixelLength; ++x)
+	for (int x = 0; x < channelCount; ++x)
 	{
 		//build our pixel
 		pixelChannelData.push_back(rawdata[idx + x]);
 	}
-	Pixel pixel(pixelChannelData);
+	Pixel pixel(pixelChannelData, channelCount);
 	return pixel;
 }
 
@@ -128,7 +133,7 @@ const int BmpAdapter::GetPadding(uint32_t bitsPerPixel, uint32_t width)
 
 //Each Bmp format will have a different number of pixels, refer to
 //the wiki for more information
-const int BmpAdapter::GetPixelLength(const int bitsPerPixel)
+const int BmpAdapter::GetChannelCount(const int bitsPerPixel)
 {
 	if (bitsPerPixel == 1 || bitsPerPixel == 4)
 		return 1;
