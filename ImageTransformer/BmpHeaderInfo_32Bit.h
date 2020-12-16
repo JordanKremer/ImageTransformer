@@ -44,5 +44,11 @@ public:
 	HeaderInfo* Clone() const;
 	void operator=(const HeaderInfo& toCopy);
 
+private:
+	std::unique_ptr<BmpHeaderComponents_32Bit> bmpHeaderComponents_32Bit;
+	const uint32_t GetRedBitMask();
+	const uint32_t GetGreenBitMask();
+	const uint32_t GetBlueBitMask();
+	const uint32_t GetAlphaBitMask();
 };
 
