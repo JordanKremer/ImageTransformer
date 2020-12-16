@@ -13,7 +13,8 @@ only found in the header of the 32bit bmp images.
 #include "BmpHeaderInfo.h"
 
 
-
+//32bit bmp images are BGRA within the channel data, despite the order in which 
+//the masks appear in the header
 struct BmpHeader_32BitConstants {
 
 	inline static const int RED_CHANNEL_BITMASK = 54;
@@ -22,6 +23,14 @@ struct BmpHeader_32BitConstants {
 	inline static const int	ALPHA_CHANNEL_BITMASK = 64;
 };
 
+
+
+struct BmpHeaderComponents_32Bit {
+	uint32_t _redBitMask;
+	uint32_t _greenBitmask;
+	uint32_t _blueBitMask;
+	uint32_t _alphaBitMask;
+};
 
 
 
