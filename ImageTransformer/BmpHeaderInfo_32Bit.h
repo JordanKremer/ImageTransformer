@@ -13,11 +13,19 @@ only found in the header of the 32bit bmp images.
 #include "BmpHeaderInfo.h"
 
 
-/*
-struct BmpHeader_32BitConstants{
 
-}
-*/
+struct BmpHeader_32BitConstants {
+
+	inline static const int RED_CHANNEL_BITMASK = 54;
+	inline static const int GREEN_CHANNEL_BITMASK = 58;
+	inline static const int BLUE_CHANNEL_BITMASK = 62;
+	inline static const int	ALPHA_CHANNEL_BITMASK = 64;
+};
+
+
+
+
+
 
 class BmpHeaderInfo_32Bit :
 	public BmpHeaderInfo
@@ -25,7 +33,7 @@ class BmpHeaderInfo_32Bit :
 public:
 	BmpHeaderInfo_32Bit();
 	BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy);
-	BmpHeaderInfo_32Bit(std::vector<unsigned char> hData);
+	BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData);
 	HeaderInfo* Clone() const;
 	void operator=(const HeaderInfo& toCopy);
 
