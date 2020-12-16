@@ -8,7 +8,7 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy)
 {
 }
 
-BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char> hData):BmpHeaderInfo(hData)
+BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData):BmpHeaderInfo(hData)
 {
 
 }
