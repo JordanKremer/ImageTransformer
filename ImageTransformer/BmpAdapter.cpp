@@ -10,7 +10,6 @@ object to rawData, so that the rawData may be written to file.
 
 #include "BmpAdapter.h"
 #include "BmpHeaderFactory.h"
-#include "BmpHeaderInfo_24Bit.h"
 #include "BmpHeaderInfo_32Bit.h"
 #include <memory>
 #include <stdexcept>
@@ -34,8 +33,9 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 	uint32_t compression = bmpHeader->GetCompression();
 	uint32_t bitsPerPixel = bmpHeader->GetBitsPerPixel();
 
-	return LoadPixels(data, bmpHeader);
+	return LoadPixels(data, std::move(bmpHeader));
 }
+
 
 
 //Adapts image data to raw format, by calling BuildRawDataVector
@@ -74,7 +74,7 @@ const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> da
 
 //Load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
-std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, const BmpHeaderInfo* header)
+std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header)
 {
 	std::vector<Pixel> pixelData;
 	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight()); 	//cast to 8 byte to avoid overflow
@@ -100,7 +100,7 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 		bitCount += channelCount;
 	}
 
-	return std::move(std::make_unique<Data>(rawdata, pixelData, header));
+	return std::move(std::make_unique<Data>(rawdata, pixelData, std::move(header)));
 }
 
 

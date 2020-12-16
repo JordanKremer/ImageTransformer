@@ -19,7 +19,7 @@ class Data
 {
 public:
 	Data();
-	Data(std::vector<unsigned char> &data, std::vector<Pixel>& pixels, const HeaderInfo* header);
+	Data(std::vector<unsigned char> &data, std::vector<Pixel>& pixels, std::unique_ptr<HeaderInfo> header);
 	~Data(); //if change _header to unique, no need for destructor
 
 	_NODISCARD const int GetCompression();
@@ -27,7 +27,7 @@ public:
 	const std::vector<Pixel> GetPixels() const;
 
 private:
-	HeaderInfo* _header; //Unique_ptr won't work here
+	std::unique_ptr<HeaderInfo> _header; //Unique_ptr won't work here
 	std::vector<Pixel> _pixels;
 
 };
