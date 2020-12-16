@@ -128,31 +128,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Adapter.cpp" />
+    <ClCompile Include="AdapterFactory.cpp" />
     <ClCompile Include="BmpAdapter.cpp" />
     <ClCompile Include="BmpHeaderFactory.cpp" />
     <ClCompile Include="BmpHeaderInfo.cpp" />
-    <ClCompile Include="BmpHeaderInfo_24Bit.cpp" />
     <ClCompile Include="BmpHeaderInfo_32Bit.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="HeaderInfo.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pixel.cpp" />
+    <ClCompile Include="Pixelate.cpp" />
     <ClCompile Include="PixelFactory.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adapter.h" />
+    <ClInclude Include="AdapterFactory.h" />
     <ClInclude Include="BmpAdapter.h" />
     <ClInclude Include="BmpHeaderFactory.h" />
     <ClInclude Include="BmpHeaderInfo.h" />
-    <ClInclude Include="BmpHeaderInfo_24Bit.h" />
     <ClInclude Include="BmpHeaderInfo_32Bit.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="HeaderInfo.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Pixel.h" />
+    <ClInclude Include="Pixelate.h" />
     <ClInclude Include="PixelFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Transformation.h" />

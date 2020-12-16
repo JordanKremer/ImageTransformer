@@ -5,6 +5,7 @@ class Pixelate :
 {
 public:
 	Pixelate();
-	Data transform(Data imageData);
+	std::unique_ptr<Data> Transform(std::unique_ptr<Data> adaptedData);
 };
+
 

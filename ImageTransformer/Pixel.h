@@ -27,7 +27,7 @@ struct Channels {
 class Pixel
 {
 public:
-	Pixel(std::vector<unsigned char>& channelData);
+	Pixel(std::vector<unsigned char>& channelData, int channels);
 
 	//Iterator can be used more generically, that even though
 	//it may be less efficient than pass the vector, it means that
@@ -40,7 +40,7 @@ public:
 private:
 
 	std::vector<unsigned char> _channels;
-	int channelCount;
+	int _channelCount;
 
 };
 

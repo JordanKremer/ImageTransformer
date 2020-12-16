@@ -16,7 +16,7 @@ class BmpHeaderFactory
 {
 public:
 	BmpHeaderFactory();
-	const BmpHeaderInfo* GetBmpHeader(std::vector<unsigned char>& rawData); //subject to change as more types become supported
+	std::unique_ptr<BmpHeaderInfo> GetBmpHeader(std::vector<unsigned char>& rawData); //subject to change as more types become supported
 	int GetCompression(std::vector<unsigned char>& rawData);
 
 };

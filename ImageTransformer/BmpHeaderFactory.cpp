@@ -21,15 +21,15 @@ BmpHeaderFactory::BmpHeaderFactory() {}
 
 //Creates a BmpHeaderInfo ptr from the rawData, which is then used
 //in the caller function to create a Data object.
-const BmpHeaderInfo* BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& rawData) {
+std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& rawData) {
 
 	int compressionFlag = GetCompression(rawData);
 	switch(compressionFlag)
 	{
-		case 0: return new const BmpHeaderInfo(rawData);
-		case 1: return new const BmpHeaderInfo(rawData);
-		case 2: return new const BmpHeaderInfo(rawData);
-		case 3: return new const BmpHeaderInfo_32Bit(rawData);
+		case 0: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
+		case 1: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
+		case 2: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
+		case 3: return std::move(std::make_unique<BmpHeaderInfo_32Bit>(rawData));
 		default: throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER, COMPRESSION OUT OF BOUNDS");
 	}
 }

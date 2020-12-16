@@ -13,9 +13,10 @@ way to manage Pixel values.
 
 
 
-Pixel::Pixel(std::vector<unsigned char>& channelData)
+Pixel::Pixel(std::vector<unsigned char>& channelData, int channelCount)
 {
 	_channels = channelData;
+	_channelCount = channelCount;
 }
 
 
@@ -53,5 +54,5 @@ const std::vector<unsigned char>& Pixel::GetAllChannelData()const
 
 const int Pixel::GetChannelCount()const
 {
-	return channelCount;
+	return _channelCount;
 }

@@ -66,9 +66,6 @@
     <ClCompile Include="BmpHeaderInfo_32Bit.cpp">
       <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
-    <ClCompile Include="BmpHeaderInfo_24Bit.cpp">
-      <Filter>Source Files\HeaderInfo</Filter>
-    </ClCompile>
     <ClCompile Include="BmpHeaderInfo.cpp">
       <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
@@ -93,6 +90,12 @@
     <ClCompile Include="PixelFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AdapterFactory.cpp">
+      <Filter>Source Files\Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="Pixelate.cpp">
+      <Filter>Source Files\Transformation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -102,9 +105,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BmpHeaderInfo.h">
-      <Filter>Header Files\HeaderInfo</Filter>
-    </ClInclude>
-    <ClInclude Include="BmpHeaderInfo_24Bit.h">
       <Filter>Header Files\HeaderInfo</Filter>
     </ClInclude>
     <ClInclude Include="BmpHeaderInfo_32Bit.h">
@@ -136,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="PixelFactory.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdapterFactory.h">
+      <Filter>Header Files\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="Pixelate.h">
+      <Filter>Header Files\Transformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 class AdapterFactory
 {
 public:
-	Adapter* GetAdapter(std::string fileType);
-	
+	std::unique_ptr<Adapter> GetAdapter(std::string fileType);
+
 };
 
