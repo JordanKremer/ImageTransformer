@@ -23,8 +23,8 @@ public:
 	~Data(); //if change _header to unique, no need for destructor
 
 	_NODISCARD const int GetCompression();
-	const std::vector<unsigned char>& GetHeader() const;
-	const std::vector<Pixel>& GetPixels() const;
+	const std::vector<unsigned char> GetHeader() const;
+	const std::vector<Pixel> GetPixels() const;
 
 private:
 	HeaderInfo* _header; //Unique_ptr won't work here
