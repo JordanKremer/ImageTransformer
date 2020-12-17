@@ -61,16 +61,16 @@ public:
 	BmpHeaderInfo(const std::vector<unsigned char>& data);
 	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
-	HeaderInfo* Clone() const;
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
 
+	_NODISCARD std::unique_ptr<HeaderInfo> Clone();
 	_NODISCARD const uint32_t GetWidth() const; //const getwidth() const?
 	_NODISCARD const uint32_t GetHeight() const;
 	_NODISCARD const uint32_t GetCompression() const; //const?  //do we want the return type to be const?
 	_NODISCARD const uint32_t GetBitsPerPixel() const;
 	_NODISCARD const uint32_t GetImageStartOffset() const;
-	_NODISCARD virtual const std::vector<unsigned char>& GetRawHeader() const;
+	_NODISCARD const std::vector<unsigned char> GetRawHeader() const;
 
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
