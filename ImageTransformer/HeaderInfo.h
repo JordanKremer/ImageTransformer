@@ -11,15 +11,12 @@ updates.
 #pragma once
 #include <stdint.h> //for uint_32, causes an Override error without it
 #include <vector>
+#include <memory>
 
 class HeaderInfo
 {
 public:
 	//https://isocpp.org/wiki/faq/abcs#copy-of-abc-via-clone
-	HeaderInfo(uint32_t width, uint32_t height, std::unique_ptr<HeaderInfo> to_copy);
-	HeaderInfo(uint32_t width, uint32_t height, uint32_t fileSize, std::unique_ptr<HeaderInfo> to_copy);
-
-	_NODISCARD virtual std::unique_ptr<HeaderInfo> Clone() = 0;
 	_NODISCARD virtual const uint32_t GetCompression() const = 0;
 	_NODISCARD virtual const uint32_t GetBitsPerPixel() const = 0;
 	_NODISCARD virtual const uint32_t GetImageStartOffset() const = 0;
