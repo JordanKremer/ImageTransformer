@@ -23,11 +23,6 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData):BmpH
 	bmpHeaderComponents_32Bit->_alphaBitMask = headerComponentsConstructorHelper(bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK + 4, hData);
 }
 
-HeaderInfo* BmpHeaderInfo_32Bit::Clone() const
-{
-	return nullptr;
-}
-
 
 
 void BmpHeaderInfo_32Bit::operator=(const HeaderInfo& toCopy)

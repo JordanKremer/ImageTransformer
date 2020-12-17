@@ -41,7 +41,6 @@ public:
 	BmpHeaderInfo_32Bit();
 	BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy);
 	BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData);
-	_NODISCARD std::unique_ptr<HeaderInfo> Clone();
 	void operator=(const HeaderInfo& toCopy);
 
 private:

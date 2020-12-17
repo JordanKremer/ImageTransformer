@@ -89,9 +89,10 @@ BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 
 
 
-HeaderInfo* BmpHeaderInfo::Clone() const
+std::unique_ptr<HeaderInfo> BmpHeaderInfo::Clone()
 {
-	return new BmpHeaderInfo(*this);
+	//return new BmpHeaderInfo(*this);
+	return nullptr;
 }
 
 
@@ -159,7 +160,7 @@ const uint32_t BmpHeaderInfo::GetImageStartOffset() const
 
 
 
-const std::vector<unsigned char>& BmpHeaderInfo::GetRawHeader() const
+const std::vector<unsigned char> BmpHeaderInfo::GetRawHeader() const
 {
 	return rawData;
 }

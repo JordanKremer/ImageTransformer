@@ -64,7 +64,6 @@ public:
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
 
-	_NODISCARD std::unique_ptr<HeaderInfo> Clone();
 	_NODISCARD const uint32_t GetWidth() const; //const getwidth() const?
 	_NODISCARD const uint32_t GetHeight() const;
 	_NODISCARD const uint32_t GetCompression() const; //const?  //do we want the return type to be const?
