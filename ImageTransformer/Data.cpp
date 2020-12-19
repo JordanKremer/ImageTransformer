@@ -34,14 +34,14 @@ const int Data::GetCompression()
 
 
 
-const std::vector<unsigned char> Data::GetHeader() const
+const std::vector<unsigned char> Data::GetRawHeaderReadOnly() const
 {
 	return _header->GetRawHeader();
 }
 
 
 
-const std::vector<Pixel> Data::GetPixels() const
+const std::vector<Pixel> Data::GetPixelsReadOnly() const
 {
 	return _pixels;
 }
