@@ -43,8 +43,8 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 //either pass by ref or use move to pass the unique ptr in
 const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> data)
 {
-	auto header = data->GetHeader();
-	auto pixels = data->GetPixels();
+	auto header = data->GetRawHeaderReadOnly();
+	auto pixels = data->GetPixelsReadOnly();
 	if (pixels.size() == 0)
 	{
 		throw std::runtime_error("ERROR: Pixel vector has no data");
