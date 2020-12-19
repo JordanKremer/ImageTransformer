@@ -89,13 +89,6 @@ BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
 
 
 
-std::unique_ptr<HeaderInfo> BmpHeaderInfo::Clone()
-{
-	//return new BmpHeaderInfo(*this);
-	return nullptr;
-}
-
-
 
 BmpHeaderInfo& BmpHeaderInfo::operator=(const BmpHeaderInfo& toCopy)
 {

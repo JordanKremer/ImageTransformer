@@ -96,6 +96,9 @@
     <ClCompile Include="Pixelate.cpp">
       <Filter>Source Files\Transformation</Filter>
     </ClCompile>
+    <ClCompile Include="Rotate180.cpp">
+      <Filter>Source Files\Transformation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Pixelate.h">
       <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotate180.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

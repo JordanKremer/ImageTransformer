@@ -140,6 +140,7 @@
     <ClCompile Include="Pixel.cpp" />
     <ClCompile Include="Pixelate.cpp" />
     <ClCompile Include="PixelFactory.cpp" />
+    <ClCompile Include="Rotate180.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="Pixelate.h" />
     <ClInclude Include="PixelFactory.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Rotate180.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationFactory.h" />
   </ItemGroup>
