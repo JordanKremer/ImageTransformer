@@ -22,6 +22,7 @@ public:
 	_NODISCARD virtual const uint32_t GetImageStartOffset() const = 0;
 	_NODISCARD virtual const uint32_t GetWidth() const = 0;
 	_NODISCARD virtual const std::vector<unsigned char> GetRawHeader() const = 0;
+	virtual std::unique_ptr<HeaderInfo> Clone(std::shared_ptr<HeaderArguments> changeArgs) = 0;
 };
 
 /*
