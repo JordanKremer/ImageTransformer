@@ -17,9 +17,9 @@ public:
 	//Unique_ptr obj is destroyed within the function and a new one is created
 	//with the transformed Data, as a new Data obj
 	virtual std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels) = 0;
-	virtual std::shared_ptr<HeaderArguments> GetHeaderTransformationChanges() = 0;
+	virtual std::shared_ptr<HeaderTransformationChanges> GetHeaderTransformationChanges() = 0;
 
 private:
-	std::shared_ptr<HeaderArguments> _headerTransformationChanges;
+	std::shared_ptr<HeaderTransformationChanges> _headerTransformationChanges;
 };
 
