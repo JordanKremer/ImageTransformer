@@ -4,8 +4,12 @@ Pixelate::Pixelate()
 {
 }
 
-std::unique_ptr<Data> Pixelate::Transform(std::unique_ptr<Data> adaptedData)
+std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels)
 {
-	//return std::make_unique<Data>();
-	return nullptr;
+	return std::vector<Pixel>();
+}
+
+std::shared_ptr<std::map<int, int>> Pixelate::GetHeaderTransformationChanges()
+{
+	return std::shared_ptr<std::map<int, int>>();
 }

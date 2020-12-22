@@ -1,8 +1,9 @@
 #include "Rotate180.h"
 
+/*
 std::unique_ptr<Data> Rotate180::Transform(std::unique_ptr<Data> adaptedData)
 {
-	/*
+	
 	vector<unsigned char>tmpVec;
 	bool hasCountedWidth = false;
 	for (int y = (Height - 1); y > -1; y--)
@@ -17,7 +18,7 @@ std::unique_ptr<Data> Rotate180::Transform(std::unique_ptr<Data> adaptedData)
 		++scaledHeight;
 	}
 	pixelByte = tmpVec;
-	*/
+	
 
 	adaptedData->_header;
 
@@ -25,4 +26,15 @@ std::unique_ptr<Data> Rotate180::Transform(std::unique_ptr<Data> adaptedData)
 	//data needs args for constructor
 	//return std::move(std::make_unique<Data>());
 	return nullptr;
+}
+*/
+
+std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
+{
+	return std::vector<Pixel>();
+}
+
+std::shared_ptr<std::map<int, int>> Rotate180::GetHeaderTransformationChanges()
+{
+	return std::shared_ptr<std::map<int, int>>();
 }
