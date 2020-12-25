@@ -12,6 +12,7 @@ updates.
 #include <stdint.h> //for uint_32, causes an Override error without it
 #include <vector>
 #include <memory>
+#include <map>
 
 class HeaderInfo
 {
@@ -22,8 +23,14 @@ public:
 	_NODISCARD virtual const uint32_t GetImageStartOffset() const = 0;
 	_NODISCARD virtual const uint32_t GetWidth() const = 0;
 	_NODISCARD virtual const std::vector<unsigned char> GetRawHeader() const = 0;
-	virtual std::unique_ptr<HeaderInfo> Clone(std::shared_ptr< std::map<int, int>> changeArgs) = 0;
+	_NODISCARD virtual std::unique_ptr<HeaderInfo> Clone(std::shared_ptr<std::map<int, int>> changeArgs) = 0;
+
+
+	virtual void SetHeight(int newHeight) = 0;
+	virtual void SetWidth(int newWidth) = 0;
+
 };
+
 
 /*
 
