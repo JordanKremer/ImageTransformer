@@ -69,6 +69,17 @@ uint32_t BmpHeaderInfo::headerComponentsConstructorHelper(const int bmpConstantS
 	return tmpCharToIntConversion;
 }
 
+void BmpHeaderInfo::HeaderRawImageDataSetterFromIntegerHelper(uint32_t dataToChangeTo, const int bmpConstantStart, const int bmpConstantEnd)
+{
+	BmpConstants con;
+	int loadIdx = 0;
+	for (int dataIdx = bmpConstantStart; dataIdx < bmpConstantEnd; ++dataIdx)
+	{
+		rawData[dataIdx] = ((unsigned char*)& dataToChangeTo)[loadIdx];
+		++loadIdx;
+	}
+}
+
 
 //Copy constructor
 BmpHeaderInfo::BmpHeaderInfo(const BmpHeaderInfo& toCopy)
@@ -156,4 +167,27 @@ const uint32_t BmpHeaderInfo::GetImageStartOffset() const
 const std::vector<unsigned char> BmpHeaderInfo::GetRawHeader() const
 {
 	return rawData;
+}
+
+
+
+
+void BmpHeaderInfo::SetHeight(int newHeight)
+{
+	//set bmpHeaderComponents and rawData
+	BmpConstants con;
+	bmpHeaderComponents->_height = newHeight;
+    HeaderRawImageDataSetterFromIntegerHelper(newHeight, con.HEIGHT, con.HEIGHT+4);
+	
+}
+
+
+
+void BmpHeaderInfo::SetWidth(int newWidth)
+{
+	//set bmpHeaderComponents and rawData
+	BmpConstants con;
+
+	bmpHeaderComponents->_width = newWidth;
+	HeaderRawImageDataSetterFromIntegerHelper(newWidth, con.WIDTH, con.WIDTH + 4);
 }

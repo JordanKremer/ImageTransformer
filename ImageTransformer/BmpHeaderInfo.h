@@ -59,7 +59,6 @@ public:
 
 	BmpHeaderInfo();
 	BmpHeaderInfo(const std::vector<unsigned char>& data);
-	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	BmpHeaderInfo(const BmpHeaderInfo& toCopy);
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
@@ -74,8 +73,13 @@ public:
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
 	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 
+	void SetHeight(int newHeight);
+	void SetWidth(int newWidth);
+
 	
 private:
+	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
+	void HeaderRawImageDataSetterFromIntegerHelper(uint32_t dataToChangeTo, const int bmpConstantStart, const int bmpConstantEnd);
 	std::shared_ptr<BasicBmpHeaderComponents> bmpHeaderComponents;
 	std::vector<unsigned char> rawData;
 };
