@@ -9,6 +9,7 @@ object to rawData, so that the rawData may be written to file.
 
 
 #include "BmpAdapter.h"
+#include "Data.h"
 #include "BmpHeaderFactory.h"
 #include "BmpHeaderInfo_32Bit.h"
 #include <memory>

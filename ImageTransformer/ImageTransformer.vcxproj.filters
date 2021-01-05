@@ -99,6 +99,9 @@
     <ClCompile Include="Rotate180.cpp">
       <Filter>Source Files\Transformation</Filter>
     </ClCompile>
+    <ClCompile Include="Applicator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -147,6 +150,9 @@
       <Filter>Header Files\Transformation</Filter>
     </ClInclude>
     <ClInclude Include="Rotate180.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Applicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

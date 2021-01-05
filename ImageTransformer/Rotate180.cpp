@@ -29,12 +29,22 @@ std::unique_ptr<Data> Rotate180::Transform(std::unique_ptr<Data> adaptedData)
 }
 */
 
-std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
+
+std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, std::unique_ptr<HeaderInfo> header)
 {
+
 	return std::vector<Pixel>();
 }
+
+
+
 
 std::shared_ptr<std::map<int, int>> Rotate180::GetHeaderTransformationChanges()
 {
 	return std::shared_ptr<std::map<int, int>>();
+}
+
+std::unique_ptr<HeaderInfo> Rotate180::TransformHeader(std::unique_ptr<HeaderInfo> header)
+{
+	return std::unique_ptr<HeaderInfo>();
 }

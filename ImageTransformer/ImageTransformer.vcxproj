@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Adapter.cpp" />
     <ClCompile Include="AdapterFactory.cpp" />
+    <ClCompile Include="Applicator.cpp" />
     <ClCompile Include="BmpAdapter.cpp" />
     <ClCompile Include="BmpHeaderFactory.cpp" />
     <ClCompile Include="BmpHeaderInfo.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Adapter.h" />
     <ClInclude Include="AdapterFactory.h" />
+    <ClInclude Include="Applicator.h" />
     <ClInclude Include="BmpAdapter.h" />
     <ClInclude Include="BmpHeaderFactory.h" />
     <ClInclude Include="BmpHeaderInfo.h" />
