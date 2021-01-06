@@ -16,8 +16,7 @@ as Gaussian blur and Pixelate will derive from.
 class Transformation
 {
 public:
-	virtual std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels) = 0;
+	virtual std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels, const HeaderInfo* hdr) = 0; //via unique_ptr.get()
 	virtual std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> header) = 0;
-	//virtual std::shared_ptr<std::map<int, int>> GetHeaderTransformationChanges() = 0;
 };
 

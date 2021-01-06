@@ -6,8 +6,7 @@ class Rotate180 :
 {
 public:
 	Rotate180();
-	std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels);
+	std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels, const HeaderInfo* hdr);
 	std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> header);
-	//std::shared_ptr<std::map<int, int>> GetHeaderTransformationChanges();
 };
 
