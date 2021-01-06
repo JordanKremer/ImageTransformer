@@ -32,14 +32,48 @@ std::unique_ptr<Data> Rotate180::Transform(std::unique_ptr<Data> adaptedData)
 
 std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, const HeaderInfo* hdr)
 {
+	uint32_t imageWidth = hdr->GetWidth();
+	uint32_t imageHeight = hdr->GetHeight();
+	int curLowerBoundIdx = 0;
+	int curUpperBoundIdx = imageHeight;
 
-	return std::vector<Pixel>();
+	for (int widthIdx = 0; widthIdx < imageWidth; ++widthIdx)
+	{
+		curUpperBoundIdx = imageHeight;
+		for (int heightIdx = 0; heightIdx < imageHeight / 2; ++heightIdx)
+		{
+			curLowerBoundIdx = widthIdx * heightIdx;
+			
+			try {
+				Swap(pixels, curUpperBoundIdx, curLowerBoundIdx);
+			}
+			catch (const std::out_of_range& oor)
+			{
+				//either throw to next level up, or just output a message here
+			}
+
+			--curUpperBoundIdx;
+		}
+	}
+
+
+	return pixels;
 }
 
-
+//not sure if I should be passing by ref or just using the move copy...it might be 
+//really slow to execute it a lot
+//pass by ref?
+//dont make a function at all?
+void Rotate180::Swap(std::vector<Pixel>& pixels, int curUpperBoundIdx, int curLowerBoundIdx)
+{
+	Pixel tmp = pixels[curLowerBoundIdx];
+	pixels[curLowerBoundIdx] = pixels[curUpperBoundIdx];
+	pixels[curUpperBoundIdx] = tmp;
+}
 
 
 std::unique_ptr<HeaderInfo> Rotate180::TransformHeader(std::unique_ptr<HeaderInfo> header)
 {
-	return std::unique_ptr<HeaderInfo>();
+	//No op function
+	return std::move(header);
 }
