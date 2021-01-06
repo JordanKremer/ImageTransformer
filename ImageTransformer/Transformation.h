@@ -12,6 +12,7 @@ as Gaussian blur and Pixelate will derive from.
 #include "HeaderInfo.h"
 #include <memory>
 #include <map>
+#include <exception>
 
 class Transformation
 {
