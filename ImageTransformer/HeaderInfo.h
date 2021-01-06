@@ -21,6 +21,7 @@ public:
 	_NODISCARD virtual const uint32_t GetCompression() const = 0;
 	_NODISCARD virtual const uint32_t GetBitsPerPixel() const = 0;
 	_NODISCARD virtual const uint32_t GetImageStartOffset() const = 0;
+	_NODISCARD virtual const uint32_t GetHeight() const = 0;
 	_NODISCARD virtual const uint32_t GetWidth() const = 0;
 	_NODISCARD virtual const std::vector<unsigned char> GetRawHeader() const = 0;
 	//_NODISCARD virtual std::unique_ptr<HeaderInfo> Clone(std::shared_ptr<std::map<int, int>> changeArgs) = 0;
