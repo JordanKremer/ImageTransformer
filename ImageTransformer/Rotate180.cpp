@@ -30,7 +30,6 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, const H
 		}
 		catch (const std::out_of_range& oor)
 		{
-			//either throw to next level up, or just output a message here
 			throw oor;
 		}
 
@@ -41,12 +40,11 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, const H
 
 
 
-//not sure if I should be passing by ref or just using the move copy...it might be 
-//really slow to execute it a lot
-//pass by ref?
-//dont make a function at all?
 void Rotate180::Swap(std::vector<Pixel>& pixels, uint32_t pixelIdxToSwap, int curPixelIdx)
 {
+	if (curPixelIdx > pixels.size() || pixelIdxToSwap > pixels.size())
+		throw std::out_of_range("ERROR: SWAP PIXEL FAILURE IN ROTATE180 TRANSFORMATION");
+	
 	Pixel tmp = pixels[curPixelIdx];
 	pixels[curPixelIdx] = pixels[pixelIdxToSwap];
 	pixels[pixelIdxToSwap] = tmp;
