@@ -14,7 +14,7 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, const H
 
 
 	if (imageHeight * imageWidth > pixels.size())
-		throw std::runtime_error("ERROR: INVALID IMAGE DIMENSIONS, CANNOT TRANSFORM");
+		throw std::runtime_error("ERROR | ROTATE180.TRANSFORMPIXELS(): INVALID IMAGE DIMENSIONS, CANNOT TRANSFORM");
 
 	for (uint32_t curPixelIdx = 0; curPixelIdx < pixels.size(); ++curPixelIdx)
 	{
@@ -43,7 +43,7 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels, const H
 void Rotate180::Swap(std::vector<Pixel>& pixels, uint32_t pixelIdxToSwap, int curPixelIdx)
 {
 	if (curPixelIdx > pixels.size() || pixelIdxToSwap > pixels.size())
-		throw std::out_of_range("ERROR: SWAP PIXEL FAILURE IN ROTATE180 TRANSFORMATION");
+		throw std::out_of_range("ERROR | ROTATE180.SWAP(): SWAP PIXEL FAILURE");
 	
 	Pixel tmp = pixels[curPixelIdx];
 	pixels[curPixelIdx] = pixels[pixelIdxToSwap];
