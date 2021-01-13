@@ -51,7 +51,12 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 	bmpHeaderComponents->_horizontalResolution = headerComponentsConstructorHelper(bmpConstants.HORIZONTALRESOLUTION, bmpConstants.VERTICALRESOLUTION, data);
 	bmpHeaderComponents->_verticalResolution = headerComponentsConstructorHelper(bmpConstants.VERTICALRESOLUTION, bmpConstants.NUMCOLORSINPALETTE, data);
 
-	rawData = data;
+	rawData.reserve(54);
+
+	for (int i = 0; i < 54; ++i)
+	{
+		rawData.push_back(data[i]);
+	}
 }
 
 
@@ -69,7 +74,7 @@ uint32_t BmpHeaderInfo::headerComponentsConstructorHelper(const int bmpConstantS
 	return tmpCharToIntConversion;
 }
 
-void BmpHeaderInfo::HeaderRawImageDataSetterFromIntegerHelper(uint32_t dataToChangeTo, const int bmpConstantStart, const int bmpConstantEnd)
+void BmpHeaderInfo::HeaderRawImageDataSetterFromIntegerHelper(uint32_t dataToChangeTo, const int bmpConstantStart, const int bmpConstantEnd, std::vector<unsigned char>& rawData)
 {
 	BmpConstants con;
 	int loadIdx = 0;
@@ -177,7 +182,7 @@ void BmpHeaderInfo::SetHeight(int newHeight)
 	//set bmpHeaderComponents and rawData
 	BmpConstants con;
 	bmpHeaderComponents->_height = newHeight;
-    HeaderRawImageDataSetterFromIntegerHelper(newHeight, con.HEIGHT, con.HEIGHT+4);
+    HeaderRawImageDataSetterFromIntegerHelper(newHeight, con.HEIGHT, con.HEIGHT+4, rawData);
 	
 }
 
@@ -189,5 +194,5 @@ void BmpHeaderInfo::SetWidth(int newWidth)
 	BmpConstants con;
 
 	bmpHeaderComponents->_width = newWidth;
-	HeaderRawImageDataSetterFromIntegerHelper(newWidth, con.WIDTH, con.WIDTH + 4);
+	HeaderRawImageDataSetterFromIntegerHelper(newWidth, con.WIDTH, con.WIDTH + 4, rawData);
 }
