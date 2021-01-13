@@ -41,6 +41,7 @@ public:
 	BmpHeaderInfo_32Bit();
 	BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy);
 	BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData);
+	_NODISCARD const std::vector<unsigned char> GetRawHeader() const;
 	void operator=(const HeaderInfo& toCopy);
 
 private:

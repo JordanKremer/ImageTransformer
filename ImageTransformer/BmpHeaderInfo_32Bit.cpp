@@ -32,6 +32,11 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData):BmpH
 	}
 }
 
+const std::vector<unsigned char> BmpHeaderInfo_32Bit::GetRawHeader() const
+{
+	return bmpHeader32Bit_rawHeader;
+}
+
 
 
 void BmpHeaderInfo_32Bit::operator=(const HeaderInfo& toCopy)
