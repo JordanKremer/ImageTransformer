@@ -45,6 +45,7 @@ public:
 
 private:
 	std::unique_ptr<BmpHeaderComponents_32Bit> bmpHeaderComponents_32Bit;
+	std::vector<unsigned char> bmpHeader32Bit_rawHeader;
 	const uint32_t GetRedBitMask();
 	const uint32_t GetGreenBitMask();
 	const uint32_t GetBlueBitMask();
