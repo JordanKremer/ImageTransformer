@@ -16,19 +16,24 @@ as Gaussian blur and Pixelate will derive from.
 
 class Transformation
 {
-public:
-	virtual std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels, const HeaderInfo* hdr) = 0; //via unique_ptr.get()
-	virtual std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> header) = 0;
+	friend class Applicator;
 
-protected:
-	inline Pixel GetPixelAtCoordinate(std::vector<Pixel> pixels, const HeaderInfo* hdr, int x, int y)
+public:
+	virtual std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels) = 0;
+	virtual std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> hdr) = 0;
+	void SetHeader(const HeaderInfo* toSet) { _hdr = toSet; }
+	const HeaderInfo* GetHeader() { return _hdr; };
+
+	inline Pixel GetPixelAtCoordinate(std::vector<Pixel> pixels, int x, int y)
 	{
-		uint32_t Width = hdr->GetWidth();
+		uint32_t Width = _hdr->GetWidth();
 		uint32_t pixelIdx = Width * y + x;
 
 		return pixels[pixelIdx];
 	}
 
-	std::unique_ptr<HeaderInfo> hdr; //protected
+private:
+	const HeaderInfo* _hdr;
+
 };
 
