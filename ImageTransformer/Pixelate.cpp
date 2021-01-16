@@ -107,8 +107,11 @@ std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels, const He
 
 
 
+//xboundaddition and yboundaddition are the squarelen, which we can get from squarelen from pixelate
 
-Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, uint32_t x, uint32_t y, uint8_t xBoundAddition, uint8_t yBoundAddition) {
+
+
+Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, std::pair<uint32_t, uint32_t> startCoordinate) {
 	uint32_t tmpR = 0;
 	uint32_t tmpG = 0;
 	uint32_t tmpB = 0;
@@ -133,9 +136,9 @@ Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, u
 
 
 	//Add pixel values together
-	for (uint32_t imageWidth = x; imageWidth < (x+xBoundAddition); imageWidth++)
+	for (uint32_t imageWidth = x; imageWidth < (x+squareLen); imageWidth++)
 	{
-		for (uint32_t imageHeight = y; imageHeight < (y + yBoundAddition); imageHeight++)
+		for (uint32_t imageHeight = y; imageHeight < (y + squareLen); imageHeight++)
 		{
 
 			tmpPixel = tmpPixel + GetPixelAtCoordinate(pixels, hdr, imageWidth, imageHeight);
@@ -161,9 +164,9 @@ Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, u
 
 
 	//in a 16x 16 block, make all the pixels values the average that was just determined
-	for (uint32_t imageWidth = x; imageWidth <(x+xBoundAddition); imageWidth++)
+	for (uint32_t imageWidth = startCoordinate.first; imageWidth <(startCoordinate.first+squareLen); imageWidth++)
 	{
-		for (uint32_t imageHeight = y; imageHeight < (y +yBoundAddition); imageHeight++)
+		for (uint32_t imageHeight = startCoordinate.second; imageHeight < (startCoordinate.second +squareLen); imageHeight++)
 		{
 			returnRedByte(imageWidth, imageHeight) = tmpR;
 			returnGreenByte(imageWidth, imageHeight) = tmpG;
@@ -181,3 +184,18 @@ std::unique_ptr<HeaderInfo> Pixelate::TransformHeader(std::unique_ptr<HeaderInfo
 
 
 
+
+std::vector<std::vector<Pixel>::iterator> Pixelate::GetIteratorsOfPixelBox(std::vector<Pixel> pixels, int curBox_X, int curBox_Y)
+{
+	std::vector<std::vector<Pixel>::iterator> boxIterators;
+	for (int row = 0; row < squareLen; ++row) //row of box
+	{
+		std::vector<Pixel>::iterator rowIterator = pixels.begin() + GetBoxIteratorOffset(curBox_X, curBox_Y, row);
+	}
+}
+
+
+uint32_t Pixelate::GetBoxIteratorOffset(int curBox_X, int curBox_Y, int row, int width)
+{
+	return (curBox_X * squareLen) + (((curBox_Y * squareLen) + row) * width);
+}
