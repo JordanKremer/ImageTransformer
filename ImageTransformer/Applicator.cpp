@@ -3,11 +3,9 @@
 
 std::unique_ptr<Data> Applicator::ApplyTransformation(std::unique_ptr<Data> image, std::unique_ptr<Transformation> transformer)
 {
-	//image is friend to applicator, so it's variables are directly accessible
-	const HeaderInfo* hdr = image->_header.get();
-
 	try {
-		image->_pixels = transformer->TransformPixels(image->_pixels, hdr);
+		transformer->SetHeader(image->_header.get());
+		image->_pixels = transformer->TransformPixels(image->_pixels);
 		image->_header = transformer->TransformHeader(std::move(image->_header));
 	}
 	catch (const std::out_of_range& error)
