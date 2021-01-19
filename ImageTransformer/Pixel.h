@@ -29,11 +29,13 @@ class Pixel
 public:
 	Pixel(std::vector<unsigned char>& channelData, int channels);
 	Pixel(std::vector<int>::iterator, const int numChannels);
+	Pixel operator+(const Pixel& p);
+
 	const unsigned char& GetChannel(const int channel) const;
 	const std::vector<unsigned char>& GetAllChannelData() const;
 	const int GetChannelCount()const;
+	void SetChannel(int channelIdx, int channelValue);
 
-	Pixel operator+(const Pixel& p);
 
 private:
 

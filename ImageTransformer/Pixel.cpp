@@ -57,6 +57,17 @@ const int Pixel::GetChannelCount()const
 	return _channelCount;
 }
 
+void Pixel::SetChannel(int channelIdx, int channelValue)
+{
+	if (channelIdx >= _channels.size()) {
+		throw std::runtime_error("ERROR | PIXEL::SETCHANNEL():CHANNELIDX OUT OF RANGE");
+	}
+	else {
+		_channels[channelIdx] = channelValue;
+	}
+
+}
+
 Pixel Pixel::operator+(const Pixel& p)
 {
 	if (p.GetChannelCount() != this->GetChannelCount())
