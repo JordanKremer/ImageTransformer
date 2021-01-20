@@ -7,7 +7,7 @@ Pixelate::Pixelate()
 
 
 
-std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels, const HeaderInfo* hdr)
+std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels)
 {
 	//return error if the image is not atleast 16x16?
 
@@ -53,8 +53,13 @@ std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels, const He
 			if (boundCheckerX == (xFull16Additions))
 				to_addX = (xRemainder);
 		}
+	}*/
+
+	auto hdr = GetHeader();
+	if (!hdr) {
+		throw std::runtime_error("ERROR | ROTATE180::TRANSFORMPIXELS(): FAILED TO SET HEADER");
 	}
-	*/
+	
 	uint32_t Width = hdr->GetWidth();
 	uint32_t Height = hdr->GetHeight();
 
@@ -101,9 +106,11 @@ std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels, const He
 				to_addX = (xRemainder);
 		}
 	}
-
+	
 	return pixels;
 }
+
+
 
 
 
@@ -111,20 +118,14 @@ std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels, const He
 
 
 
-Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, std::pair<uint32_t, uint32_t> startCoordinate) {
-	uint32_t tmpR = 0;
-	uint32_t tmpG = 0;
-	uint32_t tmpB = 0;
-
+Pixel Pixelate::Average16RGB(std::vector<Pixel> pixels, std::pair<uint32_t, uint32_t> startCoordinate) {
+	
+	auto hdr = GetHeader();
+	
 
 	//build dummy tmp pixel
 	auto channelCount = pixels[0].GetChannelCount();
-	std::vector<unsigned char> channelData;
-	for (int i = 0; i < channelCount; ++i)
-	{
-		channelData.push_back(0);
-	}
-
+	std::vector<unsigned char> channelData(channelCount, 0);
 	Pixel tmpPixel(channelData, channelCount);
 
 
@@ -134,52 +135,66 @@ Pixel Pixelate::Average16RGB(const HeaderInfo* hdr, std::vector<Pixel> pixels, s
 	if (yBoundAddition == 0)
 		yBoundAddition = 16;
 
+	int x = startCoordinate.first;
+	int y = startCoordinate.second;
 
+
+	/*
 	//Add pixel values together
 	for (uint32_t imageWidth = x; imageWidth < (x+squareLen); imageWidth++)
 	{
 		for (uint32_t imageHeight = y; imageHeight < (y + squareLen); imageHeight++)
 		{
-
-			tmpPixel = tmpPixel + GetPixelAtCoordinate(pixels, hdr, imageWidth, imageHeight);
-
-			/*
-			tmpR += returnRedByte(imageWidth, imageHeight);
-			tmpG += returnGreenByte(imageWidth, imageHeight);
-			tmpB += returnBlueByte(imageWidth, imageHeight);
-			*/
+			tmpPixel = tmpPixel + GetPixelAtCoordinate(pixels, imageWidth, imageHeight);
 		}
 	}
 
 
-	for (auto& channel : tmpPixel.GetAllChannelData())
-	{
 
+	//Average the pixel channel values, and set the tmp pixel to those values
+	auto channelValues = tmpPixel.GetAllChannelData();
+	for (int channelIdx = 0; channelIdx < channelCount; ++channelIdx)
+	{
+		try {
+			int tmpChannelValue = channelValues[channelIdx] / (squareLen * squareLen);
+			tmpPixel.SetChannel(channelIdx, tmpChannelValue);
+		}
+		catch (std::out_of_range& oor) {
+			throw oor;
+		}
 	}
 
-
-	tmpR = tmpR / (xBoundAddition * yBoundAddition);
-	tmpB = tmpB / (xBoundAddition * yBoundAddition);
-	tmpG = tmpG / (xBoundAddition * yBoundAddition);
 
 
 	//in a 16x 16 block, make all the pixels values the average that was just determined
-	for (uint32_t imageWidth = startCoordinate.first; imageWidth <(startCoordinate.first+squareLen); imageWidth++)
+	for (uint32_t imageWidth = x; imageWidth <(x+squareLen); ++imageWidth)
 	{
-		for (uint32_t imageHeight = startCoordinate.second; imageHeight < (startCoordinate.second +squareLen); imageHeight++)
+		for (uint32_t imageHeight = y; imageHeight < (y +squareLen); ++imageHeight)
 		{
-			returnRedByte(imageWidth, imageHeight) = tmpR;
-			returnGreenByte(imageWidth, imageHeight) = tmpG;
-			returnBlueByte(imageWidth, imageHeight) = tmpB;
+			auto p = GetPixelAtCoordinate(pixels, imageWidth, imageHeight);
 		}
+	}
+
+	*/
+
+
+
+	auto boxIterators = GetIteratorsOfPixelBox(pixels, x, y);
+
+	
+
+	for (auto& iter : boxIterators)
+	{
+		tmpPixel = tmpPixel + GetRowPixelAdditionReduction(iter);
 	}
 }
 
 
 
-std::unique_ptr<HeaderInfo> Pixelate::TransformHeader(std::unique_ptr<HeaderInfo> header)
+std::unique_ptr<HeaderInfo> Pixelate::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
 {
-	return std::unique_ptr<HeaderInfo>();
+	//NO OP
+	return std::move(hdr);
 }
 
 
@@ -190,12 +205,26 @@ std::vector<std::vector<Pixel>::iterator> Pixelate::GetIteratorsOfPixelBox(std::
 	std::vector<std::vector<Pixel>::iterator> boxIterators;
 	for (int row = 0; row < squareLen; ++row) //row of box
 	{
-		std::vector<Pixel>::iterator rowIterator = pixels.begin() + GetBoxIteratorOffset(curBox_X, curBox_Y, row);
+		std::vector<Pixel>::iterator rowIterator = pixels.begin() + GetBoxIteratorStartIdx(curBox_X, curBox_Y, row);
 	}
 }
 
 
-uint32_t Pixelate::GetBoxIteratorOffset(int curBox_X, int curBox_Y, int row, int width)
+
+//Return the start of row where the iterator will begin, call for each row within box
+uint32_t Pixelate::GetBoxIteratorStartIdx(int curBox_X, int curBox_Y, int row)
 {
-	return (curBox_X * squareLen) + (((curBox_Y * squareLen) + row) * width);
+	auto hdr = GetHeader();
+	return (curBox_X * squareLen) + (((curBox_Y * squareLen) + row) * hdr->GetWidth());
+}
+
+
+
+//Add up all of the pixels within the row
+Pixel Pixelate::GetRowPixelAdditionReduction(std::vector<Pixel>::iterator rowIterator, Pixel sumPixel)
+{
+	std::for_each(rowIterator, std::next(rowIterator, squareLen),
+		[&]() {sumPixel = sumPixel + *rowIterator; });
+
+	return sumPixel;
 }
