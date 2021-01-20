@@ -35,7 +35,7 @@ public:
 	const std::vector<unsigned char>& GetAllChannelData() const;
 	const int GetChannelCount()const;
 	void SetChannel(int channelIdx, int channelValue);
-
+	void SetAllChannels(std::vector<unsigned char> newChannels);
 
 private:
 

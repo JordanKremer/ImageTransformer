@@ -68,6 +68,17 @@ void Pixel::SetChannel(int channelIdx, int channelValue)
 
 }
 
+
+void Pixel::SetAllChannels(std::vector<unsigned char> newChannels)
+{
+	if (_channels.size() != newChannels.size())
+	{
+		throw std::out_of_range("ERROR | PIXEL::SETALLCHANNELS() : NEWCHANNEL SIZE INCOMPATIBLE");
+	}
+
+	_channels = newChannels;
+}
+
 Pixel Pixel::operator+(const Pixel& p)
 {
 	if (p.GetChannelCount() != this->GetChannelCount())
