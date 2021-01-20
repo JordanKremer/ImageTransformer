@@ -13,6 +13,7 @@ as Gaussian blur and Pixelate will derive from.
 #include <memory>
 #include <map>
 #include <exception>
+#include <algorithm>
 
 class Transformation
 {
@@ -30,6 +31,11 @@ public:
 		uint32_t pixelIdx = Width * y + x;
 
 		return pixels[pixelIdx];
+	}
+
+	inline void SetPixelAtCoordinate()
+	{
+		//TODO
 	}
 
 private:
