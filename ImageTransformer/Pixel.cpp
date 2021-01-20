@@ -79,7 +79,7 @@ void Pixel::SetAllChannels(std::vector<unsigned char> newChannels)
 	_channels = newChannels;
 }
 
-Pixel Pixel::operator+(const Pixel& p)
+Pixel& Pixel::operator+(const Pixel& p)
 {
 	if (p.GetChannelCount() != this->GetChannelCount())
 		throw std::runtime_error("ERROR | Pixel::operator+ : MISMATCH CHANNELCOUNT");
@@ -96,4 +96,12 @@ Pixel Pixel::operator+(const Pixel& p)
 
 	Pixel pixel(channelData, this->GetChannelCount());
 	return pixel;
+}
+
+Pixel& Pixel::operator=(const Pixel& p)
+{
+	this->_channels = p._channels;
+	this->_channelCount = p._channelCount;
+
+	return *this;
 }
