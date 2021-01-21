@@ -10,15 +10,15 @@ public:
 	
 private:
 	void SetEdgeRemainders();
-	void AveragePixelValuesByBoxDimensions(Pixel& sumOfBoxOfPixels, std::pair<int, int> sideLengths);
+	void AveragePixelValuesBySquareDimensions(Pixel& sumOfBoxOfPixels, int totalPixels);
 	void SetRowOfSqaureLenToAverage(std::vector<Pixel>::iterator rowIterator, Pixel& toCopy, int squareLen);
-	void SetPixelBoxToAverage(std::vector<std::vector<Pixel>::iterator> boxIterators, Pixel& toCopy, int sideLength_x);
-	std::vector<std::vector<Pixel>::iterator> GetIteratorsOfPixelBox(std::vector<Pixel> pixels, std::pair<uint32_t, uint32_t> boxCoordinate, int squareLen);
-	uint32_t GetBoxIteratorStartIdx(std::pair<uint32_t, uint32_t> boxCoordinate, int row);
+	void SetPixelSquareToAverage(std::vector<std::vector<Pixel>::iterator> boxIterators, Pixel& toCopy, int sideLength_x);
+	std::vector<std::vector<Pixel>::iterator> GetIteratorsOfPixelSquare(std::vector<Pixel> pixels, std::pair<int, int> curSquareCoordinate, int sideLength_y);
+	uint32_t GetSquareIteratorStartIdx(std::pair<int, int> curSquareCoordinate, int row);
 	Pixel GetRowPixelAdditionReduction(std::vector<Pixel>::iterator rowIterator, Pixel sumPixel, int sideLength_x);
-	void Average16RGB(std::vector<Pixel> pixels, std::pair<uint32_t, uint32_t> startCoordinate, std::pair<int, int> sideLengths);
+	std::vector<Pixel> Average16RGB(std::vector<Pixel> pixels, std::pair<int, int> curSquareCoordinate, std::pair<int, int> sideLengths);
 	
-	int squareLen;
-	int xEdgeRemainder;
-	int yEdgeRemainder;
+	int _squareLen;
+	int _xEdgeRemainder;
+	int _yEdgeRemainder;
 };
