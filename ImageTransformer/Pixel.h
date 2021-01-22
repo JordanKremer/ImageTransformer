@@ -27,19 +27,25 @@ struct Channels {
 class Pixel
 {
 public:
+	Pixel();
 	Pixel(std::vector<unsigned char>& channelData, int channels);
 	Pixel(std::vector<int>::iterator, const int numChannels);
 	Pixel& operator+(const Pixel& p);
 	Pixel& operator=(const Pixel& p);
+
+
 
 	const unsigned char& GetChannel(const int channel) const;
 	const std::vector<unsigned char>& GetAllChannelData() const;
 	const int GetChannelCount()const;
 	void SetChannel(int channelIdx, int channelValue);
 	void SetAllChannels(std::vector<unsigned char> newChannels);
+	void SetAllChannels(std::vector<int> newChannels);
 
 private:
 
+	std::vector<int> GetRowPixelAdditionReductionHelper(std::vector<int> sumOfRowOfChannelValues, 
+														std::vector<Pixel>::iterator yIterator);
 	std::vector<unsigned char> _channels;
 	int _channelCount;
 

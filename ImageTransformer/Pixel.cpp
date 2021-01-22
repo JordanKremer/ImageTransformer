@@ -12,6 +12,10 @@ way to manage Pixel values.
 #include "Pixel.h"
 
 
+Pixel::Pixel()
+{
+	_channelCount = 0;
+}
 
 Pixel::Pixel(std::vector<unsigned char>& channelData, int channelCount)
 {
@@ -68,6 +72,18 @@ void Pixel::SetChannel(int channelIdx, int channelValue)
 
 }
 
+void Pixel::SetAllChannels(std::vector<int> newChannels) {
+
+	if (_channels.size() != newChannels.size())
+	{
+		throw std::out_of_range("ERROR | PIXEL::SETALLCHANNELS() : NEWCHANNEL SIZE INCOMPATIBLE");
+	}
+
+	for (int channelIdx = 0; channelIdx < _channelCount; ++channelIdx)
+	{
+		_channels[channelIdx] = newChannels[channelIdx] % 256;
+	}
+}
 
 void Pixel::SetAllChannels(std::vector<unsigned char> newChannels)
 {
@@ -79,23 +95,17 @@ void Pixel::SetAllChannels(std::vector<unsigned char> newChannels)
 	_channels = newChannels;
 }
 
-Pixel& Pixel::operator+(const Pixel& p)
+Pixel& Pixel::operator+(const Pixel& p2)
 {
-	if (p.GetChannelCount() != this->GetChannelCount())
+	if (p2.GetChannelCount() != this->GetChannelCount())
 		throw std::runtime_error("ERROR | Pixel::operator+ : MISMATCH CHANNELCOUNT");
-	
-	std::vector<unsigned char> channelData;
-	channelData = this->GetAllChannelData();
-
-	
 
 	for (int i = 0; i < this->GetChannelCount(); ++i)
 	{
-		channelData[i] += + p._channels[i];
+		this->_channels[i] += + p2._channels[i];
 	}
 
-	Pixel pixel(channelData, this->GetChannelCount());
-	return pixel;
+	return *this;
 }
 
 Pixel& Pixel::operator=(const Pixel& p)
