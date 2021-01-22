@@ -44,8 +44,6 @@ std::vector<Pixel> Pixelate::TransformPixels(std::vector<Pixel> pixels)
 	uint8_t yFullSquares = Height / 16;			//Given a 16x16 block, how many full blocks are available for x
 	uint8_t xRemainder = Width % 16;				//Remainder values if 16x16 doesn't fit perfectly
 	uint8_t yRemainder = Height % 16;
-	uint8_t boundCheckerX = 0;
-	uint8_t boundCheckerY = 0;
 
 	//								X (col)   ,    Y(row)
 	std::pair<int, int> sideLengths(_squareLen, _squareLen);
@@ -127,11 +125,13 @@ std::vector<Pixel> Pixelate::Average16RGB(std::vector<Pixel> pixels, std::pair<i
 	}
 
 
-
+	Pixel tmp;
 	//Sum up all channel values in the Square
 	for (auto& iter : squareIterators)
 	{
-		*sumOfSquareOfPixels = *sumOfSquareOfPixels + *GetRowPixelAdditionReduction(iter, std::move(sumOfSquareOfPixels), sideLength_x); //tmpPixel by value, returns integer
+		tmp = *sumOfSquareOfPixels;
+		sumOfSquareOfPixels = GetRowPixelAdditionReduction(iter, std::move(sumOfSquareOfPixels), sideLength_x);
+		*sumOfSquareOfPixels = *sumOfSquareOfPixels + tmp;
 	}
 
 	//Divide pixel values by total pixels
@@ -182,10 +182,9 @@ uint32_t Pixelate::GetSquareIteratorStartIdx(std::pair<int, int> curSquareCoordi
 //Leave as pass by value so that multiple instances can be run simultaneously
 std::unique_ptr<Pixel> Pixelate::GetRowPixelAdditionReduction(std::vector<Pixel>::iterator yIterator, std::unique_ptr<Pixel> sumPixel, int sideLength_x)
 {
+	//Initially intended to use for_each as such:
 	//std::for_each(yIterator, std::next(yIterator, sideLength_x),
 	//	[&]() {sumPixel = sumPixel + *yIterator; });
-
-	auto temp = *yIterator;
 
 	for (int x = 0; x < sideLength_x; ++x)
 	{
