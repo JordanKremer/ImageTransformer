@@ -4,46 +4,48 @@
 #include "AdapterFactory.h"
 #include "TransformationFactory.h"
 #include "Transformation.h"
-#include "BmpLoader.h"
 #include "Data.h"
+#include "Loader.h"
+#include "Writer.h"
 
-
-using namespace std;
-using namespace cv;
 
 
 int main(int argc, char* argv[])
 {
-	std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
-	std::string FILETYPE = "bmp";
+	//std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp";
+	//std::string FILETYPE = "bmp";
 
-	std::unique_ptr<Loader> _loader;
-	auto rawData = _loader->Load(FILENAME);
-	std::shared_ptr<Adapter> adapter;
-	std::unique_ptr<AdapterFactory> adapterFac;
+	if (!argv[1] || !argv[2] || !argv[3])
+		return 0;
 
-	Applicator aplicator;
+	std::string FILENAME(argv[1]);
+	std::string FILETYPE(argv[2]);
+
+	std::string TRANSFORMATIONTYPE = "";
+	std::string OUTFILENAME = "";
 
 
+	std::unique_ptr<Loader> _loader = std::make_unique<Loader>();
+	std::unique_ptr<Writer> writer = std::make_unique<Writer>();
+	std::unique_ptr<AdapterFactory> adapterFac = std::make_unique<AdapterFactory>();
+	std::unique_ptr<TransformationFactory> transformFac = std::make_unique<TransformationFactory>();
+	std::unique_ptr<Applicator> applicator = std::make_unique<Applicator>();;
 
-//https://stackoverflow.com/questions/27502968/how-do-i-implement-polymorphism-with-stdshared-ptr
-//https://en.cppreference.com/w/cpp/memory/unique_ptr polymorphism with unique_ptr
+
 	try {
-		/*adapter = adapterFac->GetAdapter(FILETYPE);
-		auto adaptedImageData = adapter->AdaptFromRaw(rawData);
-		
-		std::unique_ptr<TransformationFactory> transformFac;
+		auto rawImageByteValues = _loader->Load(FILENAME);
+		auto adapter = adapterFac->GetAdapter(FILETYPE);
+		auto genericAdaptedImage = adapter->AdaptFromRaw(rawImageByteValues);
 		auto transformer = transformFac->GetTransformation(TRANSFORMATIONTYPE);
+		auto transformedAdaptedImage = applicator->ApplyTransformation(std::move(genericAdaptedImage), std::move(transformer));
+		auto transformedRawData = adapter->AdaptToRaw(std::move(transformedAdaptedImage));
+
+		writer->WriteToFile(transformedRawData, OUTFILENAME);
 		
-
-		auto transformedAdaptedData = aplicator.ApplyTransformation(adaptedImageData, transformer);
-		auto transformedRawData = adapter->AdaptToRaw(transformedRawData);
-
-		std::unique_ptr<FileWriter> writer;
-		writer->WriteToFile(transformedRawData);
-		*/
 	}
-	catch (const runtime_error& error) {
+	catch (const std::runtime_error& error) {
 		return 0;
 	}
+
+	return 0;
 }
