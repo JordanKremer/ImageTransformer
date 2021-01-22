@@ -16,7 +16,7 @@ gaussian blur, pixelation, and others.
 class TransformationFactory
 {
 	TransformationFactory();
-	std::shared_ptr<Transformation> getTransformation(std::string transformationType, bool openCV);
+	std::shared_ptr<Transformation> GetTransformation(std::string transformationType, bool openCV);
 
 };
 

@@ -15,7 +15,7 @@ gaussian blur, pixelation, and others.
 #include "OpenCVGaussian.h"
 #include "Pixelate.h"
 #include "OpenCVPixelate.h"
-std::shared_ptr<Transformation> TransformationFactory::getTransformation(std::string transformationType, bool openCV) {
+std::shared_ptr<Transformation> TransformationFactory::GetTransformation(std::string transformationType, bool openCV) {
 	return nullptr;
 }
 
