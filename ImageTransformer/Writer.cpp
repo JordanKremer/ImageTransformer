@@ -4,6 +4,7 @@ void Writer::WriteToFile(std::vector<unsigned char> rawImageData, const std::str
 {
 	std::ofstream out;
 	out.open(FILENAME, std::ios::binary | std::ios::out);
+	assert(out.is_open());
 	
 	for (auto& byte : rawImageData)
 	{

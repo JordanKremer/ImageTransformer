@@ -144,6 +144,7 @@
     <ClCompile Include="Rotate180.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationFactory.cpp" />
+    <ClCompile Include="Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adapter.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Rotate180.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationFactory.h" />
+    <ClInclude Include="Writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ImageTransformer.rc" />

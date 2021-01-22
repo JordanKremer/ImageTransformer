@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include "Applicator.h"
 #include "AdapterFactory.h"
 #include "TransformationFactory.h"
 #include "Transformation.h"
@@ -21,17 +22,21 @@ int main(int argc, char* argv[])
 	std::shared_ptr<Adapter> adapter;
 	std::unique_ptr<AdapterFactory> adapterFac;
 
+	Applicator aplicator;
+
+
 
 //https://stackoverflow.com/questions/27502968/how-do-i-implement-polymorphism-with-stdshared-ptr
 //https://en.cppreference.com/w/cpp/memory/unique_ptr polymorphism with unique_ptr
 	try {
 		/*adapter = adapterFac->GetAdapter(FILETYPE);
-		auto adaptedData = adapter->AdaptFromRaw(rawData);
+		auto adaptedImageData = adapter->AdaptFromRaw(rawData);
 		
 		std::unique_ptr<TransformationFactory> transformFac;
 		auto transformer = transformFac->GetTransformation(TRANSFORMATIONTYPE);
 		
-		auto transformedAdaptedData = transformer->Transform(adaptedData);
+
+		auto transformedAdaptedData = aplicator.ApplyTransformation(adaptedImageData, transformer);
 		auto transformedRawData = adapter->AdaptToRaw(transformedRawData);
 
 		std::unique_ptr<FileWriter> writer;

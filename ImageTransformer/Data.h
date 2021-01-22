@@ -34,7 +34,7 @@ public:
 
 private:
 	
-	std::unique_ptr<HeaderInfo> _header; //Unique_ptr won't work here
+	std::unique_ptr<HeaderInfo> _header;
 	std::vector<Pixel> _pixels;
 
 };
