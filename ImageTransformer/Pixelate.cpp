@@ -124,7 +124,7 @@ std::vector<Pixel> Pixelate::Average16RGB(std::vector<Pixel> pixels, std::pair<i
 		squareIterators.push_back(yIterator);
 	}
 
-
+	/*
 	Pixel tmp;
 	//Sum up all channel values in the Square
 	for (auto& iter : squareIterators)
@@ -133,13 +133,23 @@ std::vector<Pixel> Pixelate::Average16RGB(std::vector<Pixel> pixels, std::pair<i
 		sumOfSquareOfPixels = GetRowPixelAdditionReduction(iter, std::move(sumOfSquareOfPixels), sideLength_x);
 		*sumOfSquareOfPixels = *sumOfSquareOfPixels + tmp;
 	}
+	*//**/
+
+	std::vector<int> sumOfRowOfChannelValues;
+
+	for (auto& iter : squareIterators)
+	{
+		sumOfRowOfChannelValues = GetRowPixelAdditionReduction(iter, sumOfRowOfChannelValues, sideLength_x);
+	}
+
+
 
 	//Divide pixel values by total pixels
 	int totalPixels = sideLength_x * sideLength_y;
-	auto averagePixel = AveragePixelValuesBySquareDimensions(std::move(sumOfSquareOfPixels), totalPixels);
+	auto averagePixelChannelValues = AveragePixelValuesBySquareDimensions(sumOfRowOfChannelValues, totalPixels);
 
 	//Rewrite pixel values within Square to reflect the new values
-	SetPixelSquareToAverage(squareIterators, averagePixel.get(), sideLength_x);
+	SetPixelSquareToAverage(squareIterators, averagePixelChannelValues, sideLength_x);
 
 	return pixels;
 }
@@ -180,7 +190,7 @@ uint32_t Pixelate::GetSquareIteratorStartIdx(std::pair<int, int> curSquareCoordi
 
 //Add up all of the pixels within the row for _squareLen and return it
 //Leave as pass by value so that multiple instances can be run simultaneously
-std::unique_ptr<Pixel> Pixelate::GetRowPixelAdditionReduction(std::vector<Pixel>::iterator yIterator, std::unique_ptr<Pixel> sumPixel, int sideLength_x)
+std::vector<int> Pixelate::GetRowPixelAdditionReduction(std::vector<Pixel>::iterator yIterator, std::vector<int> sumOfRowOfChannelValues, int sideLength_x)
 {
 	//Initially intended to use for_each as such:
 	//std::for_each(yIterator, std::next(yIterator, sideLength_x),
@@ -188,50 +198,68 @@ std::unique_ptr<Pixel> Pixelate::GetRowPixelAdditionReduction(std::vector<Pixel>
 
 	for (int x = 0; x < sideLength_x; ++x)
 	{
-		*sumPixel = *sumPixel + *yIterator;
+
+		sumOfRowOfChannelValues = GetRowPixelAdditionReductionHelper(sumOfRowOfChannelValues, *yIterator);
 		yIterator++;
 	}
 
-	return std::move(sumPixel);
+	return sumOfRowOfChannelValues;
+}
+
+
+std::vector<int> Pixelate::GetRowPixelAdditionReductionHelper(std::vector<int> sumOfRowOfChannelValues, Pixel pixel)
+{
+	
+	int channelCount = pixel.GetChannelCount();
+
+	if (pixel.GetChannelCount() != channelCount)
+		throw std::runtime_error("ERROR | PIXELATE::GETROWPIXELADDITIONREDUCTIONHELPER");
+	
+	for (int channelIdx = 0; channelIdx < channelCount; ++channelIdx)
+	{
+		sumOfRowOfChannelValues[channelIdx] += pixel.GetChannel(channelIdx);
+	}
+
+	return sumOfRowOfChannelValues;
 }
 
 
 
 //Average the pixel value by _squareLen for the temporary holder pixel
-std::unique_ptr<Pixel> Pixelate::AveragePixelValuesBySquareDimensions(std::unique_ptr<Pixel> sumOfSquareOfPixels, int totalPixels)
+std::vector<int> Pixelate::AveragePixelValuesBySquareDimensions(std::vector<int> sumOfRowOfChannelValues, int totalPixels)
 {
-	auto pixelValues = sumOfSquareOfPixels->GetAllChannelData();
 	int averageOfChannel = 0;
-	for (int channelIdx = 0; channelIdx < sumOfSquareOfPixels->GetChannelCount(); ++channelIdx)
+	for (int channelIdx = 0; channelIdx < sumOfRowOfChannelValues.size(); ++channelIdx)
 	{
-		averageOfChannel = pixelValues[channelIdx] / (totalPixels);
-		sumOfSquareOfPixels->SetChannel(channelIdx, averageOfChannel);
+		sumOfRowOfChannelValues[channelIdx] /= totalPixels;
 	}
 
-	return std::move(sumOfSquareOfPixels);
+	return sumOfRowOfChannelValues;
 }
 
 
 
 //For each pixel within the Square, set that pixel equal to toCopy, the average pixel
-void Pixelate::SetPixelSquareToAverage(std::vector<std::vector<Pixel>::iterator> squareIterators, const Pixel* toCopy, int sideLength_x)
+void Pixelate::SetPixelSquareToAverage(std::vector<std::vector<Pixel>::iterator> squareIterators, std::vector<int> averagePixelChannelValues, int sideLength_x)
 {
 	for (auto& iter : squareIterators)
 	{
-		SetRowOfSqaureLenToAverage(iter, toCopy, sideLength_x);
+		SetRowOfSquareLenToAverage(iter, averagePixelChannelValues, sideLength_x);
 	}
 }
 
 
 
-void Pixelate::SetRowOfSqaureLenToAverage(std::vector<Pixel>::iterator yIterator, const Pixel* toCopy, int sideLength_x)
+void Pixelate::SetRowOfSquareLenToAverage(std::vector<Pixel>::iterator yIterator, std::vector<int> averagePixelChannelValues, int sideLength_x)
 {
 	//std::for_each(yIterator, std::next(yIterator, sideLength_x),
 	//	[&]() {*yIterator = toCopy; });
 
+	Pixel* p;
 	for (int x = 0; x < sideLength_x; ++x)
 	{
-		*yIterator = *toCopy;
+		p = &*yIterator;
+		p->SetAllChannels(averagePixelChannelValues);
 		yIterator++;
 	}
 }
