@@ -44,8 +44,6 @@ public:
 
 private:
 
-	std::vector<int> GetRowPixelAdditionReductionHelper(std::vector<int> sumOfRowOfChannelValues, 
-														std::vector<Pixel>::iterator yIterator);
 	std::vector<unsigned char> _channels;
 	int _channelCount;
 

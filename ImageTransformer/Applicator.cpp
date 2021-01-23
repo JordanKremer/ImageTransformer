@@ -8,9 +8,9 @@ std::unique_ptr<Data> Applicator::ApplyTransformation(std::unique_ptr<Data> imag
 		image->_pixels = transformer->TransformPixels(image->_pixels);
 		image->_header = transformer->TransformHeader(std::move(image->_header));
 	}
-	catch (const std::out_of_range& error)
+	catch (const std::out_of_range& oor)
 	{
-		throw error;
+		throw oor;
 	}
 	catch (const std::runtime_error& error2)
 	{

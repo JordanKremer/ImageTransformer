@@ -25,12 +25,12 @@ public:
 	void SetHeader(const HeaderInfo* toSet) { _hdr = toSet; }
 	const HeaderInfo* GetHeader() { return _hdr; };
 
-	inline Pixel& GetPixelAtCoordinate(std::vector<Pixel> pixels, int x, int y)
+	inline uint32_t GetCoordinate(int x, int y)
 	{
 		uint32_t Width = _hdr->GetWidth();
 		uint32_t pixelIdx = Width * y + x;
 
-		return pixels[pixelIdx];
+		return pixelIdx;
 	}
 
 	inline void SetPixelAtCoordinate()

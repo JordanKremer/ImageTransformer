@@ -105,6 +105,15 @@
     <ClCompile Include="Writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GaussianBlur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CellShade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GreyScale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -152,13 +161,22 @@
     <ClInclude Include="Pixelate.h">
       <Filter>Header Files\Transformation</Filter>
     </ClInclude>
-    <ClInclude Include="Rotate180.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Applicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianBlur.h">
+      <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="CellShade.h">
+      <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotate180.h">
+      <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="GreyScale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -166,5 +184,8 @@
     <ResourceCompile Include="ImageTransformer.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

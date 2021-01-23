@@ -92,7 +92,7 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 		if (bitCount == bitsPerLine)
 		{
 			idx += padding;
-			if (idx >= rawdata.size()-1) //maybe minus 1
+			if (idx >= rawdata.size()-1)
 				break;
 			bitCount = 0;
 		}

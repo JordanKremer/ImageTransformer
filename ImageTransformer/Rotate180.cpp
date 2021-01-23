@@ -4,6 +4,7 @@
 
 std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
 {
+	//hdr is pull from the abstract base Transformation class
 	auto hdr = GetHeader();
 	
 	if (!hdr) {
@@ -20,6 +21,8 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
 }
 
 
+
+//Nothing changes dimension or otherwise for the header for this transformation
 std::unique_ptr<HeaderInfo> Rotate180::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
 {
 	//No op function

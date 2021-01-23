@@ -15,8 +15,8 @@ gaussian blur, pixelation, and others.
 #include "Transformation.h"
 class TransformationFactory
 {
-	TransformationFactory();
-	std::shared_ptr<Transformation> GetTransformation(std::string transformationType);
+public:
+	std::unique_ptr<Transformation> GetTransformation(std::string transformationType);
 
 };
 
