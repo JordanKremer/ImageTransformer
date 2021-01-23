@@ -1,5 +1,31 @@
 #include "GaussianBlur.h"
 
+std::vector<Pixel> GaussianBlur::TransformPixels(std::vector<Pixel> pixels)
+{
+	try {
+		BlurPixels(pixels);
+	}
+	catch(std::runtime_error& runError){
+		throw runError;
+	}
+	catch (std::out_of_range& oor)
+	{
+		throw oor;
+	}
+
+	return pixels;
+}
+
+
+
+std::unique_ptr<HeaderInfo> GaussianBlur::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
+{
+	//No op
+	return std::move(hdr);
+}
+
+
+
 void GaussianBlur::BlurPixels(std::vector<Pixel>& pixels)
 {
 
@@ -31,8 +57,8 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 	double blue = 0;
 	int channelCount = pixels[0].GetChannelCount();
 	std::vector<int> channelValuesGaussianSum(channelCount, 0);
+
 	//get corner x and y so we know where to start in the grid
-	Pixel* p;
 	for (int x = GetXLeft(pixels, centerX); x < (5 - GetXRight(pixels, centerX)); x++)
 	{
 		for (int y = GetYDown(pixels, centerY); y < (5 - GetYUp(pixels, centerY)); y++)
@@ -45,7 +71,7 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 			double gCoeff = GetGaussianNum(x, y);
 
 			//Calculate and add gaussian values
-			auto pixelChannels = pixels[GetCoordinate(x, y)].GetAllChannelData();
+			auto pixelChannels = pixels[GetCoordinate(offsetX, offsetY)].GetAllChannelData();
 			for (int channelIdx = 0; channelIdx < channelCount; ++channelIdx)
 			{	
 				//Set the channel to the nearest integer after multiplying the gaussian coefficient
@@ -54,17 +80,17 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 		}
 	}
 
-	p = &pixels[GetCoordinate(centerX, centerY)];
+	
 
 	try {
-		p->SetAllChannels(channelValuesGaussianSum);
+		pixels[GetCoordinate(centerX, centerY)].SetAllChannels(channelValuesGaussianSum);
 	}
 	catch (std::out_of_range& oor)
 	{
 		throw oor;
 	}
 
-	delete p;
+	//delete p;
 }
 
 

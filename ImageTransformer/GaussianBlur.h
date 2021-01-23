@@ -17,6 +17,9 @@ private:
     int GetYDown(std::vector<Pixel>& pixels, int32_t centerY);
     int ReturnOffset(int y);
     double GetGaussianNum(int x, int y);
+   
+    
+    
     std::vector<unsigned char> _gaussianVector;
     double _gaussianMatrix[5][5] = { 1, 4, 6, 4, 1,
                                     4, 16, 24, 16, 4,
