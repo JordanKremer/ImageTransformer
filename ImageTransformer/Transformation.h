@@ -3,8 +3,7 @@ Author : Jordan Kremer
 11/20/20
 Transformation.h
 
-This class is an interface class wherein Transformation subclasses such
-as Gaussian blur and Pixelate will derive from.
+This class is an interface class wherein Transformation subclasses such as Gaussian blur will derive from.
 */
 
 #pragma once
@@ -33,12 +32,9 @@ public:
 		return pixelIdx;
 	}
 
-	inline void SetPixelAtCoordinate()
-	{
-		//TODO
-	}
 
 private:
+	//This is useful to get information such as height, width, etc, of image
 	const HeaderInfo* _hdr;
 
 };
