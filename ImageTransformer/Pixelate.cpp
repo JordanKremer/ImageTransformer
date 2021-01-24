@@ -30,9 +30,6 @@ Pixelate::Pixelate()
 	_squareLen = 16;
 	_xEdgeRemainder = 0;
 	_yEdgeRemainder = 0;
-
-
-
 }
 
 

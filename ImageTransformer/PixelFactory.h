@@ -1,3 +1,5 @@
+
+
 #pragma once
 #include "Pixel.h"
 class PixelFactory

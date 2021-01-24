@@ -24,6 +24,8 @@ struct Channels {
 	static inline const int ALPHA = 3;
 };
 
+
+
 class Pixel
 {
 public:
@@ -33,8 +35,6 @@ public:
 	Pixel& operator+(const Pixel& p);
 	Pixel& operator=(const Pixel& p);
 
-
-
 	const unsigned char& GetChannel(const int channel) const;
 	const std::vector<unsigned char>& GetAllChannelData() const;
 	const int GetChannelCount()const;
@@ -43,7 +43,6 @@ public:
 	void SetAllChannels(std::vector<int> newChannels);
 
 private:
-
 	std::vector<unsigned char> _channels;
 	int _channelCount;
 

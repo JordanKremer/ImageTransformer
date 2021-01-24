@@ -28,7 +28,7 @@ struct BmpConstants {
 	inline static const int HEIGHT = 22;
 	inline static const int COLORPANES = 26;
 	inline static const int BITSPERPIXEL = 28;
-	inline static const int COMPRESSION = 30; //values 0 - 13
+	inline static const int COMPRESSION = 30; //values 0 - 3
 	inline static const int IMAGESIZE = 34;
 	inline static const int HORIZONTALRESOLUTION = 38;
 	inline static const int VERTICALRESOLUTION = 42;
@@ -63,15 +63,14 @@ public:
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
 
-	_NODISCARD const uint32_t GetWidth() const; //const getwidth() const?
+	_NODISCARD const uint32_t GetWidth() const; 
 	_NODISCARD const uint32_t GetHeight() const;
-	_NODISCARD const uint32_t GetCompression() const; //const?  //do we want the return type to be const?
+	_NODISCARD const uint32_t GetCompression() const; 
 	_NODISCARD const uint32_t GetBitsPerPixel() const;
+	//Gets the start of the (RGBA) image bytes within a byte vector after the header bytes
 	_NODISCARD const uint32_t GetImageStartOffset() const;
 	_NODISCARD const std::vector<unsigned char> GetRawHeader() const;
 
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderBegin();
-	_NODISCARD std::vector<unsigned char>::const_iterator getHeaderEnd();
 
 	void SetHeight(int newHeight);
 	void SetWidth(int newWidth);

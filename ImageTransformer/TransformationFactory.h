@@ -20,6 +20,3 @@ public:
 
 };
 
-/*
-MAKE SINGLETON
-*/

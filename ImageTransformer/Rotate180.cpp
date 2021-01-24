@@ -27,7 +27,7 @@ SOFTWARE.
 
 std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
 {
-	//hdr is pull from the abstract base Transformation class
+	//hdr is pulled from the abstract base Transformation class
 	auto hdr = GetHeader();
 	
 	if (!hdr) {

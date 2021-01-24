@@ -1,5 +1,9 @@
 /*
-Facade Design patter
+Author : Jordan Kremer
+1/24/2021
+Applicator.h
+
+Applies a Transformation to a GenericImage.
 */
 
 #pragma once

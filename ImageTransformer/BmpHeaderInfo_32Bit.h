@@ -3,8 +3,8 @@ Author : Jordan Kremer
 11/20/20
 BmpHeaderInfo_32Bit.h
 
-This class is an extension of BmpHeaderInfo. It includes extra data points 
-only found in the header of the 32bit bmp images.
+This class is an extension of BmpHeaderInfo. It includes extra data points only found
+in the header of the 32bit bmp images.
 
 */
 
@@ -46,7 +46,7 @@ public:
 
 private:
 	std::unique_ptr<BmpHeaderComponents_32Bit> bmpHeaderComponents_32Bit;
-	std::vector<unsigned char> bmpHeader32Bit_rawHeader;
+	std::vector<unsigned char> bmpHeader32Bit_rawHeader; //Different length than bmpheader base class
 	const uint32_t GetRedBitMask();
 	const uint32_t GetGreenBitMask();
 	const uint32_t GetBlueBitMask();

@@ -22,13 +22,10 @@ class Data
 	//giving the data away to just anyone who asks, and can then apply it to a transformation
 
 public:
-	Data();
 	Data(std::vector<unsigned char> &data, std::vector<Pixel>& pixels, std::unique_ptr<HeaderInfo> header);
-	~Data(); //if change _header to unique, no need for destructor
+	~Data();
 
 	_NODISCARD const int GetCompression();
-	_NODISCARD const int GetWidth();
-	_NODISCARD const int GetHeight();
 	const std::vector<unsigned char> GetRawHeaderReadOnly() const;
 	const std::vector<Pixel> GetPixelsReadOnly() const;
 
@@ -38,6 +35,3 @@ private:
 	std::vector<Pixel> _pixels;
 
 };
-
-//Rename to GenericImage
-//

@@ -1,3 +1,12 @@
+/*
+Author : Jordan Kremer
+1/24/2021
+GaussianBlur.h
+
+Contains functionality to perform GaussianBlur algorithm on a Pixel vector.
+*/
+
+
 #pragma once
 #include "Transformation.h"
 class GaussianBlur :
@@ -6,7 +15,6 @@ class GaussianBlur :
 public:
     std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels);
     std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> hdr);
-
 
 private:
     //Wrapper function that calls the following helper functions 

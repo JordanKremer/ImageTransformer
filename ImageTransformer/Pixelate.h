@@ -1,3 +1,13 @@
+/*
+Author : Jordan Kremer
+1/24/2021
+Pixelate.h
+
+Contains functionality to perform Pixelation algorithm on a Pixel vector.
+
+*/
+
+
 #pragma once
 #include "Transformation.h"
 class Pixelate :

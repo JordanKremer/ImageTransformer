@@ -1,3 +1,11 @@
+/*
+Author : Jordan Kremer
+1/24/2021
+GreyScale.h
+
+Includes functionality to perform GreyScale algorithm.
+*/
+
 #pragma once
 #include "Transformation.h"
 class GreyScale :
