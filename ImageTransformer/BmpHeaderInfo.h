@@ -75,7 +75,7 @@ public:
 	void SetHeight(int newHeight);
 	void SetWidth(int newWidth);
 
-	uint32_t headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
+	uint32_t HeaderComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data);
 	void HeaderRawImageDataSetterFromIntegerHelper(uint32_t dataToChangeTo, const int bmpConstantStart, const int bmpConstantEnd, std::vector<unsigned char>& rawData);
 	
 private:
