@@ -11,7 +11,7 @@ gaussian blur, pixelation, and others.
 #pragma once
 #include <memory>
 #include <string>
-#include "Data.h"
+#include "GenericImage.h"
 #include "Transformation.h"
 class TransformationFactory
 {

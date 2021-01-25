@@ -135,7 +135,7 @@
     <ClCompile Include="BmpHeaderInfo.cpp" />
     <ClCompile Include="BmpHeaderInfo_32Bit.cpp" />
     <ClCompile Include="CellShade.cpp" />
-    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="GenericImage.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="GreyScale.cpp" />
     <ClCompile Include="HeaderInfo.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="BmpHeaderInfo.h" />
     <ClInclude Include="BmpHeaderInfo_32Bit.h" />
     <ClInclude Include="CellShade.h" />
-    <ClInclude Include="Data.h" />
+    <ClInclude Include="GenericImage.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="GreyScale.h" />
     <ClInclude Include="HeaderInfo.h" />

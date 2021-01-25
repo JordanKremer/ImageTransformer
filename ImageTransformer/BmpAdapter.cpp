@@ -25,15 +25,15 @@ SOFTWARE.
 
 
 #include "BmpAdapter.h"
-#include "Data.h"
+#include "GenericImage.h"
 #include "BmpHeaderFactory.h"
 #include "BmpHeaderInfo_32Bit.h"
 #include <memory>
 #include <stdexcept>
 
 
-//Takes a byte vector and builds a Data object with a BmpHeader and Pixel vector
-std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
+//Takes a byte vector and builds a GenericImage object with a BmpHeader and Pixel vector
+std::unique_ptr<GenericImage> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 {
 	if (!(data[0] == 'B' && data[1] == 'M'))
 	{
@@ -58,7 +58,7 @@ std::unique_ptr<Data> BmpAdapter::AdaptFromRaw(std::vector<unsigned char>& data)
 //Adapts image data to raw format, by calling BuildRawDataVector
 //to concat and return the header and pixels
 //either pass by ref or use move to pass the unique ptr in
-const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> data)
+const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<GenericImage> data)
 {
 	auto header = data->GetRawHeaderReadOnly();
 	auto pixels = data->GetPixelsReadOnly();
@@ -91,7 +91,7 @@ const std::vector<unsigned char> BmpAdapter::AdaptToRaw(std::unique_ptr<Data> da
 
 //Load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
-std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header)
+std::unique_ptr<GenericImage> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header)
 {
 	std::vector<Pixel> pixelData;
 	pixelData.reserve(int64_t(header->GetWidth()) * header->GetHeight()); 	//cast to 8 byte to avoid overflow
@@ -117,7 +117,7 @@ std::unique_ptr<Data> BmpAdapter::LoadPixels(std::vector<unsigned char>& rawdata
 		bitCount += channelCount;
 	}
 
-	return std::move(std::make_unique<Data>(rawdata, pixelData, std::move(header)));
+	return std::move(std::make_unique<GenericImage>(rawdata, pixelData, std::move(header)));
 }
 
 

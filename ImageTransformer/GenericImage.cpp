@@ -25,9 +25,9 @@ SOFTWARE.
 
 
 #pragma once
-#include "Data.h"
+#include "GenericImage.h"
 
-Data::Data(std::vector<unsigned char>& data, std::vector<Pixel>& pixels, std::unique_ptr<HeaderInfo> header) 
+GenericImage::GenericImage(std::vector<unsigned char>& data, std::vector<Pixel>& pixels, std::unique_ptr<HeaderInfo> header) 
 {
 	_pixels = pixels;
 	_header = std::move(header);
@@ -35,28 +35,28 @@ Data::Data(std::vector<unsigned char>& data, std::vector<Pixel>& pixels, std::un
 
 
 
-Data::~Data()
+GenericImage::~GenericImage()
 {
 	//delete _header;
 }
 
 
 
-const int Data::GetCompression()
+const int GenericImage::GetCompression()
 {
 	return _header->GetCompression();
 }
 
 
 
-const std::vector<unsigned char> Data::GetRawHeaderReadOnly() const
+const std::vector<unsigned char> GenericImage::GetRawHeaderReadOnly() const
 {
 	return _header->GetRawHeader();
 }
 
 
 
-const std::vector<Pixel> Data::GetPixelsReadOnly() const
+const std::vector<Pixel> GenericImage::GetPixelsReadOnly() const
 {
 	return _pixels;
 }

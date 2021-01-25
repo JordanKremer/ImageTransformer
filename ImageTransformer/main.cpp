@@ -28,7 +28,7 @@ SOFTWARE.
 #include "AdapterFactory.h"
 #include "TransformationFactory.h"
 #include "Transformation.h"
-#include "Data.h"
+#include "GenericImage.h"
 #include "Loader.h"
 #include "Writer.h"
 //#include <windows.h>

@@ -26,7 +26,7 @@ SOFTWARE.
 #include "Applicator.h"
 #include "HeaderInfo.h"
 
-std::unique_ptr<Data> Applicator::ApplyTransformation(std::unique_ptr<Data> image, std::unique_ptr<Transformation> transformer)
+std::unique_ptr<GenericImage> Applicator::ApplyTransformation(std::unique_ptr<GenericImage> image, std::unique_ptr<Transformation> transformer)
 {
 	try {
 		transformer->SetHeader(image->_header.get());

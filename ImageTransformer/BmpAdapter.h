@@ -17,11 +17,11 @@ class BmpAdapter :
 	public Adapter
 {
 public:
-	std::unique_ptr<Data> AdaptFromRaw(std::vector<unsigned char>& data);
-	const std::vector<unsigned char> AdaptToRaw(std::unique_ptr<Data> data);
+	std::unique_ptr<GenericImage> AdaptFromRaw(std::vector<unsigned char>& data);
+	const std::vector<unsigned char> AdaptToRaw(std::unique_ptr<GenericImage> data);
 
 private:
-	std::unique_ptr<Data> LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header); //can only pass unique by ref or by func(move(ptr))
+	std::unique_ptr<GenericImage> LoadPixels(std::vector<unsigned char>& rawdata, std::unique_ptr<BmpHeaderInfo> header); //can only pass unique by ref or by func(move(ptr))
 	Pixel BuildBmpPixel(std::vector<unsigned char>& rawdata, const int pixelLength, int idx);
 	//Padding are the extra bytes at the end of a line to make sure the horizontal line fits the bmp format
 	const int GetPadding(uint32_t bitsPerPixel, uint32_t width);

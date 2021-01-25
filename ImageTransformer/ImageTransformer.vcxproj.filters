@@ -57,9 +57,6 @@
     <ClCompile Include="Loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HeaderInfo.cpp">
       <Filter>Source Files\HeaderInfo</Filter>
     </ClCompile>
@@ -117,12 +114,12 @@
     <ClCompile Include="ScaleUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GenericImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BmpHeaderInfo.h">
@@ -183,6 +180,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ScaleUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

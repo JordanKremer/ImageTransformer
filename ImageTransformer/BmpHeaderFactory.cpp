@@ -35,7 +35,7 @@ BmpHeaderFactory::BmpHeaderFactory() {}
 
 
 //Creates a BmpHeaderInfo ptr from the rawData, which is then used
-//in the caller function to create a Data object.
+//in the caller function to create a GenericImage object.
 std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& rawData) {
 
 	int compressionFlag = GetCompression(rawData);

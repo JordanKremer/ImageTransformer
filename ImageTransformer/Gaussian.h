@@ -6,6 +6,6 @@ class Gaussian :
 {
 public:
 	Gaussian();
-	Data transform(Data imageData);
+	GenericImage transform(GenericImage imageData);
 };
 

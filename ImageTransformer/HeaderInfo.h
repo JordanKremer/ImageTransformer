@@ -3,7 +3,7 @@ Author : Jordan Kremer
 11/20/20
 HeaderInfo.h
 
-Abstract base class/ interface for subclasses such as BmpHeader. Data.h contains this class, so it
+Abstract base class/ interface for subclasses such as BmpHeader. GenericImage.h contains this class, so it
 is used as a generic way to have any type of HeaderInfo, including those in future
 updates.
 */
