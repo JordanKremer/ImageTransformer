@@ -20,20 +20,20 @@ such as width and height of the image. Includes clone().
 //OS/2 no longer supported, so Windows BITMAPHEADERINFO table used as reference
 struct BmpConstants {
 	inline static const int ID = 0;
-	inline static const int FILESIZE = 2;
+	inline static const int FILE_SIZE = 2;
 	inline static const int RESERVED1 = 6;
-	inline static const int IMAGESTARTOFFSET = 10;
-	inline static const int HEADERSIZE = 14;
+	inline static const int IMAGE_START_OFFSET = 10;
+	inline static const int HEADER_SIZE = 14;
 	inline static const int WIDTH = 18;
 	inline static const int HEIGHT = 22;
-	inline static const int COLORPANES = 26;
-	inline static const int BITSPERPIXEL = 28;
+	inline static const int COLOR_PANES = 26;
+	inline static const int BITS_PER_PIXEL = 28;
 	inline static const int COMPRESSION = 30; //values 0 - 3
-	inline static const int IMAGESIZE = 34;
-	inline static const int HORIZONTALRESOLUTION = 38;
-	inline static const int VERTICALRESOLUTION = 42;
-	inline static const int NUMCOLORSINPALETTE = 46;
-	inline static const int NUMIMPORTANTCOLORSUSED = 50;
+	inline static const int IMAGE_SIZE = 34;
+	inline static const int HORIZONTAL_RESOLUTION = 38;
+	inline static const int VERTICAL_RESOLUTION = 42;
+	inline static const int NUM_COLORS_IN_PALETTE = 46;
+	inline static const int NUM_IMPORTANT_COLORS_USED = 50;
 };
 
 

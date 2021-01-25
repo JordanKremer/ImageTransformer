@@ -56,14 +56,14 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 	BmpConstants bmpConstants;
 	bmpHeaderComponents = std::make_shared<BasicBmpHeaderComponents>();
 
-	bmpHeaderComponents->_filesize = headerComponentsConstructorHelper(bmpConstants.FILESIZE, bmpConstants.RESERVED1, data);
-	bmpHeaderComponents->_imageStartOffset = headerComponentsConstructorHelper(bmpConstants.IMAGESTARTOFFSET, bmpConstants.HEADERSIZE, data);
-	bmpHeaderComponents->_width = headerComponentsConstructorHelper(bmpConstants.WIDTH, bmpConstants.HEIGHT, data);
-	bmpHeaderComponents->_height = headerComponentsConstructorHelper(bmpConstants.HEIGHT, bmpConstants.COLORPANES, data);
-	bmpHeaderComponents->_bitsPerPixel = headerComponentsConstructorHelper(bmpConstants.BITSPERPIXEL, bmpConstants.COMPRESSION, data);
-	bmpHeaderComponents->_compression = headerComponentsConstructorHelper(bmpConstants.COMPRESSION, bmpConstants.IMAGESIZE, data);
-	bmpHeaderComponents->_horizontalResolution = headerComponentsConstructorHelper(bmpConstants.HORIZONTALRESOLUTION, bmpConstants.VERTICALRESOLUTION, data);
-	bmpHeaderComponents->_verticalResolution = headerComponentsConstructorHelper(bmpConstants.VERTICALRESOLUTION, bmpConstants.NUMCOLORSINPALETTE, data);
+	bmpHeaderComponents->_filesize = HeaderComponentsConstructorHelper(bmpConstants.FILE_SIZE, bmpConstants.RESERVED1, data);
+	bmpHeaderComponents->_imageStartOffset = HeaderComponentsConstructorHelper(bmpConstants.IMAGE_START_OFFSET, bmpConstants.HEADER_SIZE, data);
+	bmpHeaderComponents->_width = HeaderComponentsConstructorHelper(bmpConstants.WIDTH, bmpConstants.HEIGHT, data);
+	bmpHeaderComponents->_height = HeaderComponentsConstructorHelper(bmpConstants.HEIGHT, bmpConstants.COLOR_PANES, data);
+	bmpHeaderComponents->_bitsPerPixel = HeaderComponentsConstructorHelper(bmpConstants.BITS_PER_PIXEL, bmpConstants.COMPRESSION, data);
+	bmpHeaderComponents->_compression = HeaderComponentsConstructorHelper(bmpConstants.COMPRESSION, bmpConstants.IMAGE_SIZE, data);
+	bmpHeaderComponents->_horizontalResolution = HeaderComponentsConstructorHelper(bmpConstants.HORIZONTAL_RESOLUTION, bmpConstants.VERTICAL_RESOLUTION, data);
+	bmpHeaderComponents->_verticalResolution = HeaderComponentsConstructorHelper(bmpConstants.VERTICAL_RESOLUTION, bmpConstants.NUM_COLORS_IN_PALETTE, data);
 
 	rawData.reserve(54);
 
@@ -76,7 +76,7 @@ BmpHeaderInfo::BmpHeaderInfo(const std::vector<unsigned char>& data)
 
 //Converts unsigned char bytes of the rawData into usable integer components that
 //can be easily read
-uint32_t BmpHeaderInfo::headerComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data)
+uint32_t BmpHeaderInfo::HeaderComponentsConstructorHelper(const int bmpConstantStart, const int bmpConstantEnd, const std::vector<unsigned char>& data)
 {
 	uint32_t tmpCharToIntConversion = 0;
 	int loadIdx = 0;

@@ -43,11 +43,11 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData):BmpH
 	BmpConstants bmpConstants;
 	BmpHeader_32BitConstants bmpConstants_32Bit;
 
-	bmpHeaderComponents_32Bit = std::move(std::make_unique<BmpHeaderComponents_32Bit>());
-	bmpHeaderComponents_32Bit->_redBitMask = headerComponentsConstructorHelper(bmpConstants_32Bit.RED_CHANNEL_BITMASK, bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, hData);
-	bmpHeaderComponents_32Bit->_greenBitmask = headerComponentsConstructorHelper(bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, hData);
-	bmpHeaderComponents_32Bit->_blueBitMask = headerComponentsConstructorHelper(bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, hData);
-	bmpHeaderComponents_32Bit->_alphaBitMask = headerComponentsConstructorHelper(bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK + 4, hData);
+	bmpHeaderComponents_32Bit = std::make_unique<BmpHeaderComponents_32Bit>();
+	bmpHeaderComponents_32Bit->_redBitMask = HeaderComponentsConstructorHelper(bmpConstants_32Bit.RED_CHANNEL_BITMASK, bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, hData);
+	bmpHeaderComponents_32Bit->_greenBitmask = HeaderComponentsConstructorHelper(bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, hData);
+	bmpHeaderComponents_32Bit->_blueBitMask = HeaderComponentsConstructorHelper(bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, hData);
+	bmpHeaderComponents_32Bit->_alphaBitMask = HeaderComponentsConstructorHelper(bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK + 4, hData);
 
 	
 
