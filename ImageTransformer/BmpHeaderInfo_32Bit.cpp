@@ -58,7 +58,7 @@ BmpHeaderInfo_32Bit::BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData):BmpH
 	}
 }
 
-const std::vector<unsigned char> BmpHeaderInfo_32Bit::GetRawHeader() const
+std::vector<unsigned char> BmpHeaderInfo_32Bit::GetRawHeader() const
 {
 	return bmpHeader32Bit_rawHeader;
 }
@@ -71,28 +71,28 @@ void BmpHeaderInfo_32Bit::operator=(const HeaderInfo& toCopy)
 
 
 
-const uint32_t BmpHeaderInfo_32Bit::GetRedBitMask()
+uint32_t BmpHeaderInfo_32Bit::GetRedBitMask()
 {
 	return bmpHeaderComponents_32Bit->_redBitMask;
 }
 
 
 
-const uint32_t BmpHeaderInfo_32Bit::GetGreenBitMask()
+uint32_t BmpHeaderInfo_32Bit::GetGreenBitMask()
 {
 	return bmpHeaderComponents_32Bit->_greenBitmask;
 }
 
 
 
-const uint32_t BmpHeaderInfo_32Bit::GetBlueBitMask()
+uint32_t BmpHeaderInfo_32Bit::GetBlueBitMask()
 {
 	return bmpHeaderComponents_32Bit->_blueBitMask;
 }
 
 
 
-const uint32_t BmpHeaderInfo_32Bit::GetAlphaBitMask()
+uint32_t BmpHeaderInfo_32Bit::GetAlphaBitMask()
 {
 	return bmpHeaderComponents_32Bit->_alphaBitMask;
 }

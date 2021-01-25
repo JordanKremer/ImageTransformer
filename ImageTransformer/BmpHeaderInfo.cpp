@@ -148,42 +148,42 @@ bool BmpHeaderInfo::isEqual(const BmpHeaderInfo& toCompare)
 }
 
 
-const uint32_t BmpHeaderInfo::GetWidth() const
+uint32_t BmpHeaderInfo::GetWidth() const
 {
 	return bmpHeaderComponents->_width;
 }
 
 
 
-const uint32_t BmpHeaderInfo::GetHeight() const
+uint32_t BmpHeaderInfo::GetHeight() const
 {
 	return bmpHeaderComponents->_height;
 }
 
 
 
-const uint32_t BmpHeaderInfo::GetCompression() const
+uint32_t BmpHeaderInfo::GetCompression() const
 {
 	return bmpHeaderComponents->_compression;
 }
 
 
 
-const uint32_t BmpHeaderInfo::GetBitsPerPixel() const
+uint32_t BmpHeaderInfo::GetBitsPerPixel() const
 {
 	return bmpHeaderComponents->_bitsPerPixel;
 }
 
 
 
-const uint32_t BmpHeaderInfo::GetImageStartOffset() const
+uint32_t BmpHeaderInfo::GetImageStartOffset() const
 {
 	return bmpHeaderComponents->_imageStartOffset;
 }
 
 
 
-const std::vector<unsigned char> BmpHeaderInfo::GetRawHeader() const
+std::vector<unsigned char> BmpHeaderInfo::GetRawHeader() const
 {
 	return rawData;
 }

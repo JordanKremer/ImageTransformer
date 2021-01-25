@@ -63,13 +63,13 @@ public:
 	BmpHeaderInfo& operator =(const BmpHeaderInfo& toCopy);
 	bool isEqual(const BmpHeaderInfo& toCompare);
 
-	_NODISCARD const uint32_t GetWidth() const; 
-	_NODISCARD const uint32_t GetHeight() const;
-	_NODISCARD const uint32_t GetCompression() const; 
-	_NODISCARD const uint32_t GetBitsPerPixel() const;
+	_NODISCARD uint32_t GetWidth() const; 
+	_NODISCARD uint32_t GetHeight() const;
+	_NODISCARD uint32_t GetCompression() const; 
+	_NODISCARD uint32_t GetBitsPerPixel() const;
 	//Gets the start of the (RGBA) image bytes within a byte vector after the header bytes
-	_NODISCARD const uint32_t GetImageStartOffset() const;
-	_NODISCARD const std::vector<unsigned char> GetRawHeader() const;
+	_NODISCARD uint32_t GetImageStartOffset() const;
+	_NODISCARD std::vector<unsigned char> GetRawHeader() const;
 
 
 	void SetHeight(int newHeight);

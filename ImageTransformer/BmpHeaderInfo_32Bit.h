@@ -41,15 +41,15 @@ public:
 	BmpHeaderInfo_32Bit();
 	BmpHeaderInfo_32Bit(BmpHeaderInfo_32Bit& to_copy);
 	BmpHeaderInfo_32Bit(std::vector<unsigned char>& hData);
-	_NODISCARD const std::vector<unsigned char> GetRawHeader() const;
+	_NODISCARD std::vector<unsigned char> GetRawHeader() const;
 	void operator=(const HeaderInfo& toCopy);
 
 private:
 	std::unique_ptr<BmpHeaderComponents_32Bit> bmpHeaderComponents_32Bit;
 	std::vector<unsigned char> bmpHeader32Bit_rawHeader; //Different length than bmpheader base class
-	const uint32_t GetRedBitMask();
-	const uint32_t GetGreenBitMask();
-	const uint32_t GetBlueBitMask();
-	const uint32_t GetAlphaBitMask();
+	uint32_t GetRedBitMask();
+	uint32_t GetGreenBitMask();
+	uint32_t GetBlueBitMask();
+	uint32_t GetAlphaBitMask();
 };
 
