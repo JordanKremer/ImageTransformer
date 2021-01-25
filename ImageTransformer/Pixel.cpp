@@ -22,19 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#pragma once
 
-#include "Pixel.h"
+#include "pixel.h"
+#include <stdexcept>
 
-
-Pixel::Pixel()
+pixel::pixel()
 {
-	_channelCount = 0;
+	channel_count_ = 0;
 }
 
-Pixel::Pixel(std::vector<unsigned char>& channelData, int channelCount)
+pixel::pixel(std::vector<unsigned char>& channel_data, int channelCount)
 {
-	_channels = channelData;
-	_channelCount = channelCount;
+	channels_ = channel_data;
+	channel_count_ = channelCount;
 }
 
 
@@ -42,91 +43,91 @@ Pixel::Pixel(std::vector<unsigned char>& channelData, int channelCount)
 //Try to find a way to use a generic iterator so it doesn't
 //have to care about a predefined one
 
-Pixel::Pixel(std::vector<int>::iterator, const int numChannels)
+pixel::pixel(std::vector<int>::iterator, const int num_channels)
 {
-
+	channel_count_ = 0;
 }
 
 
 
-const unsigned char& Pixel::GetChannel(const int channel) const
+const unsigned char& pixel::get_channel(const int channel) const
 {
-	if (channel >= _channels.size())
+	if (channel >= channels_.size())
 	{
 		std::string msg = "ERROR: GETCHANNEL(): CHANNEL SELECTION OUT OF RANGE";
 		throw std::out_of_range(msg);
 	}
 	else {
-		return _channels[channel];
+		return channels_[channel];
 	}
 }
 
 
 
-const std::vector<unsigned char>& Pixel::GetAllChannelData()const
+const std::vector<unsigned char>& pixel::get_all_channel_data()const
 {
-	return _channels;
+	return channels_;
 }
 
 
 
 
-const int Pixel::GetChannelCount()const
+const int pixel::get_channel_count()const
 {
-	return _channelCount;
+	return channel_count_;
 }
 
-void Pixel::SetChannel(int channelIdx, int channelValue)
+void pixel::set_channel(int channel_idx, int channel_value)
 {
-	if (channelIdx >= _channels.size()) {
+	if (channel_idx >= channels_.size()) {
 		throw std::runtime_error("ERROR | PIXEL::SETCHANNEL():CHANNELIDX OUT OF RANGE");
 	}
 	else {
-		_channels[channelIdx] = channelValue;
+		channels_[channel_idx] = channel_value;
 	}
 
 }
 
-void Pixel::SetAllChannels(std::vector<int> newChannels) {
+void pixel::set_all_channels(std::vector<int> new_channels) {
 
-	if (_channels.size() != newChannels.size())
+	if (channels_.size() != new_channels.size())
 	{
 		throw std::out_of_range("ERROR | PIXEL::SETALLCHANNELS() : NEWCHANNEL SIZE INCOMPATIBLE");
 	}
 
-	for (int channelIdx = 0; channelIdx < _channelCount; ++channelIdx)
+	for (int channelIdx = 0; channelIdx < channel_count_; ++channelIdx)
 	{
-		_channels[channelIdx] = newChannels[channelIdx] % 256;
+		channels_[channelIdx] = new_channels[channelIdx] % 256;
 	}
 }
 
-void Pixel::SetAllChannels(std::vector<unsigned char> newChannels)
+void pixel::set_all_channels(std::vector<unsigned char> new_channels)
 {
-	if (_channels.size() != newChannels.size())
+	if (channels_.size() != new_channels.size())
 	{
 		throw std::out_of_range("ERROR | PIXEL::SETALLCHANNELS() : NEWCHANNEL SIZE INCOMPATIBLE");
 	}
 
-	_channels = newChannels;
+	channels_ = new_channels;
 }
 
-Pixel& Pixel::operator+(const Pixel& p2)
+pixel& pixel::operator+(const pixel& p2)
 {
-	if (p2.GetChannelCount() != this->GetChannelCount())
-		throw std::runtime_error("ERROR | Pixel::operator+ : MISMATCH CHANNELCOUNT");
+	if (p2.get_channel_count() != this->get_channel_count())
+		throw std::runtime_error("ERROR | pixel::operator+ : MISMATCH CHANNELCOUNT");
 
-	for (int i = 0; i < this->GetChannelCount(); ++i)
+	for (int i = 0; i < this->get_channel_count(); ++i)
 	{
-		this->_channels[i] += + p2._channels[i];
+		this->channels_[i] += + p2.channels_[i];
 	}
 
 	return *this;
 }
 
-Pixel& Pixel::operator=(const Pixel& p)
+pixel& pixel::operator=(const pixel& p)
 {
-	this->_channels = p._channels;
-	this->_channelCount = p._channelCount;
+	this->channels_ = p.channels_;
+	this->channel_count_ = p.channel_count_;
 
 	return *this;
 }

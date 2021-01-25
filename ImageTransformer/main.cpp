@@ -24,13 +24,13 @@ SOFTWARE.
 
 
 #include <iostream>
-#include "Applicator.h"
-#include "AdapterFactory.h"
-#include "TransformationFactory.h"
-#include "Transformation.h"
-#include "GenericImage.h"
-#include "Loader.h"
-#include "Writer.h"
+#include "applicator.h"
+#include "adapter_factory.h"
+#include "transformation_factory.h"
+#include "transformation.h"
+#include "generic_image.h"
+#include "loader.h"
+#include "writer.h"
 //#include <windows.h>
 
 
@@ -57,22 +57,22 @@ int main(int argc, char* argv[])
 	std::string OUTFILENAME(argv[4]);
 */
 
-	std::unique_ptr<Loader> _loader = std::make_unique<Loader>();
-	std::unique_ptr<Writer> writer = std::make_unique<Writer>();
-	std::unique_ptr<AdapterFactory> adapterFac = std::make_unique<AdapterFactory>();
-	std::unique_ptr<TransformationFactory> transformFac = std::make_unique<TransformationFactory>();
-	std::unique_ptr<Applicator> applicator = std::make_unique<Applicator>();;
+	auto file_loader = std::make_unique<loader>();
+	auto file_writer = std::make_unique<writer>();
+	auto adapter_fac = std::make_unique<adapter_factory>();
+	auto transform_fac = std::make_unique<transformation_factory>();
+	auto transformation_applicator = std::make_unique<applicator>();
 
-	//Load -> Adapt to generic -> Transform image -> Adapt back to byte vector -> Write to disk
+	//load -> Adapt to generic -> Transform image -> Adapt back to byte vector -> Write to disk
 	try {
-		auto rawImageByteValues = _loader->Load(FILENAME);
-		auto adapter = adapterFac->GetAdapter(FILETYPE);
-		auto genericAdaptedImage = adapter->AdaptFromRaw(rawImageByteValues);
-		auto transformer = transformFac->GetTransformation(TRANSFORMATIONTYPE);
-		auto transformedAdaptedImage = applicator->ApplyTransformation(std::move(genericAdaptedImage), std::move(transformer));
-		auto transformedRawData = adapter->AdaptToRaw(std::move(transformedAdaptedImage));
+		auto raw_image_byte_values = file_loader->load(FILENAME);
+		auto adapter = adapter_fac->get_adapter(FILETYPE);
+		auto generic_adapted_image = adapter->adapt_from_raw(raw_image_byte_values);
+		auto transformer = transform_fac->get_transformation(TRANSFORMATIONTYPE);
+		auto transformed_adapted_image = transformation_applicator->apply_transformation(std::move(generic_adapted_image), std::move(transformer));
+		auto transformed_raw_pixel_values = adapter->adapt_to_raw(std::move(transformed_adapted_image));
 
-		writer->WriteToFile(transformedRawData, OUTFILENAME);
+		file_writer->write_to_file(transformed_raw_pixel_values, OUTFILENAME);
 	}
 	catch (const std::out_of_range& oor)
 	{

@@ -25,29 +25,41 @@ SOFTWARE.
 
 
 #pragma once
-#include "TransformationFactory.h"
-#include "Gaussian.h"
-#include "Pixelate.h"
-#include "Rotate180.h"
+#include "generic_image.h"
 
-
-
-std::unique_ptr<Transformation> TransformationFactory::GetTransformation(std::string transformationType) {
-	if (transformationType == "")
-		throw std::runtime_error("ERROR | TRANSFORMATIONFACTORY::GETTRANSFORMATION() : EMPTY STRING TRANSFORMATIONTYPE");
-
-	if (transformationType == "rotate180")
-	{
-		return std::move(std::make_unique<Rotate180>());
-	}
-	else if (transformationType == "pixelate")
-	{
-		return std::move(std::make_unique<Pixelate>());
-	}
-	else {
-		return nullptr;
-	}
-
+generic_image::generic_image(std::vector<unsigned char>& data, std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
+{
+	_pixels = pixels;
+	_header = std::move(header);
 }
+
+
+
+generic_image::~generic_image()
+{
+	//delete _header;
+}
+
+
+
+const int generic_image::GetCompression()
+{
+	return _header->get_compression();
+}
+
+
+
+const std::vector<unsigned char> generic_image::GetRawHeaderReadOnly() const
+{
+	return _header->get_raw_header();
+}
+
+
+
+const std::vector<pixel> generic_image::GetPixelsReadOnly() const
+{
+	return _pixels;
+}
+
 
 

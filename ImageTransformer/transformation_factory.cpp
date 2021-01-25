@@ -25,41 +25,28 @@ SOFTWARE.
 
 
 #pragma once
-#include "GenericImage.h"
+#include "transformation_factory.h"
+#include "pixelate.h"
+#include "rotate180.h"
 
-GenericImage::GenericImage(std::vector<unsigned char>& data, std::vector<Pixel>& pixels, std::unique_ptr<HeaderInfo> header) 
-{
-	_pixels = pixels;
-	_header = std::move(header);
+
+
+std::unique_ptr<transformation> transformation_factory::get_transformation(std::string transformation_type) {
+	if (transformation_type == "")
+		throw std::runtime_error("ERROR | TRANSFORMATIONFACTORY::GETTRANSFORMATION() : EMPTY STRING TRANSFORMATIONTYPE");
+
+	if (transformation_type == "rotate180")
+	{
+		return std::move(std::make_unique<rotate180>());
+	}
+	else if (transformation_type == "pixelate")
+	{
+		return std::move(std::make_unique<pixelate>());
+	}
+	else {
+		return nullptr;
+	}
+
 }
-
-
-
-GenericImage::~GenericImage()
-{
-	//delete _header;
-}
-
-
-
-const int GenericImage::GetCompression()
-{
-	return _header->GetCompression();
-}
-
-
-
-const std::vector<unsigned char> GenericImage::GetRawHeaderReadOnly() const
-{
-	return _header->GetRawHeader();
-}
-
-
-
-const std::vector<Pixel> GenericImage::GetPixelsReadOnly() const
-{
-	return _pixels;
-}
-
 
 

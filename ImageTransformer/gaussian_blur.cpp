@@ -23,12 +23,12 @@ SOFTWARE.
 */
 
 
-#include "GaussianBlur.h"
+#include "gaussian_blur.h"
 
-std::vector<Pixel> GaussianBlur::TransformPixels(std::vector<Pixel> pixels)
+std::vector<pixel> gaussian_blur::transform_pixels(std::vector<pixel> pixels)
 {
 	try {
-		BlurPixels(pixels);
+		blur_pixels(pixels);
 	}
 	catch(std::runtime_error& runError){
 		throw runError;
@@ -43,7 +43,7 @@ std::vector<Pixel> GaussianBlur::TransformPixels(std::vector<Pixel> pixels)
 
 
 
-std::unique_ptr<HeaderInfo> GaussianBlur::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
+std::unique_ptr<header_info> gaussian_blur::transform_header(std::unique_ptr<header_info> hdr)
 {
 	//No op
 	return std::move(hdr);
@@ -51,11 +51,11 @@ std::unique_ptr<HeaderInfo> GaussianBlur::TransformHeader(std::unique_ptr<Header
 
 
 
-void GaussianBlur::BlurPixels(std::vector<Pixel>& pixels)
+void gaussian_blur::blur_pixels(std::vector<pixel>& pixels)
 {
 
-	uint32_t Width = GetHeader()->GetWidth();
-	uint32_t Height = GetHeader()->GetHeight();
+	uint32_t Width = get_header()->get_width();
+	uint32_t Height = get_header()->get_height();
 
 	if (Width < 5 || Height < 5)
 		throw std::runtime_error("ERROR | GAUSSIANBLUR::BLURPIXELS() : IMAGE TOO SMALL");
@@ -65,14 +65,14 @@ void GaussianBlur::BlurPixels(std::vector<Pixel>& pixels)
 	{
 		for (int32_t pixely = 2; pixely < Height - 2; ++pixely)
 		{
-			PixelGridMultiply(pixels, pixelx, pixely);
+			pixel_grid_multiply(pixels, pixelx, pixely);
 		}
 	}
 }
 
 
 
-void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX, int32_t centerY)
+void gaussian_blur::pixel_grid_multiply(std::vector<pixel>& pixels, int32_t centerX, int32_t centerY)
 {
 	int offsetX;
 	int offsetY;
@@ -80,23 +80,23 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 	double red = 0;
 	double green = 0;
 	double blue = 0;
-	int channelCount = pixels[0].GetChannelCount();
+	int channelCount = pixels[0].get_channel_count();
 	std::vector<int> channelValuesGaussianSum(channelCount, 0);
 
 	//get corner x and y so we know where to start in the grid
-	for (int x = GetXLeft(pixels, centerX); x < (5 - GetXRight(pixels, centerX)); x++)
+	for (int x = get_x_left(pixels, centerX); x < (5 - get_x_right(pixels, centerX)); x++)
 	{
-		for (int y = GetYDown(pixels, centerY); y < (5 - GetYUp(pixels, centerY)); y++)
+		for (int y = get_y_down(pixels, centerY); y < (5 - get_y_up(pixels, centerY)); y++)
 		{
 
-			offsetX = ReturnOffset(x); //return offset from the center of the gaussian block
-			offsetY = ReturnOffset(y);
+			offsetX = return_offset(x); //return offset from the center of the gaussian block
+			offsetY = return_offset(y);
 			offsetX = centerX + offsetX;
 			offsetY = centerY + offsetY;
-			double gCoeff = GetGaussianNum(x, y);
+			double gCoeff = get_gaussian_num(x, y);
 
 			//Calculate and add gaussian values
-			auto pixelChannels = pixels[GetCoordinate(offsetX, offsetY)].GetAllChannelData();
+			auto pixelChannels = pixels[get_coordinate(offsetX, offsetY)].get_all_channel_data();
 			for (int channelIdx = 0; channelIdx < channelCount; ++channelIdx)
 			{	
 				//Set the channel to the nearest integer after multiplying the gaussian coefficient
@@ -108,7 +108,7 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 	
 
 	try {
-		pixels[GetCoordinate(centerX, centerY)].SetAllChannels(channelValuesGaussianSum);
+		pixels[get_coordinate(centerX, centerY)].set_all_channels(channelValuesGaussianSum);
 	}
 	catch (std::out_of_range& oor)
 	{
@@ -123,7 +123,7 @@ void GaussianBlur::PixelGridMultiply(std::vector<Pixel>& pixels, int32_t centerX
 //gives free space up to 2 spaces from left
 //returns x start value for nested for loop
 //for grid computation
-int GaussianBlur::GetXLeft(std::vector<Pixel>& pixels, int32_t centerX)
+int gaussian_blur::get_x_left(std::vector<pixel>& pixels, int32_t centerX)
 {
 	if ((centerX - 2) >= 0)
 	{
@@ -142,9 +142,9 @@ int GaussianBlur::GetXLeft(std::vector<Pixel>& pixels, int32_t centerX)
 //gives free space up to 2 spaces to the right
 //returns x end value for nested for loop
 //for grid computation
-int GaussianBlur::GetXRight(std::vector<Pixel>& pixels, int32_t centerX)
+int gaussian_blur::get_x_right(std::vector<pixel>& pixels, int32_t centerX)
 {
-	auto Width = GetHeader()->GetWidth();
+	auto Width = get_header()->get_width();
 	if ((centerX + 2) <= Width)
 	{
 		return 0; //maximum space, unsure how much space left or right
@@ -159,9 +159,9 @@ int GaussianBlur::GetXRight(std::vector<Pixel>& pixels, int32_t centerX)
 
 
 
-int GaussianBlur::GetYUp(std::vector<Pixel>& pixels, int32_t centerY)
+int gaussian_blur::get_y_up(std::vector<pixel>& pixels, int32_t centerY)
 {
-	auto Height = GetHeader()->GetHeight();
+	auto Height = get_header()->get_height();
 
 	if ((centerY + 2) <= Height)
 	{
@@ -177,7 +177,7 @@ int GaussianBlur::GetYUp(std::vector<Pixel>& pixels, int32_t centerY)
 
 
 
-int GaussianBlur::GetYDown(std::vector<Pixel>& pixels, int32_t centerY)
+int gaussian_blur::get_y_down(std::vector<pixel>& pixels, int32_t centerY)
 {
 	if ((centerY - 2) >= 0)
 	{
@@ -192,7 +192,7 @@ int GaussianBlur::GetYDown(std::vector<Pixel>& pixels, int32_t centerY)
 
 
 // Returns offset from the center of the gaussian block
-int GaussianBlur::ReturnOffset(int y)
+int gaussian_blur::return_offset(int y)
 {
 	if (y == 0)
 		return -2;
@@ -208,7 +208,7 @@ int GaussianBlur::ReturnOffset(int y)
 
 
 
-double GaussianBlur::GetGaussianNum(int x, int y)
+double gaussian_blur::get_gaussian_num(int x, int y)
 {
-	return _gaussianMatrix[x][y];
+	return gaussian_matrix_[x][y];
 }

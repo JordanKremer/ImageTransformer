@@ -23,16 +23,16 @@ SOFTWARE.
 */
 
 
+#include <fstream>
+#include "writer.h"
 
-#include "Writer.h"
-
-void Writer::WriteToFile(std::vector<unsigned char> rawImageData, const std::string FILENAME)
+void writer::write_to_file(std::vector<unsigned char> raw_image_values, const std::string filename)
 {
 	std::ofstream out;
-	out.open(FILENAME, std::ios::binary | std::ios::out);
+	out.open(filename, std::ios::binary | std::ios::out);
 	assert(out.is_open());
 	
-	for (auto& byte : rawImageData)
+	for (auto& byte : raw_image_values)
 	{
 		out.write((char*)& byte, sizeof(byte));
 	}

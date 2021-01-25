@@ -1,7 +1,7 @@
 /*
 Author : Jordan Kremer
 1/24/2021
-Writer.h
+writer.h
 
 Includes functionality to write a byte vector to disk.
 */
@@ -9,12 +9,11 @@ Includes functionality to write a byte vector to disk.
 #pragma once
 #include <vector>
 #include <string>
-#include <fstream>
 #include <assert.h>
 
-class Writer
+class writer
 {
 public:
-	void WriteToFile(std::vector<unsigned char> rawImageData, const std::string FILENAME);
+	void write_to_file(std::vector<unsigned char> raw_image_values, const std::string filename);
 };
 

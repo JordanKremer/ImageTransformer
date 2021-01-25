@@ -25,25 +25,25 @@ SOFTWARE.
 
 
 
-#include "BmpHeaderFactory.h"
-#include "BmpHeaderInfo_32Bit.h"
+#include "bmp_header_factory.h"
+#include "bmp_header_info_32_bit.h"
 #include <stdexcept>
 
 
-BmpHeaderFactory::BmpHeaderFactory() = default;
+bmp_header_factory::bmp_header_factory() = default;
 
 
-//Creates a BmpHeaderInfo ptr from the rawData, which is then used
-//in the caller function to create a GenericImage object.
-std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsigned char>& rawData) {
+//Creates a bmp_header_info ptr from the raw_image_values_, which is then used
+//in the caller function to create a generic_image object.
+std::unique_ptr<bmp_header_info> bmp_header_factory::get_bmp_header(std::vector<unsigned char>& raw_image_values) {
 
-	const int compressionFlag = GetCompression(rawData);
+	const int compressionFlag = get_compression(raw_image_values);
 	switch(compressionFlag)
 	{
-		case 0: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
-		case 1: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
-		case 2: return std::move(std::make_unique<BmpHeaderInfo>(rawData));
-		case 3: return std::move(std::make_unique<BmpHeaderInfo_32Bit>(rawData));
+		case 0: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
+		case 1: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
+		case 2: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
+		case 3: return std::move(std::make_unique<bmp_header_info_32_bit>(raw_image_values));
 		default: throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER, COMPRESSION OUT OF BOUNDS");
 	}
 }
@@ -51,21 +51,21 @@ std::unique_ptr<BmpHeaderInfo> BmpHeaderFactory::GetBmpHeader(std::vector<unsign
 
 
 //Takes the compression bytes from the header, bytes 30-33, and compresses them into
-//a single integer. GetBmpHeader is the caller.
-int BmpHeaderFactory::GetCompression(std::vector<unsigned char>& rawData)
+//a single integer. get_bmp_header is the caller.
+int bmp_header_factory::get_compression(std::vector<unsigned char>& raw_image_values)
 {
 	char ID[2];
-	ID[0] = rawData[0];
-	ID[1] = rawData[1];
+	ID[0] = raw_image_values[0];
+	ID[1] = raw_image_values[1];
 
 	//Need to expand this validation
 	if (!(ID[0] == 'B' && ID[1] == 'M'))
 		throw std::runtime_error("ERROR: NOT A BMP");
 
-	//Load compression bytes from the rawData into the integer
+	//load compression bytes from the raw_image_values_ into the integer
 	uint32_t compressionFlag;
 	for (int idx = 0; idx < 4; ++idx) {
-		((unsigned char*)& compressionFlag)[idx] = rawData[idx + 30];
+		((unsigned char*)& compressionFlag)[idx] = raw_image_values[idx + 30];
 	}
 
 	return compressionFlag;

@@ -23,22 +23,62 @@ SOFTWARE.
 */
 
 
-#include "AdapterFactory.h"
-#include "BmpAdapter.h"
-#include <exception>
 
-std::unique_ptr<Adapter> AdapterFactory::GetAdapter(std::string fileType)
+#include "cell_shade.h"
+
+std::vector<pixel> cell_shade::transform_pixels(std::vector<pixel> pixels)
 {
-	//Assumes that fileType accounts for case before function is called
-	if (fileType == "bmp")
+	auto Width = get_header()->get_width();
+	auto Height = get_header()->get_height();
+
+	for (uint32_t x = 0; x < Width; x++)
 	{
-		std::unique_ptr<BmpAdapter> adapter = std::make_unique<BmpAdapter>();
-		return std::move(adapter);
-	}
-	else {
-		std::runtime_error("ERROR: INVALID FILETYPE EXTENSION");
+		for (uint32_t y = 0; y < Height; y++)
+		{
+			round_pixel(pixels[get_coordinate(x, y)]);
+		}
 	}
 
-	return nullptr;
+	return pixels;
 }
 
+
+
+std::unique_ptr<header_info> cell_shade::transform_header(std::unique_ptr<header_info> hdr)
+{
+	//no op
+    return std::move(hdr);
+}
+
+
+
+
+void cell_shade::round_pixel(pixel& to_round)
+{
+	int channelIdx = 0;
+	for (auto& channelValue : to_round.get_all_channel_data())
+	{
+		to_round.set_channel(channelIdx, round_channel(channelValue));
+		++channelIdx;
+	}
+}
+
+
+
+int cell_shade::round_channel(int channel_value)
+{
+	if ((channel_value) < 128)
+	{
+		if (channel_value < 64)
+			return 0;
+		else
+			return 128;
+	}
+	else
+	{
+		if (channel_value < 192)
+			return 128;
+		else
+			return 255;
+	}
+}

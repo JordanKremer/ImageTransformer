@@ -23,19 +23,19 @@ SOFTWARE.
 */
 
 
-#include "Rotate180.h"
+#include "rotate180.h"
 
-std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
+std::vector<pixel> rotate180::transform_pixels(std::vector<pixel> pixels)
 {
-	//hdr is pulled from the abstract base Transformation class
-	auto hdr = GetHeader();
+	//hdr is pulled from the abstract base transformation class
+	auto hdr = get_header();
 	
 	if (!hdr) {
 		throw std::runtime_error("ERROR | ROTATE180::TRANSFORMPIXELS(): FAILED TO SET HEADER");
 	}
 		
-	uint32_t imageWidth = hdr->GetWidth();
-	uint32_t imageHeight = hdr->GetHeight();
+	uint32_t imageWidth = hdr->get_width();
+	uint32_t imageHeight = hdr->get_height();
 
 	if (imageHeight * imageWidth > pixels.size())
 		throw std::runtime_error("ERROR | ROTATE180.TRANSFORMPIXELS(): INVALID IMAGE DIMENSIONS, CANNOT TRANSFORM");
@@ -46,7 +46,7 @@ std::vector<Pixel> Rotate180::TransformPixels(std::vector<Pixel> pixels)
 
 
 //Nothing changes dimension or otherwise for the header for this transformation
-std::unique_ptr<HeaderInfo> Rotate180::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
+std::unique_ptr<header_info> rotate180::transform_header(std::unique_ptr<header_info> hdr)
 {
 	//No op function
 	return std::move(hdr);

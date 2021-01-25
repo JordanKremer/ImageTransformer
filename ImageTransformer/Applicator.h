@@ -1,18 +1,18 @@
 /*
 Author : Jordan Kremer
 1/24/2021
-Applicator.h
+applicator.h
 
-Applies a Transformation to a GenericImage.
+Applies a transformation to a generic_image.
 */
 
 #pragma once
-#include "Transformation.h"
-#include "GenericImage.h"
+#include "transformation.h"
+#include "generic_image.h"
 
-class Applicator
+class applicator
 {
 public:
-	std::unique_ptr<GenericImage> ApplyTransformation(std::unique_ptr<GenericImage> image, std::unique_ptr<Transformation> transformer);
+	std::unique_ptr<generic_image> apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer);
 };
 

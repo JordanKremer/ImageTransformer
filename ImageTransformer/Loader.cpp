@@ -23,15 +23,15 @@ SOFTWARE.
 */
 
 
-#include "Loader.h"
+#include "loader.h"
 #include <fstream>
 
 
-Loader::Loader() {}
+loader::loader() {}
 
 //C++ doesn't create a second copy for vector when returning it
 //it just moves the data
-std::vector<unsigned char> Loader::Load(std::string filename)
+std::vector<unsigned char> loader::load(std::string filename)
 {
 
 	std::ifstream in;

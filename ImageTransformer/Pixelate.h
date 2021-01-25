@@ -1,37 +1,37 @@
 /*
 Author : Jordan Kremer
 1/24/2021
-Pixelate.h
+pixelate.h
 
-Contains functionality to perform Pixelation algorithm on a Pixel vector.
+Contains functionality to perform Pixelation algorithm on a pixel vector.
 
 */
 
 
 #pragma once
-#include "Transformation.h"
-class Pixelate :
-	public Transformation
+#include "transformation.h"
+class pixelate :
+	public transformation
 {
 public:
-	Pixelate();
-	std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels);
-	std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo> hdr);
+	pixelate();
+	std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
+	std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr);
 	
 private:
-	void SetEdgeRemainders();
-	std::vector<int> AveragePixelValuesBySquareDimensions(std::vector<int> sumOfRowOfChannelValues, int totalPixels);
-	void SetRowOfSquareLenToAverage(std::vector<Pixel>::iterator rowIterator, std::vector<int> averagePixelChannelValues, int squareLen);
-	void SetPixelSquareToAverage(std::vector<std::vector<Pixel>::iterator> boxIterators, std::vector<int> averagePixelChannelValues, int sideLength_x);
-	std::vector<std::vector<Pixel>::iterator> GetIteratorsOfPixelSquare(std::vector<Pixel> pixels, std::pair<int, int> curSquareCoordinate, int sideLength_y);
-	uint32_t GetSquareIteratorStartIdx(std::pair<int, int> curSquareCoordinate, int row);
-	std::vector<int> GetRowPixelAdditionReduction(std::vector<Pixel>::iterator rowIterator, std::vector<int> sumOfRowOfChannelValues, int sideLength_x);
-	std::vector<int> GetRowPixelAdditionReductionHelper(std::vector<int> sumOfRowOfChannelValues, Pixel pixel);
+	void set_edge_remainders();
+	std::vector<int> average_pixel_values_by_square_dimensions(std::vector<int> sum_of_row_of_channel_values, int total_pixels);
+	void set_row_of_square_len_to_average(std::vector<pixel>::iterator row_iterator, std::vector<int> average_pixel_channel_values, int square_len);
+	void set_pixel_square_to_average(std::vector<std::vector<pixel>::iterator> box_iterators, std::vector<int> average_pixel_channel_values, int side_length_x);
+	std::vector<std::vector<pixel>::iterator> get_iterators_of_pixel_square(std::vector<pixel> pixels, std::pair<int, int> cur_square_coordinate, int side_length_y);
+	uint32_t get_square_iterator_start_idx(std::pair<int, int> curSquareCoordinate, int row);
+	std::vector<int> get_row_pixel_addition_reduction(std::vector<pixel>::iterator row_iterator, std::vector<int> sum_of_row_of_channel_values, int side_length_x);
+	std::vector<int> get_row_pixel_addition_reduction_helper(std::vector<int> sum_of_row_of_channel_values, pixel pixel);
 	
-	std::vector<Pixel> Average16RGB(std::vector<Pixel> pixels, std::pair<int, int> curSquareCoordinate, std::pair<int, int> sideLengths);
+	std::vector<pixel> average16_rgb(std::vector<pixel> pixels, std::pair<int, int> cur_square_coordinate, std::pair<int, int> side_lengths);
 	
 
-	int _squareLen;
-	int _xEdgeRemainder;
-	int _yEdgeRemainder;
+	int square_len_;
+	int x_edge_remainder_;
+	int y_edge_remainder_;
 };

@@ -23,15 +23,15 @@ SOFTWARE.
 */
 
 
-#include "ScaleUp.h"
+#include "scale_up.h"
 
-std::vector<Pixel> ScaleUp::TransformPixels(std::vector<Pixel> pixels)
+std::vector<pixel> scale_up::transform_pixels(std::vector<pixel> pixels)
 {
-    auto Width = GetHeader()->GetWidth();
-    auto Height = GetHeader()->GetHeight();
+    auto Width = get_header()->get_width();
+    auto Height = get_header()->get_height();
     
-    std::vector<Pixel> scaledImagePixels;
-    std::vector<Pixel> tmpPixelHorizontalLineHolder;
+    std::vector<pixel> scaledImagePixels;
+    std::vector<pixel> tmpPixelHorizontalLineHolder;
 
 
     scaledImagePixels.reserve(pixels.size() * 2);
@@ -39,7 +39,7 @@ std::vector<Pixel> ScaleUp::TransformPixels(std::vector<Pixel> pixels)
     
 
     uint32_t curPixelIdx = 0;
-    //std::vector<Pixel>::iterator lineStart = pixels.begin();
+    //std::vector<pixel>::iterator lineStart = pixels.begin();
     uint32_t lineStart = 0;
     uint32_t prevLineStart = 0;
 
@@ -52,7 +52,7 @@ std::vector<Pixel> ScaleUp::TransformPixels(std::vector<Pixel> pixels)
         if ((curPixelIdx + 1) % Width == 0)
         {
             lineStart = curPixelIdx; //This will set lineStart back to the beginning of the horizontal line
-            for (int i = prevLineStart; i < (Width * _scalar); ++i)
+            for (int i = prevLineStart; i < (Width * scalar_); ++i)
             {
                 auto tmpPix = scaledImagePixels[i];
                 scaledImagePixels.push_back(tmpPix);
@@ -60,7 +60,7 @@ std::vector<Pixel> ScaleUp::TransformPixels(std::vector<Pixel> pixels)
         }
         
 
-        for (int i = 0; i < _scalar; ++i)
+        for (int i = 0; i < scalar_; ++i)
         {
             scaledImagePixels.push_back(p);
             //tmpPixelHorizontalLineHolder.push_back(p);   //somehow account for re writing over pixels so we only have 1 width worth 
@@ -75,10 +75,10 @@ std::vector<Pixel> ScaleUp::TransformPixels(std::vector<Pixel> pixels)
 
 
 
-std::unique_ptr<HeaderInfo> ScaleUp::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
+std::unique_ptr<header_info> scale_up::transform_header(std::unique_ptr<header_info> hdr)
 {
-    hdr->SetWidth(hdr->GetWidth() * _scalar);
-    hdr->SetHeight(hdr->GetHeight() * _scalar);
+    hdr->set_width(hdr->get_width() * scalar_);
+    hdr->set_height(hdr->get_height() * scalar_);
 
     //set image size
     //set file size

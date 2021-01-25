@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "GreyScale.h"
+#include "grey_scale.h"
 
-std::vector<Pixel> GreyScale::TransformPixels(std::vector<Pixel> pixels)
+std::vector<pixel> grey_scale::transform_pixels(std::vector<pixel> pixels)
 {
-	auto Width = GetHeader()->GetWidth();
-	auto Height = GetHeader()->GetHeight();
+	auto Width = get_header()->get_width();
+	auto Height = get_header()->get_height();
 
 	for (uint32_t x = 0; x < Width; x++)
 	{
 		for (uint32_t y = 0; y < Height; y++)
 		{
-			SetPixelGrey(pixels[GetCoordinate(x, y)]);
+			set_pixel_grey(pixels[get_coordinate(x, y)]);
 		}
 	}
 
@@ -43,7 +43,7 @@ std::vector<Pixel> GreyScale::TransformPixels(std::vector<Pixel> pixels)
 
 
 
-std::unique_ptr<HeaderInfo> GreyScale::TransformHeader(std::unique_ptr<HeaderInfo> hdr)
+std::unique_ptr<header_info> grey_scale::transform_header(std::unique_ptr<header_info> hdr)
 {
     //No op
     return std::move(hdr);
@@ -53,13 +53,13 @@ std::unique_ptr<HeaderInfo> GreyScale::TransformHeader(std::unique_ptr<HeaderInf
 
 
 //Averages byte color values and sets pixel to color.
-void GreyScale::SetPixelGrey(Pixel& toGrey)
+void grey_scale::set_pixel_grey(pixel& to_grey)
 {
-	uint8_t averageChannelValue = AverageRGBValues(toGrey.GetAllChannelData());
+	uint8_t averageChannelValue = average_rgb_values(to_grey.get_all_channel_data());
 	int channelIdx = 0;
-	for (auto& channelValue : toGrey.GetAllChannelData())
+	for (auto& channelValue : to_grey.get_all_channel_data())
 	{
-		toGrey.SetChannel(channelIdx, averageChannelValue);
+		to_grey.set_channel(channelIdx, averageChannelValue);
 		++channelIdx;
 	}
 }
@@ -68,7 +68,7 @@ void GreyScale::SetPixelGrey(Pixel& toGrey)
 
 //Averages the channel byte data for a given pixel
 //and returns that number.
-uint8_t GreyScale::AverageRGBValues(const std::vector<unsigned char> channels)
+uint8_t grey_scale::average_rgb_values(const std::vector<unsigned char> channels)
 {
 	int averageChannelValue = 0;
 	for (int channelIdx = 0; channelIdx < channels.size(); ++channelIdx)

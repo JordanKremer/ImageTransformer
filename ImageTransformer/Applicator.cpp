@@ -23,15 +23,16 @@ SOFTWARE.
 */
 
 
-#include "Applicator.h"
-#include "HeaderInfo.h"
+#include "applicator.h"
+#include <stdexcept>
+#include "header_info.h"
 
-std::unique_ptr<GenericImage> Applicator::ApplyTransformation(std::unique_ptr<GenericImage> image, std::unique_ptr<Transformation> transformer)
+std::unique_ptr<generic_image> applicator::apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer)
 {
 	try {
 		transformer->SetHeader(image->_header.get());
-		image->_pixels = transformer->TransformPixels(image->_pixels);
-		image->_header = transformer->TransformHeader(std::move(image->_header));
+		image->_pixels = transformer->transform_pixels(image->_pixels);
+		image->_header = transformer->transform_header(std::move(image->_header));
 	}
 	catch (const std::out_of_range& oor)
 	{

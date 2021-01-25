@@ -1,21 +1,21 @@
 /*
 Author : Jordan Kremer
 1/24/2021
-Rotate180.h
+rotate180.h
 
 Rotates iamge 180 degress.
 
 */
 
 #pragma once
-#include "Transformation.h"
+#include "transformation.h"
 
-class Rotate180 :
-	public Transformation
+class rotate180 :
+	public transformation
 {
 public:
-	std::vector<Pixel> TransformPixels(std::vector<Pixel> pixels);
-	std::unique_ptr<HeaderInfo> TransformHeader(std::unique_ptr<HeaderInfo>);
+	std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
+	std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info>);
 
 };
 
