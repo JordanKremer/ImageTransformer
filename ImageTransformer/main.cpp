@@ -36,19 +36,19 @@ SOFTWARE.
 
 int main(int argc, char* argv[])
 {
+	if (argc < 4)
+		return 0;
+	
+	const std::string FILENAME(argv[1]);
+	const std::string FILETYPE(argv[2]);
+	const std::string TRANSFORMATIONTYPE(argv[3]);
+	const std::string OUTFILENAME(argv[4]);
 
-	std::string FILENAME("C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp");
-	std::string FILETYPE("bmp");
-	std::string TRANSFORMATIONTYPE("rotate180");
-	std::string OUTFILENAME("C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_new.bmp");
-
-/*
-
-	std::string FILENAME(argv[1]);
-	std::string FILETYPE(argv[2]);
-	std::string TRANSFORMATIONTYPE(argv[3]);
-	std::string OUTFILENAME(argv[4]);
-*/
+	for(int argvIdx = 0; argvIdx < 4; ++argvIdx)
+	{
+		if (argv[argvIdx] == nullptr)
+			return 0;
+	}
 
 	//load -> Adapt to generic -> Transform image -> Adapt back to byte vector -> Write to disk
 	try {
