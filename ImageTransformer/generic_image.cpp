@@ -27,18 +27,12 @@ SOFTWARE.
 #pragma once
 #include "generic_image.h"
 
-generic_image::generic_image(std::vector<unsigned char>& data, std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
+generic_image::generic_image(std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
 {
 	pixels_ = pixels;
 	header_ = std::move(header);
 }
 
-
-
-generic_image::~generic_image()
-{
-	//delete header_;
-}
 
 
 const int generic_image::get_compression() const 

@@ -115,23 +115,23 @@ std::unique_ptr<generic_image> bmp_adapter::load_pixels(std::vector<unsigned cha
 		bit_count += channel_count;
 	}
 
-	return std::make_unique<generic_image>(raw_image_values, pixels, std::move(header));
+	return std::make_unique<generic_image>(pixels, std::move(header));
 }
 
 
 
 //Bmp pixels are just byte vectors, so creating a bmp pixel is simply reading
 //how many channels the bmp image has in the given format by reading the header
-//and building a pixel container from the rawdata
-pixel bmp_adapter::build_bmp_pixel(std::vector<unsigned char>& rawdata, const int channelCount, int idx)
+//and building a pixel container from the raw_image_values
+pixel bmp_adapter::build_bmp_pixel(std::vector<unsigned char>& raw_image_values, const int pixel_channel_count, int idx)
 {
 	std::vector<unsigned char> pixelChannelData;
-	for (int x = 0; x < channelCount; ++x)
+	for (int x = 0; x < pixel_channel_count; ++x)
 	{
 		//build our pixel
-		pixelChannelData.push_back(rawdata[idx + x]);
+		pixelChannelData.push_back(raw_image_values[idx + x]);
 	}
-	pixel pixel(pixelChannelData, channelCount);
+	pixel pixel(pixelChannelData, pixel_channel_count);
 	return pixel;
 }
 
@@ -139,27 +139,28 @@ pixel bmp_adapter::build_bmp_pixel(std::vector<unsigned char>& rawdata, const in
 
 //Padding is the left over bits required at the end of each line in a bmp image,
 //when reading and writing they must be taken into account
-const int bmp_adapter::get_padding(uint32_t bitsPerPixel, uint32_t width)
+const int bmp_adapter::get_padding(const uint32_t bits_per_pixel, const uint32_t width)
 {
-	return ((width * bitsPerPixel) % 32) / 8;
+	const int padding = ((width * bits_per_pixel) % 32) / 8;
+	return padding;
 }
 
 
 
 //Each Bmp format will have a different number of pixels, refer to
 //the wiki for more information
-const int bmp_adapter::get_channel_count(const int bitsPerPixel)
+const int bmp_adapter::get_channel_count(const int bits_per_pixel)
 {
-	if (bitsPerPixel == 1 || bitsPerPixel == 4)
+	if (bits_per_pixel == 1 || bits_per_pixel == 4)
 		return 1;
-	else if (bitsPerPixel == 8)
+	else if (bits_per_pixel == 8)
 		return 2;
-	else if (bitsPerPixel == 16 || bitsPerPixel == 24)
+	else if (bits_per_pixel == 16 || bits_per_pixel == 24)
 		return 3;
-	else if (bitsPerPixel == 32)
+	else if (bits_per_pixel == 32)
 		return 4;
 	else
-		throw std::runtime_error("ERROR: bitsPerPixel OUT OF BOUNDS in GetPixelLength()");
+		throw std::runtime_error("ERROR: bits_per_pixel OUT OF BOUNDS in GetPixelLength()");
 }
 
 

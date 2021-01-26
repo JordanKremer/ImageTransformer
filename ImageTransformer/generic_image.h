@@ -22,8 +22,8 @@ class generic_image
 	//giving the data away to just anyone who asks, and can then apply it to a transformation
 
 public:
-	generic_image(std::vector<unsigned char> &data, std::vector<pixel>& pixels, std::unique_ptr<header_info> header);
-	~generic_image();
+	generic_image(std::vector<pixel>& pixels, std::unique_ptr<header_info> header);
+	~generic_image() = default;
 
 	_NODISCARD const int get_compression() const;
 	_NODISCARD const std::vector<unsigned char> get_raw_header_read_only() const;
