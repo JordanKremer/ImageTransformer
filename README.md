@@ -13,7 +13,8 @@ ImageTransformer.exe inputFilePath transformationChoice outputfilePath
 
 ### Current supported image types:
 
-Bmp 24 / 32 bit images
+* Bmp 24bit 
+* Bmp 32bit
 
 
 ### Current supported transformation types:
