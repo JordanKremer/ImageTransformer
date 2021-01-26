@@ -28,9 +28,8 @@ SOFTWARE.
 
 
 
-//C++ doesn't create a second copy for vector when returning it
-//it just moves the data
-std::vector<unsigned char> loader::load(std::string filename)
+
+std::vector<unsigned char> loader::load(const std::string& filename)
 {
 
 	std::ifstream in;
@@ -42,19 +41,19 @@ std::vector<unsigned char> loader::load(std::string filename)
 
 	//Go to end of file, get byte number, go back to beginning of file
 	in.seekg(0, in.end);
-	int fileLength = in.tellg();
+	const int file_length = in.tellg();
 	in.seekg(0, in.beg);
 
-	unsigned char dataByte;
+	unsigned char image_byte;
 	std::vector<unsigned char> loadData;
 
-	int reserveAmount = 2 * fileLength;
-	loadData.reserve(reserveAmount);
+	const auto reserve_amount = 2 * file_length;
+	loadData.reserve(reserve_amount);
 	
-	for (int i = 0; i < fileLength; ++i)
+	for (int i = 0; i < file_length; ++i)
 	{
-		in.read((char*)& dataByte, 1);
-		loadData.push_back(dataByte);
+		in.read((char*)& image_byte, 1);
+		loadData.push_back(image_byte);
 	}
 	in.close();
 

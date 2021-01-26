@@ -27,21 +27,21 @@ SOFTWARE.
 
 std::vector<pixel> scale_up::transform_pixels(std::vector<pixel> pixels)
 {
-    auto Width = get_header()->get_width();
-    auto Height = get_header()->get_height();
+    const auto width = get_header()->get_width();
+    const auto height = get_header()->get_height();
     
-    std::vector<pixel> scaledImagePixels;
-    std::vector<pixel> tmpPixelHorizontalLineHolder;
+    std::vector<pixel> scaled_image_pixels;
+    std::vector<pixel> tmp_pixel_horizontal_line_holder;
 
 
-    scaledImagePixels.reserve(pixels.size() * 2);
-    tmpPixelHorizontalLineHolder.reserve(Width);
+    scaled_image_pixels.reserve(pixels.size() * 2);
+    tmp_pixel_horizontal_line_holder.reserve(width);
     
 
-    uint32_t curPixelIdx = 0;
+    uint32_t cur_pixel_idx = 0;
     //std::vector<pixel>::iterator lineStart = pixels.begin();
     uint32_t lineStart = 0;
-    uint32_t prevLineStart = 0;
+    const uint32_t prev_line_start = 0;
 
     //How do I update lineStart?
     //Everytime we reach width
@@ -49,28 +49,28 @@ std::vector<pixel> scale_up::transform_pixels(std::vector<pixel> pixels)
     for (auto& p : pixels)
     {
         //if we have reached a new horizontal line
-        if ((curPixelIdx + 1) % Width == 0)
+        if ((cur_pixel_idx + 1) % width == 0)
         {
-            lineStart = curPixelIdx; //This will set lineStart back to the beginning of the horizontal line
-            for (int i = prevLineStart; i < (Width * scalar_); ++i)
+            lineStart = cur_pixel_idx; //This will set lineStart back to the beginning of the horizontal line
+            for (int i = prev_line_start; i < (width * scalar_); ++i)
             {
-                auto tmpPix = scaledImagePixels[i];
-                scaledImagePixels.push_back(tmpPix);
+                auto tmpPix = scaled_image_pixels[i];
+                scaled_image_pixels.push_back(tmpPix);
             }
         }
         
 
         for (int i = 0; i < scalar_; ++i)
         {
-            scaledImagePixels.push_back(p);
+            scaled_image_pixels.push_back(p);
             //tmpPixelHorizontalLineHolder.push_back(p);   //somehow account for re writing over pixels so we only have 1 width worth 
             //at most at all times in the tmp holder, if this is how we decide to do it
         }
 
-        ++curPixelIdx;
+        ++cur_pixel_idx;
     }
 
-    return scaledImagePixels;
+    return scaled_image_pixels;
 }
 
 

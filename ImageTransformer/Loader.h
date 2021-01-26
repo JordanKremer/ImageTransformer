@@ -15,6 +15,6 @@ file and return that data to the class it interacts with.
 class loader
 {
 public:
-	static std::vector<unsigned char> load(std::string filename);
+	static std::vector<unsigned char> load(const std::string& filename);
 };
 
