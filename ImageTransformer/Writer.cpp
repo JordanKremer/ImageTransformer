@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 #include <fstream>
+#include <cassert>
 #include "writer.h"
 
 void writer::write_to_file(std::vector<unsigned char> raw_image_values, const std::string filename)

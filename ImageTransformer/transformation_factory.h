@@ -16,7 +16,7 @@ gaussian blur, pixelation, and others.
 class transformation_factory
 {
 public:
-	std::unique_ptr<transformation> get_transformation(std::string transformation_type);
+	static std::unique_ptr<transformation> get_transformation(std::string transformation_type);
 
 };
 

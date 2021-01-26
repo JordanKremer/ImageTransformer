@@ -13,6 +13,6 @@ Applies a transformation to a generic_image.
 class applicator
 {
 public:
-	std::unique_ptr<generic_image> apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer);
+	static std::unique_ptr<generic_image> apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer);
 };
 

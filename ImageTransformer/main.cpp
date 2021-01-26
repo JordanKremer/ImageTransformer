@@ -31,7 +31,7 @@ SOFTWARE.
 #include "generic_image.h"
 #include "loader.h"
 #include "writer.h"
-//#include <windows.h>
+
 
 
 int main(int argc, char* argv[])
@@ -42,13 +42,6 @@ int main(int argc, char* argv[])
 	std::string TRANSFORMATIONTYPE("rotate180");
 	std::string OUTFILENAME("C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_new.bmp");
 
-
-	//Not necessesary as the user and/or UI can point to the file location 
-	/*
-	char pBuf[256];
-	size_t len = sizeof(pBuf);
-	int bytes = GetModuleFileName(NULL, pBuf, len);
-	*/
 /*
 
 	std::string FILENAME(argv[1]);
@@ -57,22 +50,15 @@ int main(int argc, char* argv[])
 	std::string OUTFILENAME(argv[4]);
 */
 
-	auto file_loader = std::make_unique<loader>();
-	auto file_writer = std::make_unique<writer>();
-	auto adapter_fac = std::make_unique<adapter_factory>();
-	auto transform_fac = std::make_unique<transformation_factory>();
-	auto transformation_applicator = std::make_unique<applicator>();
-
 	//load -> Adapt to generic -> Transform image -> Adapt back to byte vector -> Write to disk
 	try {
-		auto raw_image_byte_values = file_loader->load(FILENAME);
-		auto adapter = adapter_fac->get_adapter(FILETYPE);
+		auto raw_image_byte_values = loader::load(FILENAME);
+		auto adapter = adapter_factory::get_adapter(FILETYPE);
 		auto generic_adapted_image = adapter->adapt_from_raw(raw_image_byte_values);
-		auto transformer = transform_fac->get_transformation(TRANSFORMATIONTYPE);
-		auto transformed_adapted_image = transformation_applicator->apply_transformation(std::move(generic_adapted_image), std::move(transformer));
-		auto transformed_raw_pixel_values = adapter->adapt_to_raw(std::move(transformed_adapted_image));
-
-		file_writer->write_to_file(transformed_raw_pixel_values, OUTFILENAME);
+		auto transformer = transformation_factory::get_transformation(TRANSFORMATIONTYPE);
+		auto transformed_adapted_image = applicator::apply_transformation(std::move(generic_adapted_image), std::move(transformer));
+		const auto transformed_raw_pixel_values = adapter->adapt_to_raw(std::move(transformed_adapted_image));
+		writer::write_to_file(transformed_raw_pixel_values, OUTFILENAME);
 	}
 	catch (const std::out_of_range& oor)
 	{
@@ -81,7 +67,6 @@ int main(int argc, char* argv[])
 	catch (const std::runtime_error& error) {
 		std::cout << error.what();
 	}
-
 
 	return 0;
 }

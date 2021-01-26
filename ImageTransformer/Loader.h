@@ -15,9 +15,6 @@ file and return that data to the class it interacts with.
 class loader
 {
 public:
-	loader();
-	//vector just moves the data, it won't copy it
-	//no need to pass by ref or return by ref
-	std::vector<unsigned char> load(std::string filename);
+	static std::vector<unsigned char> load(std::string filename);
 };
 

@@ -27,7 +27,6 @@ SOFTWARE.
 #include <fstream>
 
 
-loader::loader() {}
 
 //C++ doesn't create a second copy for vector when returning it
 //it just moves the data

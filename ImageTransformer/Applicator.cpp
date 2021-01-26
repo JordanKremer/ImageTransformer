@@ -30,7 +30,7 @@ SOFTWARE.
 std::unique_ptr<generic_image> applicator::apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer)
 {
 	try {
-		transformer->SetHeader(image->_header.get());
+		transformer->set_header(image->_header.get());
 		image->_pixels = transformer->transform_pixels(image->_pixels);
 		image->_header = transformer->transform_header(std::move(image->_header));
 	}

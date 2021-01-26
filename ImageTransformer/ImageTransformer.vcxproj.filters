@@ -52,6 +52,9 @@
     <Filter Include="Source Files\File IO">
       <UniqueIdentifier>{cd9b7ac0-8d4f-423d-b446-fc13e46de811}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\File IO">
+      <UniqueIdentifier>{7d81746c-e382-45ff-b8b8-638c03eee187}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,17 +173,17 @@
     <ClInclude Include="grey_scale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="scale_up.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bmp_adapter.h">
       <Filter>Header Files\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="writer.h">
+      <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="loader.h">
+      <Filter>Header Files\File IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
