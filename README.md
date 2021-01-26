@@ -20,6 +20,12 @@ Current supported transformation types:
 
 Cellshade
 Greyscale
-180 Rotation
+Rotate 180 degrees
 Gaussian blur
+
+In progress:
+
 Pixelate
+ScaleUp
+ScaleDown
+Rotate 90 degrees
