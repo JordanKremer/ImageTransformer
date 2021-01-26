@@ -18,14 +18,22 @@ Bmp 24 / 32 bit images
 
 ### Current supported transformation types:
 
-Cellshade
-Greyscale
-Rotate 180 degrees
-Gaussian blur
+* Cellshade
+* Greyscale
+* Rotate 180 degrees
+* Gaussian blur
 
 ### In progress:
 
-Pixelate
-ScaleUp
-ScaleDown
-Rotate 90 degrees
+* Pixelate
+* ScaleUp
+* ScaleDown
+* Rotate 90 degrees
+
+
+### Design Patterns:
+
+* Adapter
+* Factory
+* Interface/Polymorphism
+* Facade
