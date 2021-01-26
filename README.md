@@ -9,6 +9,17 @@ Usage:
 
 ImageTransformer.exe inputFilePath transformationChoice outputfilePath
 
+
+
 Current supported image types:
 
 Bmp 24 / 32 bit images
+
+
+Current supported transformation types:
+
+Cellshade
+Greyscale
+180 Rotation
+Gaussian blur
+Pixelate
