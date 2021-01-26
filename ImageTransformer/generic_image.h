@@ -18,9 +18,7 @@ to interact with transformation objects. This class is intended as read only.
 class generic_image
 {
 	friend class applicator; 
-	//The reason to use friend is so that applicator can have access to the data without 
-	//giving the data away to just anyone who asks, and can then apply it to a transformation
-
+	
 public:
 	generic_image(std::vector<pixel>& pixels, std::unique_ptr<header_info> header);
 	~generic_image() = default;
