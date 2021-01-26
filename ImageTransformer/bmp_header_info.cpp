@@ -32,116 +32,116 @@ bmp_header_info::bmp_header_info()
 {
 	bmp_header_components_ = std::make_shared<basic_bmp_header_components>();
 
-	bmp_header_components_->_filesize = 0;
-	bmp_header_components_->_imageStartOffset = 0;
-	bmp_header_components_->_width = 0;
-	bmp_header_components_->_height = 0;
-	bmp_header_components_->_bitsPerPixel = 0;
-	bmp_header_components_->_compression = 0;
-	bmp_header_components_->_horizontalResolution = 0;
-	bmp_header_components_->_verticalResolution = 0;
+	bmp_header_components_->file_size = 0;
+	bmp_header_components_->image_start_offset = 0;
+	bmp_header_components_->width = 0;
+	bmp_header_components_->height = 0;
+	bmp_header_components_->bits_per_pixel = 0;
+	bmp_header_components_->compression = 0;
+	bmp_header_components_->horizontal_resolution = 0;
+	bmp_header_components_->vertical_resolution = 0;
 }
 
 
 //First checks if Header is of correct size for a Bmp header, given 
 //the standard formats for Bmp images.
-bmp_header_info::bmp_header_info(const std::vector<unsigned char>& data)
+bmp_header_info::bmp_header_info(const std::vector<unsigned char>& raw_image_values)
 {
 	
-	if (data.size() < 54) {
-		std::string msg = "ERROR: HEADER DATA IS TOO SMALL:: SIZE: " + data.size();
+	if (raw_image_values.size() < 54) {
+		std::string msg = "ERROR: HEADER DATA IS TOO SMALL:: SIZE: " + raw_image_values.size();
 		throw std::length_error(msg);
 	}
 
 	bmp_constants bmpConstants;
 	bmp_header_components_ = std::make_shared<basic_bmp_header_components>();
 
-	bmp_header_components_->_filesize = header_components_constructor_helper(bmpConstants.FILE_SIZE, bmpConstants.RESERVED1, data);
-	bmp_header_components_->_imageStartOffset = header_components_constructor_helper(bmpConstants.IMAGE_START_OFFSET, bmpConstants.HEADER_SIZE, data);
-	bmp_header_components_->_width = header_components_constructor_helper(bmpConstants.WIDTH, bmpConstants.HEIGHT, data);
-	bmp_header_components_->_height = header_components_constructor_helper(bmpConstants.HEIGHT, bmpConstants.COLOR_PANES, data);
-	bmp_header_components_->_bitsPerPixel = header_components_constructor_helper(bmpConstants.BITS_PER_PIXEL, bmpConstants.COMPRESSION, data);
-	bmp_header_components_->_compression = header_components_constructor_helper(bmpConstants.COMPRESSION, bmpConstants.IMAGE_SIZE, data);
-	bmp_header_components_->_horizontalResolution = header_components_constructor_helper(bmpConstants.HORIZONTAL_RESOLUTION, bmpConstants.VERTICAL_RESOLUTION, data);
-	bmp_header_components_->_verticalResolution = header_components_constructor_helper(bmpConstants.VERTICAL_RESOLUTION, bmpConstants.NUM_COLORS_IN_PALETTE, data);
+	bmp_header_components_->file_size = header_components_constructor_helper(bmpConstants.file_size, bmpConstants.reserved1, raw_image_values);
+	bmp_header_components_->image_start_offset = header_components_constructor_helper(bmpConstants.image_start_offset, bmpConstants.header_size, raw_image_values);
+	bmp_header_components_->width = header_components_constructor_helper(bmpConstants.width, bmpConstants.height, raw_image_values);
+	bmp_header_components_->height = header_components_constructor_helper(bmpConstants.height, bmpConstants.color_panes, raw_image_values);
+	bmp_header_components_->bits_per_pixel = header_components_constructor_helper(bmpConstants.bits_per_pixel, bmpConstants.compression, raw_image_values);
+	bmp_header_components_->compression = header_components_constructor_helper(bmpConstants.compression, bmpConstants.image_size, raw_image_values);
+	bmp_header_components_->horizontal_resolution = header_components_constructor_helper(bmpConstants.horizontal_resolution, bmpConstants.vertical_resolution, raw_image_values);
+	bmp_header_components_->vertical_resolution = header_components_constructor_helper(bmpConstants.vertical_resolution, bmpConstants.num_colors_in_palette, raw_image_values);
 
 	raw_image_values_.reserve(54);
 
 	for (int i = 0; i < 54; ++i)
 	{
-		raw_image_values_.push_back(data[i]);
+		raw_image_values_.push_back(raw_image_values[i]);
 	}
 }
 
 
 //Converts unsigned char bytes of the raw_image_values_ into usable integer components that
 //can be easily read
-uint32_t bmp_header_info::header_components_constructor_helper(const int bmp_constant_start, const int bmpConstantEnd, const std::vector<unsigned char>& data)
+uint32_t bmp_header_info::header_components_constructor_helper(const int bmp_constant_start, const int bmp_constant_end, const std::vector<unsigned char>& raw_image_values)
 {
 	uint32_t tmpCharToIntConversion = 0;
 	int loadIdx = 0;
-	for (int dataIdx = bmp_constant_start; dataIdx < bmpConstantEnd; ++dataIdx)
+	for (int dataIdx = bmp_constant_start; dataIdx < bmp_constant_end; ++dataIdx)
 	{
-		((unsigned char*)& tmpCharToIntConversion)[loadIdx] = data[dataIdx];
+		((unsigned char*)& tmpCharToIntConversion)[loadIdx] = raw_image_values[dataIdx];
 		++loadIdx;
 	}
 	return tmpCharToIntConversion;
 }
 
-void bmp_header_info::header_raw_image_data_setter_from_integer_helper(uint32_t data_to_change_to, const int bmpConstantStart, const int bmpConstantEnd, std::vector<unsigned char>& rawData)
+void bmp_header_info::header_raw_image_data_setter_from_integer_helper(uint32_t data_to_change_to, const int bmp_constant_start, const int bmp_constant_end, std::vector<unsigned char>& raw_image_values)
 {
 	bmp_constants con;
 	int loadIdx = 0;
-	for (int dataIdx = bmpConstantStart; dataIdx < bmpConstantEnd; ++dataIdx)
+	for (int dataIdx = bmp_constant_start; dataIdx < bmp_constant_end; ++dataIdx)
 	{
-		rawData[dataIdx] = ((unsigned char*)& data_to_change_to)[loadIdx];
+		raw_image_values[dataIdx] = ((unsigned char*)& data_to_change_to)[loadIdx];
 		++loadIdx;
 	}
 }
 
 
 //Copy constructor
-bmp_header_info::bmp_header_info(const bmp_header_info& toCopy)
+bmp_header_info::bmp_header_info(const bmp_header_info& to_copy)
 {
 	bmp_header_components_ = std::make_shared<basic_bmp_header_components>();
-	bmp_header_components_->_ID = toCopy.bmp_header_components_->_ID;
-	bmp_header_components_->_filesize = toCopy.bmp_header_components_->_filesize;
-	bmp_header_components_->_imageStartOffset = toCopy.bmp_header_components_->_imageStartOffset;
-	bmp_header_components_->_width = toCopy.bmp_header_components_->_width;
-	bmp_header_components_->_height = toCopy.bmp_header_components_->_height;
-	bmp_header_components_->_bitsPerPixel = toCopy.bmp_header_components_->_bitsPerPixel;
-	bmp_header_components_->_compression = toCopy.bmp_header_components_->_compression;
-	bmp_header_components_->_verticalResolution = toCopy.bmp_header_components_->_verticalResolution;
-	bmp_header_components_->_horizontalResolution = toCopy.bmp_header_components_->_horizontalResolution;
+	bmp_header_components_->id = to_copy.bmp_header_components_->id;
+	bmp_header_components_->file_size = to_copy.bmp_header_components_->file_size;
+	bmp_header_components_->image_start_offset = to_copy.bmp_header_components_->image_start_offset;
+	bmp_header_components_->width = to_copy.bmp_header_components_->width;
+	bmp_header_components_->height = to_copy.bmp_header_components_->height;
+	bmp_header_components_->bits_per_pixel = to_copy.bmp_header_components_->bits_per_pixel;
+	bmp_header_components_->compression = to_copy.bmp_header_components_->compression;
+	bmp_header_components_->vertical_resolution = to_copy.bmp_header_components_->vertical_resolution;
+	bmp_header_components_->horizontal_resolution = to_copy.bmp_header_components_->horizontal_resolution;
 
-	raw_image_values_ = toCopy.raw_image_values_;
+	raw_image_values_ = to_copy.raw_image_values_;
 }
 
 
 
 
-bmp_header_info& bmp_header_info::operator=(const bmp_header_info& toCopy)
+bmp_header_info& bmp_header_info::operator=(const bmp_header_info& to_copy)
 {
-	if (this == &toCopy)
+	if (this == &to_copy)
 		return *this;
 
 	bmp_header_components_ = std::make_shared<basic_bmp_header_components>();
-	bmp_header_components_->_ID = toCopy.bmp_header_components_->_ID;
-	bmp_header_components_->_filesize = toCopy.bmp_header_components_->_filesize;
-	bmp_header_components_->_imageStartOffset = toCopy.bmp_header_components_->_imageStartOffset;
-	bmp_header_components_->_width = toCopy.bmp_header_components_->_width;
-	bmp_header_components_->_height = toCopy.bmp_header_components_->_height;
-	bmp_header_components_->_bitsPerPixel = toCopy.bmp_header_components_->_bitsPerPixel;
-	bmp_header_components_->_compression = toCopy.bmp_header_components_->_compression;
-	bmp_header_components_->_verticalResolution = toCopy.bmp_header_components_->_verticalResolution;
-	bmp_header_components_->_horizontalResolution = toCopy.bmp_header_components_->_horizontalResolution;
+	bmp_header_components_->id = to_copy.bmp_header_components_->id;
+	bmp_header_components_->file_size = to_copy.bmp_header_components_->file_size;
+	bmp_header_components_->image_start_offset = to_copy.bmp_header_components_->image_start_offset;
+	bmp_header_components_->width = to_copy.bmp_header_components_->width;
+	bmp_header_components_->height = to_copy.bmp_header_components_->height;
+	bmp_header_components_->bits_per_pixel = to_copy.bmp_header_components_->bits_per_pixel;
+	bmp_header_components_->compression = to_copy.bmp_header_components_->compression;
+	bmp_header_components_->vertical_resolution = to_copy.bmp_header_components_->vertical_resolution;
+	bmp_header_components_->horizontal_resolution = to_copy.bmp_header_components_->horizontal_resolution;
 
 	return *this;
 }
 
 
 
-bool bmp_header_info::isEqual(const bmp_header_info& toCompare)
+bool bmp_header_info::is_equal(const bmp_header_info& to_compare)
 {
 	//TODO
 	return false;
@@ -150,35 +150,35 @@ bool bmp_header_info::isEqual(const bmp_header_info& toCompare)
 
 uint32_t bmp_header_info::get_width() const
 {
-	return bmp_header_components_->_width;
+	return bmp_header_components_->width;
 }
 
 
 
 uint32_t bmp_header_info::get_height() const
 {
-	return bmp_header_components_->_height;
+	return bmp_header_components_->height;
 }
 
 
 
 uint32_t bmp_header_info::get_compression() const
 {
-	return bmp_header_components_->_compression;
+	return bmp_header_components_->compression;
 }
 
 
 
 uint32_t bmp_header_info::get_bits_per_pixel() const
 {
-	return bmp_header_components_->_bitsPerPixel;
+	return bmp_header_components_->bits_per_pixel;
 }
 
 
 
 uint32_t bmp_header_info::get_image_start_offset() const
 {
-	return bmp_header_components_->_imageStartOffset;
+	return bmp_header_components_->image_start_offset;
 }
 
 
@@ -195,8 +195,8 @@ void bmp_header_info::set_height(int new_height)
 {
 	//set bmp_header_components_ and raw_image_values_
 	bmp_constants con;
-	bmp_header_components_->_height = new_height;
-    header_raw_image_data_setter_from_integer_helper(new_height, con.HEIGHT, con.HEIGHT+4, raw_image_values_);
+	bmp_header_components_->height = new_height;
+    header_raw_image_data_setter_from_integer_helper(new_height, con.height, con.height+4, raw_image_values_);
 	
 }
 
@@ -207,6 +207,6 @@ void bmp_header_info::set_width(int new_width)
 	//set bmp_header_components_ and raw_image_values_
 	bmp_constants con;
 
-	bmp_header_components_->_width = new_width;
-	header_raw_image_data_setter_from_integer_helper(new_width, con.WIDTH, con.WIDTH + 4, raw_image_values_);
+	bmp_header_components_->width = new_width;
+	header_raw_image_data_setter_from_integer_helper(new_width, con.width, con.width + 4, raw_image_values_);
 }

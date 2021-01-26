@@ -30,9 +30,9 @@ SOFTWARE.
 std::unique_ptr<generic_image> applicator::apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer)
 {
 	try {
-		transformer->set_header(image->_header.get());
-		image->_pixels = transformer->transform_pixels(image->_pixels);
-		image->_header = transformer->transform_header(std::move(image->_header));
+		transformer->set_header(image->header_.get());
+		image->pixels_ = transformer->transform_pixels(image->pixels_);
+		image->header_ = transformer->transform_header(std::move(image->header_));
 	}
 	catch (const std::out_of_range& oor)
 	{

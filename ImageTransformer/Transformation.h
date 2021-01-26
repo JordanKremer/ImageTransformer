@@ -30,7 +30,7 @@ public:
 	//Gives the coordinate within the pixel vector that the transformation is operating on.
 	_NODISCARD uint32_t get_coordinate(int x, int y) const
 	{
-		auto width = hdr_->get_width();
+		const auto width = hdr_->get_width();
 		return  width * y + x;
 	}
 

@@ -33,24 +33,22 @@ SOFTWARE.
 
 
 //Takes a byte vector and builds a generic_image object with a BmpHeader and pixel vector
-std::unique_ptr<generic_image> bmp_adapter::adapt_from_raw(std::vector<unsigned char>& data)
+std::unique_ptr<generic_image> bmp_adapter::adapt_from_raw(std::vector<unsigned char>& raw_image_values)
 {
-	if (!(data[0] == 'B' && data[1] == 'M'))
+	if (!(raw_image_values[0] == 'B' && raw_image_values[1] == 'M'))
 	{
 		throw std::runtime_error("ERROR: NOT A BMP");
 	}
 
-	if (data.size() < 54)
+	if (raw_image_values.size() < 54)
 	{
 		throw std::runtime_error("ERROR: HEADER TOO SMALL");
 	}
 
 	bmp_header_factory fac;
-	auto bmpHeader = fac.get_bmp_header(data);
-	uint32_t compression = bmpHeader->get_compression();
-	uint32_t bitsPerPixel = bmpHeader->get_bits_per_pixel();
+	auto bmp_header = fac.get_bmp_header(raw_image_values);
 
-	return load_pixels(data, std::move(bmpHeader));
+	return load_pixels(raw_image_values, std::move(bmp_header));
 }
 
 
@@ -58,66 +56,66 @@ std::unique_ptr<generic_image> bmp_adapter::adapt_from_raw(std::vector<unsigned 
 //Adapts image data to raw format, by calling BuildRawDataVector
 //to concat and return the header and pixels
 //either pass by ref or use move to pass the unique ptr in
-const std::vector<unsigned char> bmp_adapter::adapt_to_raw(std::unique_ptr<generic_image> data)
+const std::vector<unsigned char> bmp_adapter::adapt_to_raw(std::unique_ptr<generic_image> gen_image)
 {
-	auto header = data->GetRawHeaderReadOnly();
-	auto pixels = data->GetPixelsReadOnly();
-	if (pixels.size() == 0)
+	auto header = gen_image->get_raw_header_read_only();
+	auto pixels = gen_image->get_pixels_read_only();
+	if (pixels.empty())
 	{
 		throw std::runtime_error("ERROR: pixel vector has no data");
 	}
 
-	std::vector<unsigned char> rawData;
-	const int pixelChannelCount = pixels[0].get_channel_count();
-	int reserveSize = header.size() + (pixelChannelCount * pixels.size());
-	rawData.reserve(reserveSize);
+	std::vector<unsigned char> raw_image_values;
+	const auto pixelChannelCount = pixels[0].get_channel_count();
+	const auto reserve_size = header.size() + (pixelChannelCount * pixels.size());
+	raw_image_values.reserve(reserve_size);
 
 	for (auto& x : header)
 	{
-		rawData.push_back(x);
+		raw_image_values.push_back(x);
 	}
 
 	//there may be a faster method, possibly by parallelizing
 	for (auto& pixel : pixels) {
-		for (auto& channel : pixel.get_all_channel_data()) {
-			rawData.push_back(channel);
+		for (const auto& channel : pixel.get_all_channel_data()) {
+			raw_image_values.push_back(channel);
 		}
 	}
 
-	return rawData;
+	return raw_image_values;
 }
 
 
 
 //load pixels from raw data vector into a vector of pixels, taking head of the line padding
 //unique ptrs must be passed by ref or by func(move(ptr))
-std::unique_ptr<generic_image> bmp_adapter::load_pixels(std::vector<unsigned char>& rawdata, std::unique_ptr<bmp_header_info> header)
+std::unique_ptr<generic_image> bmp_adapter::load_pixels(std::vector<unsigned char>& raw_image_values, std::unique_ptr<bmp_header_info> header)
 {
-	std::vector<pixel> pixelData;
-	pixelData.reserve(int64_t(header->get_width()) * header->get_height()); 	//cast to 8 byte to avoid overflow
+	std::vector<pixel> pixels;
+	pixels.reserve(int64_t(header->get_width()) * header->get_height()); 	//cast to 8 byte to avoid overflow
 
-	const int padding = get_padding(header->get_bits_per_pixel(), header->get_width());
-	const int startOfImage = header->get_image_start_offset();
-	const int channelCount = get_channel_count(header->get_bits_per_pixel());
-	const int bitsPerLine = header->get_bits_per_pixel() * header->get_width();
-	int bitCount = 0;
+	const auto padding = get_padding(header->get_bits_per_pixel(), header->get_width());
+	const auto start_of_image = header->get_image_start_offset();
+	const auto channel_count = get_channel_count(header->get_bits_per_pixel());
+	const auto bits_per_line = header->get_bits_per_pixel() * header->get_width();
+	int bit_count = 0;
 
-	for(int idx = startOfImage; idx < rawdata.size(); idx += channelCount)
+	for(int idx = start_of_image; idx < raw_image_values.size(); idx += channel_count)
 	{
 		//if we are at the end of the line, ignore the padding
-		if (bitCount == bitsPerLine)
+		if (bit_count == bits_per_line)
 		{
 			idx += padding;
-			if (idx >= rawdata.size()-1)
+			if (idx >= raw_image_values.size()-1)
 				break;
-			bitCount = 0;
+			bit_count = 0;
 		}
 
-		pixelData.push_back(build_bmp_pixel(rawdata, channelCount, idx));
-		bitCount += channelCount;
+		pixels.push_back(build_bmp_pixel(raw_image_values, channel_count, idx));
+		bit_count += channel_count;
 	}
 
-	return std::move(std::make_unique<generic_image>(rawdata, pixelData, std::move(header)));
+	return std::make_unique<generic_image>(raw_image_values, pixels, std::move(header));
 }
 
 

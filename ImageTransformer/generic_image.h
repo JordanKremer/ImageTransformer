@@ -25,13 +25,13 @@ public:
 	generic_image(std::vector<unsigned char> &data, std::vector<pixel>& pixels, std::unique_ptr<header_info> header);
 	~generic_image();
 
-	_NODISCARD const int GetCompression();
-	_NODISCARD const std::vector<unsigned char> GetRawHeaderReadOnly() const;
-	_NODISCARD const std::vector<pixel> GetPixelsReadOnly() const;
+	_NODISCARD const int get_compression() const;
+	_NODISCARD const std::vector<unsigned char> get_raw_header_read_only() const;
+	_NODISCARD const std::vector<pixel> get_pixels_read_only() const;
 
 private:
 	
-	std::unique_ptr<header_info> _header;
-	std::vector<pixel> _pixels;
+	std::unique_ptr<header_info> header_;
+	std::vector<pixel> pixels_;
 
 };

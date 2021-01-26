@@ -11,8 +11,9 @@ Include functionality to scale an image (height and width) by a scalar coefficie
 class scale_up :
     public transformation
 {
-    std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
-    std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr);
+public:
+    std::vector<pixel> transform_pixels(std::vector<pixel> pixels) override;
+    std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr) override;
 
 private:
     int scalar_ = 2;

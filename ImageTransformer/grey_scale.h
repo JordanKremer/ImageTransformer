@@ -6,13 +6,16 @@ grey_scale.h
 Includes functionality to perform grey_scale algorithm.
 */
 
+
+
 #pragma once
 #include "transformation.h"
 class grey_scale :
     public transformation
 {
-    std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
-    std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr);
+public:
+     std::vector<pixel> transform_pixels(std::vector<pixel> pixels) override;
+     std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr) override;
 
 
 private:

@@ -170,12 +170,6 @@
     <ClInclude Include="rotate180.h">
       <Filter>Header Files\Transformation</Filter>
     </ClInclude>
-    <ClInclude Include="grey_scale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scale_up.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="bmp_adapter.h">
       <Filter>Header Files\Adapter</Filter>
     </ClInclude>
@@ -184,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="loader.h">
       <Filter>Header Files\File IO</Filter>
+    </ClInclude>
+    <ClInclude Include="grey_scale.h">
+      <Filter>Header Files\Transformation</Filter>
+    </ClInclude>
+    <ClInclude Include="scale_up.h">
+      <Filter>Header Files\Transformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

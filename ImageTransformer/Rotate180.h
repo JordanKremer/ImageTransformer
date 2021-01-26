@@ -14,8 +14,8 @@ class rotate180 :
 	public transformation
 {
 public:
-	std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
-	std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info>);
+	std::vector<pixel> transform_pixels(std::vector<pixel> pixels) override;
+	std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info>) override;
 
 };
 

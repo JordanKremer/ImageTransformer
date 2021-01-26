@@ -13,8 +13,8 @@ class gaussian_blur :
     public transformation
 {
 public:
-    std::vector<pixel> transform_pixels(std::vector<pixel> pixels);
-    std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr);
+    std::vector<pixel> transform_pixels(std::vector<pixel> pixels) override;
+    std::unique_ptr<header_info> transform_header(std::unique_ptr<header_info> hdr) override;
 
 private:
     //Wrapper function that calls the following helper functions 

@@ -29,36 +29,36 @@ SOFTWARE.
 
 generic_image::generic_image(std::vector<unsigned char>& data, std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
 {
-	_pixels = pixels;
-	_header = std::move(header);
+	pixels_ = pixels;
+	header_ = std::move(header);
 }
 
 
 
 generic_image::~generic_image()
 {
-	//delete _header;
+	//delete header_;
+}
+
+
+const int generic_image::get_compression() const 
+{
+	const int c = header_->get_compression();
+	return c;
 }
 
 
 
-const int generic_image::GetCompression()
+const std::vector<unsigned char> generic_image::get_raw_header_read_only() const
 {
-	return _header->get_compression();
+	return header_->get_raw_header();
 }
 
 
 
-const std::vector<unsigned char> generic_image::GetRawHeaderReadOnly() const
+const std::vector<pixel> generic_image::get_pixels_read_only() const
 {
-	return _header->get_raw_header();
-}
-
-
-
-const std::vector<pixel> generic_image::GetPixelsReadOnly() const
-{
-	return _pixels;
+	return pixels_;
 }
 
 
