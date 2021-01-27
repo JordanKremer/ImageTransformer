@@ -37,13 +37,13 @@ bmp_header_factory::bmp_header_factory() = default;
 //in the caller function to create a generic_image object.
 std::unique_ptr<bmp_header_info> bmp_header_factory::get_bmp_header(std::vector<unsigned char>& raw_image_values) {
 
-	const int compressionFlag = get_compression(raw_image_values);
+	const auto compressionFlag = get_compression(raw_image_values);
 	switch(compressionFlag)
 	{
-		case 0: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
-		case 1: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
-		case 2: return std::move(std::make_unique<bmp_header_info>(raw_image_values));
-		case 3: return std::move(std::make_unique<bmp_header_info_32_bit>(raw_image_values));
+		case 0: return std::make_unique<bmp_header_info>(raw_image_values);
+		case 1: return std::make_unique<bmp_header_info>(raw_image_values);
+		case 2: return std::make_unique<bmp_header_info>(raw_image_values);
+		case 3: return std::make_unique<bmp_header_info_32_bit>(raw_image_values);
 		default: throw std::runtime_error("ERROR: FAILED TO GENERATE BMPHEADER, COMPRESSION OUT OF BOUNDS");
 	}
 }
