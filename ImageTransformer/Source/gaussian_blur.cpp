@@ -105,8 +105,6 @@ void gaussian_blur::pixel_grid_multiply(std::vector<pixel>& pixels, int32_t cent
 		}
 	}
 
-	
-
 	try {
 		pixels[get_coordinate(centerX, centerY)].set_all_channels(channelValuesGaussianSum);
 	}
@@ -115,14 +113,13 @@ void gaussian_blur::pixel_grid_multiply(std::vector<pixel>& pixels, int32_t cent
 		throw oor;
 	}
 
-	//delete p;
 }
 
 
 
-//gives free space up to 2 spaces from left
+//Gives free space up to 2 spaces from left and 
 //returns x start value for nested for loop
-//for grid computation
+//for grid computation.
 int gaussian_blur::get_x_left(std::vector<pixel>& pixels, int32_t centerX)
 {
 	if ((centerX - 2) >= 0)
@@ -139,9 +136,9 @@ int gaussian_blur::get_x_left(std::vector<pixel>& pixels, int32_t centerX)
 
 
 
-//gives free space up to 2 spaces to the right
+//Gives free space up to 2 spaces to the right and
 //returns x end value for nested for loop
-//for grid computation
+//for grid computation.
 int gaussian_blur::get_x_right(std::vector<pixel>& pixels, int32_t centerX)
 {
 	auto Width = get_header()->get_width();
