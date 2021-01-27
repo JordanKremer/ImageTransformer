@@ -42,6 +42,8 @@ bmp_header_info_32_bit::bmp_header_info_32_bit(std::vector<unsigned char>& heade
 	}
 }
 
+
+
 std::vector<unsigned char> bmp_header_info_32_bit::get_raw_header() const
 {
 	return bmp_header32_bit_raw_header_;
