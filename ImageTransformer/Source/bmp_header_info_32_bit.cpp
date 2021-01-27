@@ -29,16 +29,11 @@ SOFTWARE.
 
 bmp_header_info_32_bit::bmp_header_info_32_bit(std::vector<unsigned char>& header_values):bmp_header_info(header_values)
 {
-	bmp_constants bmpConstants;
-	bmp_header_32_bit_constants bmpConstants_32Bit;
-
 	bmp_header_components_32_bit_ = std::make_unique<bmp_header_components_32_bit>();
-	bmp_header_components_32_bit_->red_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.red_channel_bitmask, bmpConstants_32Bit.green_channel_bitmask, header_values);
-	bmp_header_components_32_bit_->green_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.green_channel_bitmask, bmpConstants_32Bit.blue_channel_bitmask, header_values);
-	bmp_header_components_32_bit_->blue_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.blue_channel_bitmask, bmpConstants_32Bit.alpha_channel_bitmask, header_values);
-	bmp_header_components_32_bit_->alpha_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.alpha_channel_bitmask, bmpConstants_32Bit.alpha_channel_bitmask + 4, header_values);
-
-	
+	bmp_header_components_32_bit_->red_bitmask_ = header_components_constructor_helper(bmp_header_32_bit_constants::red_channel_bitmask, bmp_header_32_bit_constants::green_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->green_bitmask_ = header_components_constructor_helper(bmp_header_32_bit_constants::green_channel_bitmask, bmp_header_32_bit_constants::blue_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->blue_bitmask_ = header_components_constructor_helper(bmp_header_32_bit_constants::blue_channel_bitmask, bmp_header_32_bit_constants::alpha_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->alpha_bitmask_ = header_components_constructor_helper(bmp_header_32_bit_constants::alpha_channel_bitmask, bmp_header_32_bit_constants::alpha_channel_bitmask + 4, header_values);
 
 	for (int i = 0; i < get_image_start_offset(); ++i)
 	{
