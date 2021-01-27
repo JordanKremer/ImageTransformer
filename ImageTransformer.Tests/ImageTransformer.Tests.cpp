@@ -1,25 +1,58 @@
+/*
+MIT License
+
+Copyright(c) 2021 Jordan Kremer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this softwareand associated documentation files(the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions :
+
+The above copyright noticeand this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
+
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <string>
 #include <iostream>
 #include <fstream>
 
+#define TEST_CASE_DIRECTORY GetDirectoryName(__FILE__)
 
-//#include "../ImageTransformer/BmpLoader.cpp"
-#include "..//ImageTransformer/Loader.cpp"
-#include "..//ImageTransformer/BmpAdapter.cpp"
-#include "..//ImageTransformer/BmpHeaderInfo.cpp"
-#include "..//ImageTransformer/BmpHeaderInfo_24Bit.cpp"
-#include "..//ImageTransformer/BmpHeaderInfo_32Bit.cpp"
-#include "..//ImageTransformer/BmpHeaderFactory.cpp"
-#include "../ImageTransformer/Pixel.cpp"
-#include "..//ImageTransformer/Data.cpp"
-#include "..//ImageTransformer/PixelFactory.cpp"
+#include "..//ImageTransformer/Source/loader.cpp"
+#include "..//ImageTransformer/Source/writer.cpp"
+#include "..//ImageTransformer/Source/bmp_adapter.cpp"
+#include "..//ImageTransformer/Source/bmp_header_info.cpp"
+#include "..//ImageTransformer/Source/bmp_header_info_32_bit.cpp"
+#include "..//ImageTransformer/Source/bmp_header_factory.cpp"
+#include "..//ImageTransformer/Source/adapter_factory.cpp"
+#include "..//ImageTransformer/Source/applicator.cpp"
+#include "../ImageTransformer/Source/pixel.cpp"
+#include "..//ImageTransformer/Source/generic_image.cpp"
+#include "..//ImageTransformer/Source/rotate180.cpp"
+#include "..//ImageTransformer/Source/pixelate.cpp"
+#include "..//ImageTransformer/Source/gaussian_blur.cpp"
+#include "..//ImageTransformer/Source/cell_shade.cpp"
+#include "..//ImageTransformer/Source/grey_scale.cpp"
+#include "..//ImageTransformer/Source/scale_up.cpp"
 /*
 * Test cases:
-Load file: File doesn't exist (what if you don't have permission or some other file error?)
-Load file: File exists but isn't a valid bitmap (is there more than one case here?)
-Load file: File exists and is a valid bitmap:
+load file: File doesn't exist (what if you don't have permission or some other file error?)
+load file: File exists but isn't a valid bitmap (is there more than one case here?)
+load file: File exists and is a valid bitmap:
 	A) Single pixel. What can I assert about the object created?
 	B) Larger image (say 3x3): Are there additional assertions that now make sense such
 		as checking the pixel values match expectations) 
@@ -48,9 +81,9 @@ namespace ImageTransformerTests
 		TEST_METHOD(Loader_Load_NonexistantFile)
 		{
 			const std::string FILENAME = "../someFile";
-			Loader _loader;
+			loader _loader;
 
-			auto func = [&_loader, &FILENAME] { _loader.Load(FILENAME); };
+			auto func = [&_loader, &FILENAME] { _loader.load(FILENAME); };
 
 			Assert::ExpectException<std::ios_base::failure>(func);
 		}
@@ -59,7 +92,6 @@ namespace ImageTransformerTests
 		TEST_METHOD(Loader_Load_existantFile)
 		{
 			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
-			Loader _loader;
 
 			//Get file size
 			std::ifstream in;
@@ -67,62 +99,30 @@ namespace ImageTransformerTests
 			in.seekg(0, in.end);
 			int fileLength = in.tellg();
 			in.seekg(0, in.beg);
+			in.close();
 
-			//Load file
-			std::vector<unsigned char> data = _loader.Load(FILENAME);
+			//load file-- vector uses move so by val is ok
+			std::vector<unsigned char> data = loader::load(FILENAME);
 
 			//check if they are the same size
 			Assert::IsTrue(data.size() == fileLength);
 		}
-		
 
-		TEST_METHOD(Loader_DoesItLoadBytes)
-		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
-			Loader _loader;
-			
-			auto data = _loader.Load(FILENAME);
-
-			bool hasBytes = false;
-			
-			if (data.size() > 0) {
-				hasBytes = true;
-			}
-
-			Assert::AreEqual(true, hasBytes);
-		}
-
-
-		TEST_METHOD(Loader_DoesLoaderLoadAllBytes) 
-		{
-			const std::string FILENAME = "C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
-			
-			std::ifstream in;
-
-			in.open(FILENAME, std::ios::binary);
-			in.seekg(0, in.end);
-			int fileLength = in.tellg();
-
-			Loader loader;
-			auto data = loader.Load(FILENAME);
-			int size = data.size();
-			Assert::AreEqual(size, fileLength);
-		}
 
 
 
 		//USE BELOW FOR THE BMP ADAPTER
 		
-		//The BMP ID is the first two bytes in a bmp file
+		//The BMP id is the first two bytes in a bmp file
 		//"BM" is tested for
 		TEST_METHOD(BmpLoader_InvalidBMP_ID)
 		{
-			BmpAdapter adapter;
+			bmp_adapter adapter;
 			std::vector<unsigned char> testVec;
 			testVec.push_back('a');
 			testVec.push_back('b');
 
-			auto func = [&] { adapter.AdaptFromRaw(testVec); }; //&Bmp also works, but & catches everything in scope
+			auto func = [&] { adapter.adapt_from_raw(testVec); }; //&Bmp also works, but & catches everything in scope
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
@@ -131,7 +131,7 @@ namespace ImageTransformerTests
 		//The bmpheaders have a minimum size of 54 bytes
 		TEST_METHOD(BmpLoader_ValidID_HeaderTooSmall)
 		{
-			BmpAdapter adapter;
+			bmp_adapter adapter;
 			std::vector<unsigned char> testVec;
 			testVec.push_back('B');
 			testVec.push_back('M');
@@ -140,317 +140,297 @@ namespace ImageTransformerTests
 				testVec.push_back(0);
 			}
 
-			auto func = [&] { adapter.AdaptFromRaw(testVec); }; //&Bmp also works, but & catches everything in scope
+			auto func = [&] { adapter.adapt_from_raw(testVec); }; //&Bmp also works, but & catches everything in scope
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 		
 
 
-		//Test exception in GetBmpHeader() that enforces lower boundary for compression args
+		//Test exception in get_bmp_header() that enforces lower boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsLower)
 		{
-
-			
-			BmpHeaderFactory fac;
+			bmp_header_factory fac;
 			std::vector<unsigned char> tmp(34, -1);
 			
-			auto func = [&fac, &tmp] {fac.GetBmpHeader(tmp); };
-			
+			auto func = [&fac, &tmp] {fac.get_bmp_header(tmp); };
 
 			Assert::ExpectException<std::runtime_error>(func);
 			
 		}
 
 
-		/*
+		
 		//Test exception in getBmpHeader() that enforces upper boundary for compression args
 		TEST_METHOD(BmpHeaderFactory_isCompressionOutOfBoundsUpper)
 		{
 
-			BmpHeaderFactory fac;
+			bmp_header_factory fac;
 			std::vector<unsigned char> tmp(34, 10);
 
-			auto func = [&fac, &tmp] {fac.getBmpHeader(tmp); };
+			auto func = [&fac, &tmp] {fac.get_bmp_header(tmp); };
 
 
 			Assert::ExpectException<std::runtime_error>(func);
 		}
 
-		TEST_METHOD(DoesItConvertFromCharToInt)
-		{
-			int compression;
-
-
-		}*/
-
 		
 		//Test if header vector data is properly copied to the constructor in a BmpHeaderInfo_24Bit object
-		TEST_METHOD(BmpHeaderInfo_24Bit_isHeaderDataCopiedCorrectly)
+
+
+
+		TEST_METHOD(AdapterFactory_GetAdapter_NotRecognizedType)
 		{
-			
-			std::vector<unsigned char> testData{0, 5, 10, 20, 30};
+			adapter_factory adapter;
+			 
+			auto func = [&] {adapter.get_adapter("abc"); };
 
-			BmpHeaderInfo_24Bit testHeader(testData);
-
-			auto iterStart = testHeader.getHeaderBegin();
-			auto iterEnd = testHeader.getHeaderEnd();
-
-			int count = 0;
-			for (iterStart; iterStart != iterEnd; ++iterStart) {
-				Assert::AreEqual(testData[count], *iterStart);
-				++count;
-			}
-		}
-
-
-		/*
-		TEST_METHOD(BmpHeaderInfo_24Bit_getCompressionZeroCheck)
-		{
-			std::vector<unsigned char> testData{0};
-
-			BmpHeaderInfo_24Bit testHeader(testData);
-
-			//Assert::AreEqual(0, testHeader.GetCompression());
+			Assert::ExpectException<std::runtime_error>(func);
 		}
 
 
 
-		//TODO, crashes after finishing loading data
-		TEST_METHOD(GetCompression)
+		TEST_METHOD(BmpAdapter_Adapt) 
 		{
-			//load picture
+			bmp_adapter adapter;
 
-			std::ifstream in;
-		
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
-
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for(int i = 0; i < 54; ++i)
-			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
-			}
+			auto adaptedData = adapter.adapt_from_raw(loader::load("C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp"));
+		}
 
 
-			in.close();
+		TEST_METHOD(BmpHeaderInfo_32Bit_FromFile)
+		{
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+			auto rawData = loader::load(FILENAME);
 
-			//then get compression from the data
+			bmp_header_info_32_bit bmpHeader32Bit(rawData);
 
-			BmpHeaderFactory fac;
+		}
+
+
+		//test generic_image 
+		TEST_METHOD(DataInitialization_test)
+		{
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+			loader _loader;
+
+			auto rawData = _loader.load(FILENAME);
+
+			bmp_adapter adapter;
+
+			auto adaptedData = adapter.adapt_from_raw(rawData);
 			
 
-			Assert::AreEqual(3, fac.GetCompression(loadData));
-			
 		}
 
 
-		TEST_METHOD(test_convertBytesToInt)
+		TEST_METHOD(Rotate180_TransformPixels)
 		{
-			//load small amount of data, just a few bytes into a vector
+			rotate180 r;
+			std::vector<unsigned char> dummyHdrData(54, 10);
 
-			std::ifstream in;
+			//Assuming bmpheader
+			uint32_t width = 4;
+			uint32_t height = 4;
+			auto start = 18;
 
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
-
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for(int i = 0; i < 34; ++i)
+			//load the raw header byte vector with the width and height from uint_32
+			for (int i = 0; i < 4; ++i)
 			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
+				dummyHdrData[start] = ((unsigned char*) &width)[i]; //width
+				dummyHdrData[start + 4] = ((unsigned char*) &height)[i]; //height  
+				start++;
 			}
 
-			uint32_t compressionFlag;
-			((unsigned char*)& compressionFlag)[0] = loadData[30];
-			((unsigned char*)& compressionFlag)[1] = loadData[31];
-			((unsigned char*)& compressionFlag)[2] = loadData[32];
-			((unsigned char*)& compressionFlag)[3] = loadData[33];
+			//Build Header
+			auto bmp_hdr = new bmp_header_info(dummyHdrData);
+			r.set_header(bmp_hdr);
 
-			int a = compressionFlag;
-			Assert::AreEqual(3, a);
 
-			in.close();
+			int size = height * width;
+			std::vector<pixel> pixels;  //4x4
+
+			int channel_color = 0;
+
+			//load the pixel vector
+			for (int i = 0; i < size; ++i)
+			{
+				std::vector<unsigned char> channel(3, channel_color);
+				pixel p(channel, 3);
+				pixels.push_back(p);
+
+				++channel_color;
+				if(channel_color > 255)
+				{
+					channel_color = 0;
+				} 
+			}
+
+			auto p = r.transform_pixels(pixels);
+
+
+			delete bmp_hdr;
 		}
 
-		TEST_METHOD(BmpHeaderInfo_ThrowExceptionWhenLoadDataVectorIsTooSmall)
+		TEST_METHOD(Writer_WriteToFile)
 		{
-			std::ifstream in;
+			bmp_adapter b;
 
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
 
-			in.seekg(0, in.end);
-			int end = in.tellg();
-			in.seekg(0, in.beg);
+			auto load_data = loader::load(FILENAME);
 
-
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for (int i = 0; i < 30; ++i)
-			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
-			}
-
-			bool throwException = false;
-
-			try {
-				BmpHeaderInfo bmpHeader(loadData);
-			}
-			catch(std::length_error){
-				throwException = true;
-			}
-
-			Assert::IsTrue(throwException);
-
-		}
-
-
-		TEST_METHOD(BmpHeaderInfo_OperatorEqual)
-		{
-			std::ifstream in;
-
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
-
-			in.seekg(0, in.end);
-			int end = in.tellg();
-			in.seekg(0, in.beg);
-
-
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for (int i = 0; i < end; ++i)
-			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
-			}
-
-			BmpHeaderInfo bmpHeader1(loadData);
-			BmpHeaderInfo bmpHeader2;
 			
 
-			//if we use BmpheaderInfo bmpheader2 = bmpHeader1
-			//then it will use the copy constructor instead
-			bmpHeader2 = bmpHeader1;
+			auto adaptedGenericImagedData = b.adapt_from_raw(load_data);
 
-			Assert::AreEqual(bmpHeader1.GetCompression(), bmpHeader2.GetCompression());
-			Assert::AreEqual(bmpHeader1.GetWidth(), bmpHeader2.GetWidth());
+			auto adaptedToRaw = b.adapt_to_raw(std::move(adaptedGenericImagedData));
+			writer::write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
 		}
 
-		TEST_METHOD(BmpHeaderInfo_GetCompression)
+		TEST_METHOD(Rotate180_isImageFlipped)
 		{
-			std::ifstream in;
+			writer W;
+			loader L;
+			bmp_adapter b;
+			applicator a;
+			auto r = std::make_unique<rotate180> ();
 
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
-
-			in.seekg(0, in.end);
-			int end = in.tellg();
-			in.seekg(0, in.beg);
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+			// const std::string FILENAME = TEST_CASE_DIRECTORY + 
+			auto loadData = L.load(FILENAME);
 
 
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for (int i = 0; i < end; ++i)
-			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
-			}
 
-			BmpHeaderInfo bmpHeader(loadData);
-
-			const uint32_t compression = bmpHeader.GetCompression();
-			uint32_t expected = 3;
-			Assert::AreEqual(expected, bmpHeader.GetCompression());
-			
+			auto adaptedGenericImagedData = b.adapt_from_raw(loadData);
+			auto transformedImage = a.apply_transformation(std::move(adaptedGenericImagedData), std::move(r));
+			  
+			auto adaptedToRaw = b.adapt_to_raw(std::move(transformedImage));
+			W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write1.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
 		}
 
-
-		TEST_METHOD(Data_ConstructorFromHeader_BmpHeaderInfo_32Bit_GetCompression)
+		TEST_METHOD(PixelateTest)
 		{
-			std::ifstream in;
+			writer W;
+			loader L;
+			bmp_adapter b;
+			applicator a;
+			auto r = std::make_unique<pixelate>();
 
-			in.open("C:\\Users\\Krempire\\source\\repos\\ImageTransformer\\bear1_32.bmp", std::ios::binary);
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
 
-			in.seekg(0, in.end);
-			int end = in.tellg();
-			in.seekg(0, in.beg);
-
-
-			in.exceptions(in.failbit);
-			unsigned char dataByte;
-			std::vector<unsigned char> loadData;
-			for (int i = 0; i < end; ++i)
-			{
-				in.read((char*)& dataByte, 1);
-				loadData.push_back(dataByte);
-			}
-
-			BmpHeaderFactory fac;
+			auto loadData = L.load(FILENAME);
 
 
-			//using a 32bit header with this image
-			Data testData(loadData, fac.getBmpHeader(loadData));
-			
-			Assert::AreEqual(3, testData.GetCompression());
+
+			auto adaptedGenericImagedData = b.adapt_from_raw(loadData);
+			auto transformedImage = a.apply_transformation(std::move(adaptedGenericImagedData), std::move(r));
+
+			auto adaptedToRaw = b.adapt_to_raw(std::move(transformedImage));
+			W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write1.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
 		}
 
 
 
-		//TEST FOR ALL PIXEL TYPES (1 - 4 channels, depending on bit count)
-		TEST_METHOD(PixelFactory_GetPixel)
+
+		TEST_METHOD(GaussianTest)
 		{
-			PixelFactory fac;
+			writer W;
+			loader L;
+			bmp_adapter b;
+			applicator a;
+			auto r = std::make_unique<gaussian_blur>();
 
-			int bitsPerPixel = 1; //24 bit image
-			int dataIdx = 0;
-			std::vector<unsigned char> data;
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write2.bmp";
 
-			//basic rgb data for a 24 bit pixel
-			data.push_back(100);
-			Pixel pixelChannel = fac.GetPixel(bitsPerPixel, data, dataIdx);
+			auto loadData = L.load(FILENAME);
+			auto adaptedGenericImagedData = b.adapt_from_raw(loadData);
+			auto transformedImage = a.apply_transformation(std::move(adaptedGenericImagedData), std::move(r));
 
-
-			data.push_back(100);
-			bitsPerPixel = 4;
-			Pixel pixel2channel_1 = fac.GetPixel(bitsPerPixel, data, dataIdx);
-
-			bitsPerPixel = 8;
-			Pixel pixel2channel_2 = fac.GetPixel(bitsPerPixel, data, dataIdx);
-
-			data.push_back(100);
-			bitsPerPixel = 16;
-			Pixel pixel3channel_1 = fac.GetPixel(bitsPerPixel, data, dataIdx);
-
-			bitsPerPixel = 24;
-			Pixel pixel3channel_2 = fac.GetPixel(bitsPerPixel, data, dataIdx);
-
-			data.push_back(100);
-			bitsPerPixel = 32;
-			Pixel pixel4channel = fac.GetPixel(bitsPerPixel, data, dataIdx);
+			auto adaptedToRaw = b.adapt_to_raw(std::move(transformedImage));
+			W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write3.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
 		}
-		
-		
 
 
 
-		//
-		//https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
-		//can use link for making new tests to check header
+		TEST_METHOD(CellShadeTest)
+		{
+			writer W;
+			loader L;
+			bmp_adapter b;
+			applicator a;
+			auto r = std::make_unique<cell_shade>();
 
-		/*
-		
-		Loader:
-			*check single black pixekl
-			*check multiple black pixels
-			*check other colors
-		
-		*/
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+
+			auto loadData = L.load(FILENAME);
+			auto adaptedGenericImagedData = b.adapt_from_raw(loadData);
+			auto transformedImage = a.apply_transformation(std::move(adaptedGenericImagedData), std::move(r));
+
+			auto adaptedToRaw = b.adapt_to_raw(std::move(transformedImage));
+			W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write4.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
+		}
+
+
+		TEST_METHOD(GreyScaleTest)
+		{
+			bmp_adapter b;
+			auto r = std::make_unique<grey_scale>();
+
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+
+			auto load_data = loader::load(FILENAME);
+			auto adapted_generic_imaged_data = b.adapt_from_raw(load_data);
+			auto transformed_image = applicator::apply_transformation(std::move(adapted_generic_imaged_data), std::move(r));
+			const auto adapted_to_raw = b.adapt_to_raw(std::move(transformed_image));
+			writer::write_to_file(adapted_to_raw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write7.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
+		}
+
+
+
+		TEST_METHOD(ScaleUpTest)
+		{
+			bmp_adapter b;
+			auto r = std::make_unique<scale_up>();
+
+			const std::string FILENAME = "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\bear1_32.bmp";
+
+			auto load_data = loader::load(FILENAME);
+			auto adapted_generic_imaged_data = b.adapt_from_raw(load_data);
+			auto transformed_image = applicator::apply_transformation(std::move(adapted_generic_imaged_data), std::move(r));
+
+			const auto adapted_to_raw = b.adapt_to_raw(std::move(transformed_image));
+			writer::write_to_file(adapted_to_raw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write7.bmp");
+			//auto func = [&] {W.write_to_file(adaptedToRaw, "C:\\Users\\SkullHead\\source\\repos\\ImageTransformer\\Images\\test_write.bmp"); };
+		}
+
+
+
+		TEST_METHOD(test4)
+		{
+			pixel p1(std::vector<unsigned char>(4, 1), 4);
+
+			pixel p2(std::vector<unsigned char>(4, 2), 4);
+
+			p2 = p2 + p1;
+		}
+
+
+
+		TEST_METHOD(test5)
+		{
+			auto p1 = std::make_unique<pixel> (std::vector<unsigned char>(4, 1), 4);
+			auto p2 = std::make_unique<pixel> (std::vector<unsigned char>(4, 2), 4);
+
+			*p2 = *p2 + *p1;
+		}
+
 
 	};
 }
