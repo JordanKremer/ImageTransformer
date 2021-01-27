@@ -26,11 +26,6 @@ SOFTWARE.
 
 #include "../Headers/bmp_header_info_32_bit.h"
 
-bmp_header_info_32_bit::bmp_header_info_32_bit()
-{
-}
-
-
 
 bmp_header_info_32_bit::bmp_header_info_32_bit(bmp_header_info_32_bit& to_copy)
 {
