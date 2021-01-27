@@ -39,11 +39,10 @@ class bmp_header_info_32_bit :
 {
 public:
 	bmp_header_info_32_bit() = default;
-	bmp_header_info_32_bit(bmp_header_info_32_bit& to_copy);
 	bmp_header_info_32_bit(std::vector<unsigned char>& header_values);
 	bmp_header_info_32_bit& operator=(const header_info& to_copy);
 	
-	__override _NODISCARD std::vector<unsigned char> get_raw_header() const;
+	_NODISCARD std::vector<unsigned char> get_raw_header() const override;
 
 private:
 	std::unique_ptr<bmp_header_components_32_bit> bmp_header_components_32_bit_;

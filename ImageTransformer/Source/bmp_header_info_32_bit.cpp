@@ -27,12 +27,6 @@ SOFTWARE.
 #include "../Headers/bmp_header_info_32_bit.h"
 
 
-bmp_header_info_32_bit::bmp_header_info_32_bit(bmp_header_info_32_bit& to_copy)
-{
-}
-
-
-
 bmp_header_info_32_bit::bmp_header_info_32_bit(std::vector<unsigned char>& header_values):bmp_header_info(header_values)
 {
 	bmp_constants bmpConstants;
