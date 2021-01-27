@@ -17,19 +17,19 @@ in the header of the 32bit bmp images.
 //the masks appear in the header
 struct bmp_header_32_bit_constants {
 
-	inline static const int RED_CHANNEL_BITMASK = 54;
-	inline static const int GREEN_CHANNEL_BITMASK = 58;
-	inline static const int BLUE_CHANNEL_BITMASK = 62;
-	inline static const int	ALPHA_CHANNEL_BITMASK = 64;
+	inline static const int red_channel_bitmask = 54;
+	inline static const int green_channel_bitmask = 58;
+	inline static const int blue_channel_bitmask = 62;
+	inline static const int	alpha_channel_bitmask = 64;
 };
 
 
 
 struct bmp_header_components_32_bit {
-	uint32_t _redBitMask;
-	uint32_t _greenBitmask;
-	uint32_t _blueBitMask;
-	uint32_t _alphaBitMask;
+	uint32_t red_bitmask_;
+	uint32_t green_bitmask_;
+	uint32_t blue_bitmask_;
+	uint32_t alpha_bitmask_;
 };
 
 

@@ -39,10 +39,10 @@ bmp_header_info_32_bit::bmp_header_info_32_bit(std::vector<unsigned char>& heade
 	bmp_header_32_bit_constants bmpConstants_32Bit;
 
 	bmp_header_components_32_bit_ = std::make_unique<bmp_header_components_32_bit>();
-	bmp_header_components_32_bit_->_redBitMask = header_components_constructor_helper(bmpConstants_32Bit.RED_CHANNEL_BITMASK, bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, header_values);
-	bmp_header_components_32_bit_->_greenBitmask = header_components_constructor_helper(bmpConstants_32Bit.GREEN_CHANNEL_BITMASK, bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, header_values);
-	bmp_header_components_32_bit_->_blueBitMask = header_components_constructor_helper(bmpConstants_32Bit.BLUE_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, header_values);
-	bmp_header_components_32_bit_->_alphaBitMask = header_components_constructor_helper(bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK, bmpConstants_32Bit.ALPHA_CHANNEL_BITMASK + 4, header_values);
+	bmp_header_components_32_bit_->red_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.red_channel_bitmask, bmpConstants_32Bit.green_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->green_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.green_channel_bitmask, bmpConstants_32Bit.blue_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->blue_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.blue_channel_bitmask, bmpConstants_32Bit.alpha_channel_bitmask, header_values);
+	bmp_header_components_32_bit_->alpha_bitmask_ = header_components_constructor_helper(bmpConstants_32Bit.alpha_channel_bitmask, bmpConstants_32Bit.alpha_channel_bitmask + 4, header_values);
 
 	
 
@@ -69,28 +69,28 @@ bmp_header_info_32_bit& bmp_header_info_32_bit::operator=(const header_info& to_
 
 uint32_t bmp_header_info_32_bit::get_red_bit_mask()
 {
-	return bmp_header_components_32_bit_->_redBitMask;
+	return bmp_header_components_32_bit_->red_bitmask_;
 }
 
 
 
 uint32_t bmp_header_info_32_bit::get_green_bit_mask()
 {
-	return bmp_header_components_32_bit_->_greenBitmask;
+	return bmp_header_components_32_bit_->green_bitmask_;
 }
 
 
 
 uint32_t bmp_header_info_32_bit::get_blue_bit_mask()
 {
-	return bmp_header_components_32_bit_->_blueBitMask;
+	return bmp_header_components_32_bit_->blue_bitmask_;
 }
 
 
 
 uint32_t bmp_header_info_32_bit::get_alpha_bit_mask()
 {
-	return bmp_header_components_32_bit_->_alphaBitMask;
+	return bmp_header_components_32_bit_->alpha_bitmask_;
 }
 
 
