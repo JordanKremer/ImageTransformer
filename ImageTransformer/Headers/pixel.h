@@ -32,7 +32,7 @@ public:
 	pixel(std::vector<unsigned char>& channel_data, int channels);
 	pixel(std::vector<int>::iterator, const int num_channels);
 	pixel& operator+(const pixel& p);
-	pixel& operator=(const pixel& p);
+	pixel& operator=(const pixel& p) = default;
 
 	const unsigned char& get_channel(const int channel) const;
 	const std::vector<unsigned char>& get_all_channel_data() const;

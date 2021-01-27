@@ -39,9 +39,6 @@ pixel::pixel(std::vector<unsigned char>& channel_data, int channelCount)
 }
 
 
-//TODO 
-//Try to find a way to use a generic iterator so it doesn't
-//have to care about a predefined one
 
 pixel::pixel(std::vector<int>::iterator, const int num_channels)
 {
@@ -71,11 +68,12 @@ const std::vector<unsigned char>& pixel::get_all_channel_data()const
 
 
 
-
 const int pixel::get_channel_count()const
 {
 	return channel_count_;
 }
+
+
 
 void pixel::set_channel(int channel_idx, int channel_value)
 {
@@ -87,6 +85,8 @@ void pixel::set_channel(int channel_idx, int channel_value)
 	}
 
 }
+
+
 
 void pixel::set_all_channels(std::vector<int> new_channels) {
 
@@ -101,6 +101,8 @@ void pixel::set_all_channels(std::vector<int> new_channels) {
 	}
 }
 
+
+
 void pixel::set_all_channels(std::vector<unsigned char> new_channels)
 {
 	if (channels_.size() != new_channels.size())
@@ -110,6 +112,8 @@ void pixel::set_all_channels(std::vector<unsigned char> new_channels)
 
 	channels_ = new_channels;
 }
+
+
 
 pixel& pixel::operator+(const pixel& p2)
 {
@@ -124,10 +128,4 @@ pixel& pixel::operator+(const pixel& p2)
 	return *this;
 }
 
-pixel& pixel::operator=(const pixel& p)
-{
-	this->channels_ = p.channels_;
-	this->channel_count_ = p.channel_count_;
 
-	return *this;
-}
