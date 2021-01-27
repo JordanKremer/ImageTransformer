@@ -74,8 +74,8 @@ public:
 	void set_height(int new_height) override;
 	void set_width(int new_width) override;
 
-	uint32_t header_components_constructor_helper(const int bmp_constant_start, const int bmp_constant_end, const std::vector<unsigned char>& raw_image_values);
-	void header_raw_image_data_setter_from_integer_helper(uint32_t data_to_change_to, const int bmp_constant_start, const int bmp_constant_end, std::vector<unsigned char>& raw_image_values);
+	static uint32_t header_components_constructor_helper(const int bmp_constant_start, const int bmp_constant_end, const std::vector<unsigned char>& raw_image_values);
+	static void header_raw_image_data_setter_from_integer_helper(uint32_t data_to_change_to, const int bmp_constant_start, const int bmp_constant_end, std::vector<unsigned char>& raw_image_values);
 	
 private:
 	std::shared_ptr<basic_bmp_header_components> bmp_header_components_;

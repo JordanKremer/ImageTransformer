@@ -53,17 +53,16 @@ bmp_header_info::bmp_header_info(const std::vector<unsigned char>& raw_image_val
 		throw std::length_error(msg);
 	}
 
-	bmp_constants bmpConstants;
 	bmp_header_components_ = std::make_shared<basic_bmp_header_components>();
 
-	bmp_header_components_->file_size = header_components_constructor_helper(bmpConstants.file_size, bmpConstants.reserved1, raw_image_values);
-	bmp_header_components_->image_start_offset = header_components_constructor_helper(bmpConstants.image_start_offset, bmpConstants.header_size, raw_image_values);
-	bmp_header_components_->width = header_components_constructor_helper(bmpConstants.width, bmpConstants.height, raw_image_values);
-	bmp_header_components_->height = header_components_constructor_helper(bmpConstants.height, bmpConstants.color_panes, raw_image_values);
-	bmp_header_components_->bits_per_pixel = header_components_constructor_helper(bmpConstants.bits_per_pixel, bmpConstants.compression, raw_image_values);
-	bmp_header_components_->compression = header_components_constructor_helper(bmpConstants.compression, bmpConstants.image_size, raw_image_values);
-	bmp_header_components_->horizontal_resolution = header_components_constructor_helper(bmpConstants.horizontal_resolution, bmpConstants.vertical_resolution, raw_image_values);
-	bmp_header_components_->vertical_resolution = header_components_constructor_helper(bmpConstants.vertical_resolution, bmpConstants.num_colors_in_palette, raw_image_values);
+	bmp_header_components_->file_size = header_components_constructor_helper(bmp_constants::file_size, bmp_constants::reserved1, raw_image_values);
+	bmp_header_components_->image_start_offset = header_components_constructor_helper(bmp_constants::image_start_offset, bmp_constants::header_size, raw_image_values);
+	bmp_header_components_->width = header_components_constructor_helper(bmp_constants::width, bmp_constants::height, raw_image_values);
+	bmp_header_components_->height = header_components_constructor_helper(bmp_constants::height, bmp_constants::color_panes, raw_image_values);
+	bmp_header_components_->bits_per_pixel = header_components_constructor_helper(bmp_constants::bits_per_pixel, bmp_constants::compression, raw_image_values);
+	bmp_header_components_->compression = header_components_constructor_helper(bmp_constants::compression, bmp_constants::image_size, raw_image_values);
+	bmp_header_components_->horizontal_resolution = header_components_constructor_helper(bmp_constants::horizontal_resolution, bmp_constants::vertical_resolution, raw_image_values);
+	bmp_header_components_->vertical_resolution = header_components_constructor_helper(bmp_constants::vertical_resolution, bmp_constants::num_colors_in_palette, raw_image_values);
 
 	raw_image_values_.reserve(54);
 
