@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "grey_scale.h"
+#include "../Headers/grey_scale.h"
 
 std::vector<pixel> grey_scale::transform_pixels(std::vector<pixel> pixels)
 {

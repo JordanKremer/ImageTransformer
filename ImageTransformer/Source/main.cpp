@@ -24,13 +24,13 @@ SOFTWARE.
 
 
 #include <iostream>
-#include "applicator.h"
-#include "adapter_factory.h"
-#include "transformation_factory.h"
-#include "transformation.h"
-#include "generic_image.h"
-#include "loader.h"
-#include "writer.h"
+#include "../Headers/applicator.h"
+#include "../Headers/adapter_factory.h"
+#include "../Headers/transformation_factory.h"
+#include "../Headers/transformation.h"
+#include "../Headers/generic_image.h"
+#include "../Headers/loader.h"
+#include "../Headers/writer.h"
 
 
 

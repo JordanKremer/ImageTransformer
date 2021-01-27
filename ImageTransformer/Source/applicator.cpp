@@ -23,22 +23,29 @@ SOFTWARE.
 */
 
 
-#include "adapter_factory.h"
-#include "bmp_adapter.h"
+#include "../Headers/applicator.h"
 #include <stdexcept>
+#include "../Headers/header_info.h"
 
-std::unique_ptr<Adapter> adapter_factory::get_adapter(std::string file_type)
+std::unique_ptr<generic_image> applicator::apply_transformation(std::unique_ptr<generic_image> image, std::unique_ptr<transformation> transformer)
 {
-	//Assumes that file_type accounts for case before function is called
-	if (file_type == "bmp")
+	try {
+		transformer->set_header(image->header_.get());
+		image->pixels_ = transformer->transform_pixels(image->pixels_);
+		image->header_ = transformer->transform_header(std::move(image->header_));
+	}
+	catch (const std::out_of_range& oor)
 	{
-		std::unique_ptr<bmp_adapter> adapter = std::make_unique<bmp_adapter>();
-		return std::move(adapter);
+		throw oor;
 	}
-	else {
-		throw std::runtime_error("ERROR: INVALID FILETYPE EXTENSION");
+	catch (const std::runtime_error& error2)
+	{
+		throw error2;
+	}
+	catch (...)
+	{
+		return std::move(image);
 	}
 
-	return nullptr;
+	return std::move(image);
 }
-

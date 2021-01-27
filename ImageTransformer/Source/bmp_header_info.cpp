@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 
-#include "bmp_header_info.h"
+#include "../Headers/bmp_header_info.h"
 #include <stdexcept>
 
 

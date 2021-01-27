@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 
-#include "pixelate.h"
+#include "../Headers/pixelate.h"
 
 pixelate::pixelate()
 {

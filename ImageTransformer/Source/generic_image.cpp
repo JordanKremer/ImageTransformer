@@ -24,61 +24,36 @@ SOFTWARE.
 
 
 
-#include "cell_shade.h"
+#pragma once
+#include "../Headers/generic_image.h"
 
-std::vector<pixel> cell_shade::transform_pixels(std::vector<pixel> pixels)
+generic_image::generic_image(std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
 {
-	auto Width = get_header()->get_width();
-	auto Height = get_header()->get_height();
-
-	for (uint32_t x = 0; x < Width; x++)
-	{
-		for (uint32_t y = 0; y < Height; y++)
-		{
-			round_pixel(pixels[get_coordinate(x, y)]);
-		}
-	}
-
-	return pixels;
+	pixels_ = pixels;
+	header_ = std::move(header);
 }
 
 
 
-std::unique_ptr<header_info> cell_shade::transform_header(std::unique_ptr<header_info> hdr)
+const int generic_image::get_compression() const 
 {
-	//no op
-    return std::move(hdr);
+	const int c = header_->get_compression();
+	return c;
 }
 
 
 
-
-void cell_shade::round_pixel(pixel& to_round)
+const std::vector<unsigned char> generic_image::get_raw_header_read_only() const
 {
-	int channelIdx = 0;
-	for (auto& channelValue : to_round.get_all_channel_data())
-	{
-		to_round.set_channel(channelIdx, round_channel(channelValue));
-		++channelIdx;
-	}
+	return header_->get_raw_header();
 }
 
 
 
-int cell_shade::round_channel(int channel_value)
+const std::vector<pixel> generic_image::get_pixels_read_only() const
 {
-	if ((channel_value) < 128)
-	{
-		if (channel_value < 64)
-			return 0;
-		else
-			return 128;
-	}
-	else
-	{
-		if (channel_value < 192)
-			return 128;
-		else
-			return 255;
-	}
+	return pixels_;
 }
+
+
+

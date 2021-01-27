@@ -23,30 +23,20 @@ SOFTWARE.
 */
 
 
+#include <fstream>
+#include <cassert>
+#include "../Headers/writer.h"
 
-#pragma once
-#include "transformation_factory.h"
-#include "pixelate.h"
-#include "rotate180.h"
-
-
-
-std::unique_ptr<transformation> transformation_factory::get_transformation(std::string transformation_type) {
-	if (transformation_type == "")
-		throw std::runtime_error("ERROR | TRANSFORMATIONFACTORY::GETTRANSFORMATION() : EMPTY STRING TRANSFORMATIONTYPE");
-
-	if (transformation_type == "rotate180")
+void writer::write_to_file(std::vector<unsigned char> raw_image_values, const std::string filename)
+{
+	std::ofstream out;
+	out.open(filename, std::ios::binary | std::ios::out);
+	assert(out.is_open());
+	
+	for (auto& byte : raw_image_values)
 	{
-		return std::move(std::make_unique<rotate180>());
-	}
-	else if (transformation_type == "pixelate")
-	{
-		return std::move(std::make_unique<pixelate>());
-	}
-	else {
-		return nullptr;
+		out.write((char*)& byte, sizeof(byte));
 	}
 
+	out.close();
 }
-
-

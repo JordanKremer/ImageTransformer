@@ -24,10 +24,10 @@ SOFTWARE.
 
 
 
-#include "bmp_adapter.h"
-#include "generic_image.h"
-#include "bmp_header_factory.h"
-#include "bmp_header_info_32_bit.h"
+#include "../Headers/bmp_adapter.h"
+#include "../Headers/generic_image.h"
+#include "../Headers/bmp_header_factory.h"
+#include "../Headers/bmp_header_info_32_bit.h"
 #include <memory>
 #include <stdexcept>
 

@@ -87,13 +87,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\opencv\build\x64\vc15\lib;C:\Users\SkullHead\source\repos\ImageTransformer\packages\boost.1.72.0.0</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world430d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,53 +129,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Adapter.cpp" />
-    <ClCompile Include="adapter_factory.cpp" />
-    <ClCompile Include="applicator.cpp" />
-    <ClCompile Include="bmp_adapter.cpp" />
-    <ClCompile Include="bmp_header_factory.cpp" />
-    <ClCompile Include="bmp_header_info.cpp" />
-    <ClCompile Include="bmp_header_info_32_bit.cpp" />
-    <ClCompile Include="cell_shade.cpp" />
-    <ClCompile Include="generic_image.cpp" />
-    <ClCompile Include="gaussian_blur.cpp" />
-    <ClCompile Include="grey_scale.cpp" />
-    <ClCompile Include="header_info.cpp" />
-    <ClCompile Include="loader.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="pixel.cpp" />
-    <ClCompile Include="pixelate.cpp" />
-    <ClCompile Include="rotate180.cpp" />
-    <ClCompile Include="scale_up.cpp" />
-    <ClCompile Include="transformation.cpp" />
-    <ClCompile Include="transformation_factory.cpp" />
-    <ClCompile Include="writer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Adapter.h" />
-    <ClInclude Include="adapter_factory.h" />
-    <ClInclude Include="applicator.h" />
-    <ClInclude Include="bmp_adapter.h" />
-    <ClInclude Include="bmp_header_factory.h" />
-    <ClInclude Include="bmp_header_info.h" />
-    <ClInclude Include="bmp_header_info_32_bit.h" />
-    <ClInclude Include="cell_shade.h" />
-    <ClInclude Include="generic_image.h" />
-    <ClInclude Include="gaussian_blur.h" />
-    <ClInclude Include="grey_scale.h" />
-    <ClInclude Include="header_info.h" />
-    <ClInclude Include="loader.h" />
-    <ClInclude Include="pixel.h" />
-    <ClInclude Include="pixelate.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="rotate180.h" />
-    <ClInclude Include="scale_up.h" />
-    <ClInclude Include="transformation.h" />
-    <ClInclude Include="transformation_factory.h" />
-    <ClInclude Include="writer.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="ImageTransformer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\adapter.h" />
+    <ClInclude Include="Headers\adapter_factory.h" />
+    <ClInclude Include="Headers\applicator.h" />
+    <ClInclude Include="Headers\bmp_adapter.h" />
+    <ClInclude Include="Headers\bmp_header_factory.h" />
+    <ClInclude Include="Headers\bmp_header_info.h" />
+    <ClInclude Include="Headers\bmp_header_info_32_bit.h" />
+    <ClInclude Include="Headers\cell_shade.h" />
+    <ClInclude Include="Headers\gaussian_blur.h" />
+    <ClInclude Include="Headers\generic_image.h" />
+    <ClInclude Include="Headers\grey_scale.h" />
+    <ClInclude Include="Headers\header_info.h" />
+    <ClInclude Include="Headers\loader.h" />
+    <ClInclude Include="Headers\pixel.h" />
+    <ClInclude Include="Headers\pixelate.h" />
+    <ClInclude Include="Headers\resource.h" />
+    <ClInclude Include="Headers\rotate180.h" />
+    <ClInclude Include="Headers\scale_up.h" />
+    <ClInclude Include="Headers\transformation.h" />
+    <ClInclude Include="Headers\transformation_factory.h" />
+    <ClInclude Include="Headers\writer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\adapter.cpp" />
+    <ClCompile Include="Source\adapter_factory.cpp" />
+    <ClCompile Include="Source\applicator.cpp" />
+    <ClCompile Include="Source\bmp_adapter.cpp" />
+    <ClCompile Include="Source\bmp_header_factory.cpp" />
+    <ClCompile Include="Source\bmp_header_info.cpp" />
+    <ClCompile Include="Source\bmp_header_info_32_bit.cpp" />
+    <ClCompile Include="Source\cell_shade.cpp" />
+    <ClCompile Include="Source\gaussian_blur.cpp" />
+    <ClCompile Include="Source\generic_image.cpp" />
+    <ClCompile Include="Source\grey_scale.cpp" />
+    <ClCompile Include="Source\header_info.cpp" />
+    <ClCompile Include="Source\loader.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\pixel.cpp" />
+    <ClCompile Include="Source\pixelate.cpp" />
+    <ClCompile Include="Source\rotate180.cpp" />
+    <ClCompile Include="Source\scale_up.cpp" />
+    <ClCompile Include="Source\transformation.cpp" />
+    <ClCompile Include="Source\transformation_factory.cpp" />
+    <ClCompile Include="Source\writer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

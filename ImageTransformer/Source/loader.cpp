@@ -23,37 +23,41 @@ SOFTWARE.
 */
 
 
+#include "../Headers/loader.h"
+#include <fstream>
 
-#pragma once
-#include "generic_image.h"
 
-generic_image::generic_image(std::vector<pixel>& pixels, std::unique_ptr<header_info> header) 
+
+
+std::vector<unsigned char> loader::load(const std::string& filename)
 {
-	pixels_ = pixels;
-	header_ = std::move(header);
+
+	std::ifstream in;
+
+	in.open(filename, std::ios::binary);
+
+	//exception is throw when using a loop with while(!in.eof), so using a range based for loop instead
+	in.exceptions(in.failbit);
+
+	//Go to end of file, get byte number, go back to beginning of file
+	in.seekg(0, in.end);
+	const int file_length = in.tellg();
+	in.seekg(0, in.beg);
+
+	unsigned char image_byte;
+	std::vector<unsigned char> loadData;
+
+	const auto reserve_amount = 2 * file_length;
+	loadData.reserve(reserve_amount);
+	
+	for (int i = 0; i < file_length; ++i)
+	{
+		in.read((char*)& image_byte, 1);
+		loadData.push_back(image_byte);
+	}
+	in.close();
+
+	return loadData;
 }
-
-
-
-const int generic_image::get_compression() const 
-{
-	const int c = header_->get_compression();
-	return c;
-}
-
-
-
-const std::vector<unsigned char> generic_image::get_raw_header_read_only() const
-{
-	return header_->get_raw_header();
-}
-
-
-
-const std::vector<pixel> generic_image::get_pixels_read_only() const
-{
-	return pixels_;
-}
-
 
 

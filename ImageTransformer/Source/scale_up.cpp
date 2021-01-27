@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 
-#include "scale_up.h"
+#include "../Headers/scale_up.h"
 
 std::vector<pixel> scale_up::transform_pixels(std::vector<pixel> pixels)
 {

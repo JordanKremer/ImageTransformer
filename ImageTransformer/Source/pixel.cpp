@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "pixel.h"
+#include "../Headers/pixel.h"
 #include <stdexcept>
 
 pixel::pixel()

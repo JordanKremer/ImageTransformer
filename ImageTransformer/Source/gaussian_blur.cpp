@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 
-#include "gaussian_blur.h"
+#include "../Headers/gaussian_blur.h"
 
 std::vector<pixel> gaussian_blur::transform_pixels(std::vector<pixel> pixels)
 {

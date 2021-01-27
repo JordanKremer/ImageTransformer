@@ -23,41 +23,62 @@ SOFTWARE.
 */
 
 
-#include "loader.h"
-#include <fstream>
 
+#include "../Headers/cell_shade.h"
 
-
-
-std::vector<unsigned char> loader::load(const std::string& filename)
+std::vector<pixel> cell_shade::transform_pixels(std::vector<pixel> pixels)
 {
+	auto Width = get_header()->get_width();
+	auto Height = get_header()->get_height();
 
-	std::ifstream in;
-
-	in.open(filename, std::ios::binary);
-
-	//exception is throw when using a loop with while(!in.eof), so using a range based for loop instead
-	in.exceptions(in.failbit);
-
-	//Go to end of file, get byte number, go back to beginning of file
-	in.seekg(0, in.end);
-	const int file_length = in.tellg();
-	in.seekg(0, in.beg);
-
-	unsigned char image_byte;
-	std::vector<unsigned char> loadData;
-
-	const auto reserve_amount = 2 * file_length;
-	loadData.reserve(reserve_amount);
-	
-	for (int i = 0; i < file_length; ++i)
+	for (uint32_t x = 0; x < Width; x++)
 	{
-		in.read((char*)& image_byte, 1);
-		loadData.push_back(image_byte);
+		for (uint32_t y = 0; y < Height; y++)
+		{
+			round_pixel(pixels[get_coordinate(x, y)]);
+		}
 	}
-	in.close();
 
-	return loadData;
+	return pixels;
 }
 
 
+
+std::unique_ptr<header_info> cell_shade::transform_header(std::unique_ptr<header_info> hdr)
+{
+	//no op
+    return std::move(hdr);
+}
+
+
+
+
+void cell_shade::round_pixel(pixel& to_round)
+{
+	int channelIdx = 0;
+	for (auto& channelValue : to_round.get_all_channel_data())
+	{
+		to_round.set_channel(channelIdx, round_channel(channelValue));
+		++channelIdx;
+	}
+}
+
+
+
+int cell_shade::round_channel(int channel_value)
+{
+	if ((channel_value) < 128)
+	{
+		if (channel_value < 64)
+			return 0;
+		else
+			return 128;
+	}
+	else
+	{
+		if (channel_value < 192)
+			return 128;
+		else
+			return 255;
+	}
+}
