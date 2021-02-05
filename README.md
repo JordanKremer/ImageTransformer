@@ -1,5 +1,5 @@
 # ImageTransformer
-This project is intended as a deeper forray into C++ and design patterns than what was taught in coursework at school. Initially written as a school project, this image transformer is a refactor of a separate program. No third party libaries were used in this program. 
+This project is intended as a deeper forray into C++ and design patterns than what was taught in coursework at school. Initially written as a school project, this image transformer is a refactor of a separate program. No third party libraries were used in this program. 
 
 ### In simple terms, the design is as follows:
 
